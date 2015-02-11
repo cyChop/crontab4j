@@ -4,6 +4,18 @@
 [![Coverage Status][3]][4]
 [![License][5]][6]
 
+## History
+
+It happened at work: we wanted to gain the flexibility of CRON expressions for job scheduling, but
+my boss feared Quartz was overkill for a single job.
+
+So I gathered my knowledge about the CRONs (which was few, so I had to look for some more) and
+created my own parser and scheduler. Not that hard, actually, but this was a kind of a draft.
+
+I had the wish to go from scratch and write something a bit more elaborate and clean. And when
+looking for the name, I discovered [``cron4j``][8] was already taken by a similar project. Still,
+for the challenge...
+
 ## CRON reference
 
 * [Unix man crontab][7]
