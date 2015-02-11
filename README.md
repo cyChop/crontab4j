@@ -16,11 +16,13 @@ I had the wish to go from scratch and write something a bit more elaborate and c
 looking for the name, I discovered [``cron4j``][8] was already taken by a similar project. Still,
 for the challenge...
 
-## CRON reference
+## Interesting links
+
+### CRON reference
 
 * [Unix man crontab][7]
 
-## Other CRON-orientated tools
+### Other CRON-orientated tools
 
 * [cron4j][8]
 * [cron-utils][9]
@@ -28,16 +30,17 @@ for the challenge...
 
 ## TODO
 
-* Write history
 * Prepare generic parser, make compatible with following syntaxes:
-  * Unix
-  * cron4j
-  * Quartz
+  1. Unix
+  2. cron4j
+  3. Quartz
 * Utilities
-  * Validator
-  * Scheduler
-  * Descriptor (low priority)
-  * Generator (lower priority)
+  1. Validator/Parser
+    * Standard parsing
+    * Optimisation strategies (``1-10/2,\*,50-59`` = ``*``, ...)
+  2. Scheduler
+  3. Descriptor (low priority)
+  4. Generator (lower priority)
 
 [1]: http://img.shields.io/travis/cyChop/cron4j/master.svg
 [2]: https://travis-ci.org/cyChop/cron4j
