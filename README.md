@@ -35,12 +35,18 @@ for the challenge...
   2. cron4j
   3. Quartz
 * Utilities
-  1. Validator/Parser
-    * Standard parsing
-    * Optimisation strategies (``1-10/2,\*,50-59`` = ``*``, ...)
-  2. Scheduler
-  3. Descriptor (low priority)
-  4. Generator (lower priority)
+  1. Validator/Parser (first version will use Regexes)
+  2. Cron expression (able to find next occurrence)
+  3. Scheduler
+  4. Optimizer
+    * Optimisation strategies:
+      * Repetition with step == ``1`` => range
+      * Multiple expressions with at least one ``*`` (e.g. ``1-5,*,20-30/9``) => ``*``
+      * Overlapping ranges (or repeats with same step) => Single range (or repeat with same step)
+      * Identical ranges with multiple steps (``*/4,*/2``) => ``*/2``
+  5. Descriptor (low priority)
+  6. Generator (lower priority)
+* V2.0 : test moving to Antlr and compare performances
 
 [1]: http://img.shields.io/travis/cyChop/cron4j/master.svg
 [2]: https://travis-ci.org/cyChop/cron4j
