@@ -13,3 +13,6 @@ release.properties
 /.settings/
 /.classpath
 /.project
+
+# Tmp
+/draft

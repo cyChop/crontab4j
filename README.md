@@ -16,6 +16,10 @@ I had the wish to go from scratch and write something a bit more elaborate and c
 looking for the name, I discovered [``cron4j``][8] was already taken by a similar project. Still,
 for the challenge...
 
+My first try had been using [``joda-time``][11] for comfort and ease of use. However, this time, I
+chose to avoid external libraries as much as possible in order to keep the footprint as light as
+possible, and therefore used ``java.util.Calendar`` instead.
+
 ## Interesting links
 
 ### CRON reference
@@ -40,6 +44,7 @@ for the challenge...
   3. Scheduler
   4. Optimizer
     * Optimisation strategies:
+      * Remove CRON expressions without a next occurrence
       * Repetition with step == ``1`` => range
       * Multiple expressions with at least one ``*`` (e.g. ``1-5,*,20-30/9``) => ``*``
       * Overlapping ranges (or repeats with same step) => Single range (or repeat with same step)
@@ -58,3 +63,4 @@ for the challenge...
 [8]: http://www.sauronsoftware.it/projects/cron4j/
 [9]: https://github.com/jmrozanec/cron-utils
 [10]: http://quartz-scheduler.org/
+[11]: http://www.joda.org/joda-time/
