@@ -1,4 +1,4 @@
-package org.keyboardplaying.cron.field;
+package org.keyboardplaying.cron.expression.rule;
 
 /**
  * A representation for fields allowing only one value (e.g. {@code 42}).
@@ -7,9 +7,7 @@ package org.keyboardplaying.cron.field;
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public class SingleValueField implements CronField {
-
-    private int allowed;
+public class SingleValueRule extends RangeRule {
 
     /**
      * Creates a new instance.
@@ -17,17 +15,17 @@ public class SingleValueField implements CronField {
      * @param value
      *            the single authorized value for this field
      */
-    public SingleValueField(int value) {
-        this.allowed = value;
+    public SingleValueRule(int value) {
+        super(value, value);
     }
 
     /*
      * (non-Javadoc)
-     * 
-     * @see org.keyboardplaying.cron.field.CronField.allows(int)
+     *
+     * @see org.keyboardplaying.cron.expression.rule.CronRule.allows(int)
      */
     @Override
     public boolean allows(int value) {
-        return value == allowed;
+        return value == getMin();
     }
 }

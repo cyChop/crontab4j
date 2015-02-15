@@ -1,16 +1,16 @@
-package org.keyboardplaying.cron.field;
+package org.keyboardplaying.cron.expression.rule;
 
 /**
  * A representation for fields allowing any value ({@code *}).
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public class AnyValueField implements CronField {
+public class AnyValueRule implements CronRule {
 
     /*
      * (non-Javadoc)
      * 
-     * @see org.keyboardplaying.cron.field.CronField.allows(int)
+     * @see org.keyboardplaying.cron.expression.rule.CronRule.allows(int)
      */
     @Override
     public boolean allows(int value) {

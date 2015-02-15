@@ -1,21 +1,23 @@
-package org.keyboardplaying.cron.field;
+package org.keyboardplaying.cron.expression.rule;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.keyboardplaying.cron.expression.rule.AnyValueRule;
+import org.keyboardplaying.cron.expression.rule.CronRule;
 
 /**
- * Tests {@link AnyValueField}.
+ * Tests {@link AnyValueRule}.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public class AnyValueFieldTest {
+public class AnyValueRuleTest {
 
-    private CronField field = new AnyValueField();
+    private CronRule field = new AnyValueRule();
 
     /** Tests that any passed value is accepted. */
     @Test
-    public void testField() {
+    public void testRule() {
         // negatives may be restricted in the future
         assertTrue(field.allows(-1));
         assertTrue(field.allows(0));

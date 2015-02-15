@@ -1,4 +1,4 @@
-package org.keyboardplaying.cron.field;
+package org.keyboardplaying.cron.expression.rule;
 
 /**
  * A representation for fields allowing a range (e.g. {@code 42-1337}).
@@ -8,7 +8,7 @@ package org.keyboardplaying.cron.field;
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public class RangeField implements CronField {
+public class RangeRule implements CronRule {
 
     private int min;
     private int max;
@@ -21,7 +21,11 @@ public class RangeField implements CronField {
      * @param max
      *            the upper range limit
      */
-    public RangeField(int min, int max) {
+    public RangeRule(int min, int max) {
+        if (min > max) {
+            throw new IllegalArgumentException("Supplied minimum " + min
+                    + " is higher than maximum " + max);
+        }
         this.min = min;
         this.max = max;
     }
@@ -31,7 +35,7 @@ public class RangeField implements CronField {
      *
      * @return the lower range limit
      */
-    protected int getMin() {
+    public int getMin() {
         return min;
     }
 
@@ -40,14 +44,14 @@ public class RangeField implements CronField {
      *
      * @return the upper range limit
      */
-    protected int getMax() {
+    public int getMax() {
         return max;
     }
 
     /*
      * (non-Javadoc)
      *
-     * @see org.keyboardplaying.cron.field.CronField.allows(int)
+     * @see org.keyboardplaying.cron.expression.rule.CronRule.allows(int)
      */
     @Override
     public boolean allows(int value) {

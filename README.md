@@ -39,18 +39,19 @@ possible, and therefore used ``java.util.Calendar`` instead.
   2. cron4j
   3. Quartz
 * Utilities
-  1. Validator/Parser (first version will use Regexes)
-  2. Cron expression (able to find next occurrence)
-  3. Scheduler
-  4. Optimizer
+  1. Validator/Parser (parses regex into POJO; first version will use Regexes)
+  2. --Cron expression--
+  3. Computer (computes next occurrence)
+  4. Scheduler
+  5. Optimizer
     * Optimisation strategies:
       * Remove CRON expressions without a next occurrence
       * Repetition with step == ``1`` => range
       * Multiple expressions with at least one ``*`` (e.g. ``1-5,*,20-30/9``) => ``*``
       * Overlapping ranges (or repeats with same step) => Single range (or repeat with same step)
       * Identical ranges with multiple steps (``*/4,*/2``) => ``*/2``
-  5. Descriptor (low priority)
-  6. Generator (lower priority)
+  6. Descriptor (low priority)
+  7. Generator (lower priority)
 * V2.0 : test moving to Antlr and compare performances
 
 [1]: http://img.shields.io/travis/cyChop/cron4j/master.svg

@@ -1,4 +1,4 @@
-package org.keyboardplaying.cron.field;
+package org.keyboardplaying.cron.expression.rule;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -7,13 +7,13 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
- * Tests {@link RangeField}.
+ * Tests {@link RangeRule}.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public class RangeFieldTest {
+public class RangeRuleTest {
 
-    private RangeField field = new RangeField(42, 1337);
+    private RangeRule field = new RangeRule(42, 1337);
 
     /** Tests the getters. */
     @Test
@@ -48,5 +48,11 @@ public class RangeFieldTest {
     public void testAboveRange() {
         assertFalse(field.allows(1338));
         assertFalse(field.allows(Integer.MAX_VALUE));
+    }
+
+    /** Tests the behavior of the constructor with incorrect arguments. */
+    @Test(expected = IllegalArgumentException.class)
+    public void testIllegalConstructorArguments() {
+        new RangeRule(1, 0);
     }
 }

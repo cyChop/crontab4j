@@ -1,4 +1,4 @@
-package org.keyboardplaying.cron.field;
+package org.keyboardplaying.cron.expression.rule;
 
 /**
  * Represents a set of constraints on a CRON expression (second, minute, hour, day of month/week,
@@ -11,7 +11,7 @@ package org.keyboardplaying.cron.field;
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public interface CronField {
+public interface CronRule {
 
     /**
      * Tests whether the supplied value is authorized for this segment.

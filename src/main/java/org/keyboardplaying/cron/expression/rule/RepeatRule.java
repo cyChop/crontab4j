@@ -1,10 +1,10 @@
-package org.keyboardplaying.cron.field;
+package org.keyboardplaying.cron.expression.rule;
 
 /**
  * A representation for fields allowing a range with a repeat step (e.g. {@code 42-1337/2} or
  * {@code *\/5}).
  * <p/>
- * A {@link RepeatField} must always be defined as a range and a repetition step. In case the repeat
+ * A {@link RepeatRule} must always be defined as a range and a repetition step. In case the repeat
  * is defined as {@code *\/5}, the range is the maximal range allowed for the corresponding field.
  * <p/>
  * A value will be allowed only if it meets both following condition:
@@ -13,9 +13,10 @@ package org.keyboardplaying.cron.field;
  * <li>The sum of it and the lower limit of the range is a multiple of the repetition step.</li>
  * </ul>
  */
-public class RepeatField extends RangeField {
+public class RepeatRule extends RangeRule {
 
     private int step;
+    private int modulo;
 
     /**
      * Creates a new instance.
@@ -27,9 +28,10 @@ public class RepeatField extends RangeField {
      * @param step
      *            the repetition interval
      */
-    public RepeatField(int min, int max, int step) {
+    public RepeatRule(int min, int max, int step) {
         super(min, max);
         this.step = step;
+        this.modulo = min % step;
     }
 
     /**
@@ -44,10 +46,10 @@ public class RepeatField extends RangeField {
     /*
      * (non-Javadoc)
      * 
-     * @see org.keyboardplaying.cron.field.CronField.allows(int)
+     * @see org.keyboardplaying.cron.expression.rule.CronRule.allows(int)
      */
     @Override
     public boolean allows(int value) {
-        return super.allows(value) && (getMin() + value) % step == 0;
+        return super.allows(value) && value % step == modulo;
     }
 }

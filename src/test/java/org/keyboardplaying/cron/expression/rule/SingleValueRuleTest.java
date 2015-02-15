@@ -1,18 +1,20 @@
-package org.keyboardplaying.cron.field;
+package org.keyboardplaying.cron.expression.rule;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.keyboardplaying.cron.expression.rule.CronRule;
+import org.keyboardplaying.cron.expression.rule.SingleValueRule;
 
 /**
- * Tests {@link SingleValueField}.
+ * Tests {@link SingleValueRule}.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public class SingleValueFieldTest {
+public class SingleValueRuleTest {
 
-    private CronField field = new SingleValueField(42);
+    private CronRule field = new SingleValueRule(42);
 
     /** Tests that the correct value is accepted. */
     @Test
