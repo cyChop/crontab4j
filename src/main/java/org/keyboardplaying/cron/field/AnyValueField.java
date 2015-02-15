@@ -9,9 +9,10 @@ public class AnyValueField implements CronField {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.keyboardplaying.cron.field.CronField.allows(int)
      */
+    @Override
     public boolean allows(int value) {
         return true;
     }

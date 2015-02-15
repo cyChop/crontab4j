@@ -43,9 +43,10 @@ public class RepeatField extends RangeField {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.keyboardplaying.cron.field.CronField.allows(int)
      */
+    @Override
     public boolean allows(int value) {
         return super.allows(value) && (getMin() + value) % step == 0;
     }

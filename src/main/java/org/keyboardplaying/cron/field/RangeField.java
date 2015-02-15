@@ -26,7 +26,7 @@ public class RangeField implements CronField {
         this.max = max;
     }
 
-    /*
+    /**
      * Returns the lower range limit.
      *
      * @return the lower range limit
@@ -35,7 +35,7 @@ public class RangeField implements CronField {
         return min;
     }
 
-    /*
+    /**
      * Returns the upper range limit.
      *
      * @return the upper range limit
@@ -49,6 +49,7 @@ public class RangeField implements CronField {
      *
      * @see org.keyboardplaying.cron.field.CronField.allows(int)
      */
+    @Override
     public boolean allows(int value) {
         return min <= value && value <= max;
     }

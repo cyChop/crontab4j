@@ -4,8 +4,8 @@ package org.keyboardplaying.cron.field;
  * Represents a set of constraints on a CRON expression (second, minute, hour, day of month/week,
  * month, year).
  * <p/>
- * This object provides the method {@link #allows(int)}, which determines wether an integer
- * belongs in the authorized values for this segment.
+ * This object provides the method {@link #allows(int)}, which determines wether an integer belongs
+ * in the authorized values for this segment.
  * <p/>
  * It is recommended the implementations of this class would be immutables.
  *

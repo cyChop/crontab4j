@@ -48,7 +48,7 @@ public class CyclicDependenciesTest {
                 if (pack.containsCycle()) {
                     /*
                      * Append chars to avoid instantiating strings.
-                     *
+                     * 
                      * Micro-optimisation in a test class _is_ ridiculous, don't you think? You are
                      * allowed to laugh at me on this one.
                      */
