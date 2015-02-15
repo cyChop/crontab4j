@@ -40,7 +40,7 @@ possible, and therefore used ``java.util.Calendar`` instead.
   3. Quartz
 * Utilities
   1. Validator/Parser (parses regex into POJO; first version will use Regexes)
-  2. --Cron expression--
+  2. ~~Cron expression~~
   3. Computer (computes next occurrence)
   4. Scheduler
   5. Optimizer
@@ -54,14 +54,14 @@ possible, and therefore used ``java.util.Calendar`` instead.
   7. Generator (lower priority)
 * V2.0 : test moving to Antlr and compare performances
 
-[1]: http://img.shields.io/travis/cyChop/cron4j/master.svg
-[2]: https://travis-ci.org/cyChop/cron4j
-[3]: http://img.shields.io/coveralls/cyChop/cron4j/master.svg
-[4]: https://coveralls.io/r/cyChop/cron4j?branch=master
+[1]: http://img.shields.io/travis/cyChop/crontab4j/master.svg
+[2]: https://travis-ci.org/cyChop/crontab4j
+[3]: http://img.shields.io/coveralls/cyChop/crontab4j/master.svg
+[4]: https://coveralls.io/r/cyChop/crontab4j?branch=master
 [5]: https://img.shields.io/badge/license-MIT-blue.svg
 [6]: http://opensource.org/licenses/MIT
 [7]: http://www.unix.com/man-page/linux/5/crontab/
-[8]: http://www.sauronsoftware.it/projects/cron4j/
+[8]: http://www.sauronsoftware.it/projects/crontab4j/
 [9]: https://github.com/jmrozanec/cron-utils
 [10]: http://quartz-scheduler.org/
 [11]: http://www.joda.org/joda-time/
