@@ -29,13 +29,11 @@ enum FieldComputer {
                 } while (!rule.allows(next.get(Calendar.DAY_OF_WEEK)));
 
                 // The month may have shifted, ensure the constraints are still OK
-                if (next.get(Calendar.MONTH) != cal.get(Calendar.MONTH)
-                        || next.get(Calendar.YEAR) != cal.get(Calendar.YEAR)) {
-                    // FIXME method should be able to return null
-                    if (!MONTH.allows(next, expr) || !YEAR.allows(next, expr)) {
-                        next = shiftUpper(next, expr);
-                    }
-                    if (!allowsField(next, expr, Field.DAY_OF_WEEK)) {
+                if (next.get(Calendar.MONTH) != cal.get(Calendar.MONTH) && !MONTH.allows(next, expr)
+                        || next.get(Calendar.YEAR) != cal.get(Calendar.YEAR)
+                        && !YEAR.allows(next, expr)) {
+                    next = shiftUpper(cal, expr);
+                    if (next != null && !allowsField(next, expr, Field.DAY_OF_WEEK)) {
                         next = shift(next, expr, exprField);
                     }
                 }
@@ -76,13 +74,26 @@ enum FieldComputer {
                 next = shiftDayOfWeek(cal, expr);
                 break;
 
-            case BOTH_AND:
             case BOTH_OR:
-                CronRule dowRule = expr.get(Field.DAY_OF_WEEK);
+                Calendar domNext = shiftDayOfMonth((Calendar) cal.clone(), expr);
+                Calendar dowNext = shiftDayOfWeek((Calendar) cal.clone(), expr);
+
+                if (domNext == null) {
+                    next = dowNext;
+                } else if (dowNext == null) {
+                    next = domNext;
+                } else {
+                    next = dowNext.before(domNext) ? dowNext : domNext;
+                }
+
+                break;
+
+            case BOTH_AND:
+                final CronRule dowRule = expr.get(Field.DAY_OF_WEEK);
                 next = cal;
                 do {
                     next = shiftDayOfMonth(next, expr);
-                } while (next != null && dowRule.allows(next.get(Calendar.DAY_OF_WEEK)));
+                } while (next != null && !dowRule.allows(next.get(Calendar.DAY_OF_WEEK)));
             }
             return next;
         }

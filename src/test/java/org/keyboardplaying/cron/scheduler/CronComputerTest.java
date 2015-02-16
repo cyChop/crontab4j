@@ -1,14 +1,13 @@
 package org.keyboardplaying.cron.scheduler;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Objects;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.keyboardplaying.cron.expression.CronExpression.Builder;
 import org.keyboardplaying.cron.expression.CronExpression.DayConstraint;
@@ -86,7 +85,6 @@ public class CronComputerTest {
     }
 
     @Test
-    @Ignore
     public void testDayOfWeekConstraints() throws ParseException {
         CronRule any = new AnyValueRule();
         CronRule zero = new SingleValueRule(0);
@@ -104,39 +102,37 @@ public class CronComputerTest {
     }
 
     @Test
-    @Ignore
     public void testBothOrDayConstraints() throws ParseException {
         CronRule any = new AnyValueRule();
         CronRule zero = new SingleValueRule(0);
         CronComputer cpu = new CronComputer(Builder.create().set(Field.SECOND, zero)
                 .set(Field.MINUTE, zero).set(Field.HOUR, zero)
                 .set(Field.DAY_OF_MONTH, new RepeatRule(1, 31, 10)).set(Field.MONTH, any)
-                .set(Field.DAY_OF_WEEK, new RangeRule(1, 5)).set(Field.YEAR, any)
-                .set(DayConstraint.BOTH_OR).build());
+                .set(Field.DAY_OF_WEEK, new RangeRule(Calendar.MONDAY, Calendar.FRIDAY))
+                .set(Field.YEAR, new RangeRule(1970, 2015)).set(DayConstraint.BOTH_OR).build());
 
         assertCalEquals("2015-02-01T00:00:00", cpu, "2015-01-31T16:42:30");
         assertCalEquals("2015-02-02T00:00:00", cpu, "2015-02-01T00:00:00");
         assertCalEquals("2015-02-21T00:00:00", cpu, "2015-02-20T13:37:00");
         assertCalEquals("2015-02-23T00:00:00", cpu, "2015-02-21T00:00:00");
-        // FIXME test when exceeding year range
+        assertCalEquals(null, cpu, "2015-12-31T00:00:00");
     }
 
     @Test
-    @Ignore
     public void testBothAndDayConstraints() throws ParseException {
         CronRule any = new AnyValueRule();
         CronRule zero = new SingleValueRule(0);
         CronComputer cpu = new CronComputer(Builder.create().set(Field.SECOND, zero)
                 .set(Field.MINUTE, zero).set(Field.HOUR, zero)
                 .set(Field.DAY_OF_MONTH, new RepeatRule(1, 31, 10)).set(Field.MONTH, any)
-                .set(Field.DAY_OF_WEEK, new RangeRule(1, 5)).set(Field.YEAR, any)
-                .set(DayConstraint.BOTH_AND).build());
+                .set(Field.DAY_OF_WEEK, new RangeRule(Calendar.MONDAY, Calendar.FRIDAY))
+                .set(Field.YEAR, new RangeRule(1970, 2015)).set(DayConstraint.BOTH_AND).build());
 
-        assertCalEquals("2015-02-01T00:00:00", cpu, "2015-01-31T16:42:30");
-        assertCalEquals("2015-02-21T00:00:00", cpu, "2015-02-01T00:00:00");
-        assertCalEquals("2015-02-21T00:00:00", cpu, "2015-02-20T13:37:00");
-        assertCalEquals("2015-03-11T00:00:00", cpu, "2015-02-21T00:00:00");
-        // FIXME test when exceeding year range
+        assertCalEquals("2015-02-11T00:00:00", cpu, "2015-01-31T16:42:30");
+        assertCalEquals("2015-02-11T00:00:00", cpu, "2015-02-01T00:00:00");
+        assertCalEquals("2015-03-11T00:00:00", cpu, "2015-02-20T13:37:00");
+        assertCalEquals("2015-03-31T00:00:00", cpu, "2015-03-11T00:00:00");
+        assertCalEquals(null, cpu, "2015-12-31T00:00:00");
     }
 
     @Test
@@ -166,14 +162,18 @@ public class CronComputerTest {
 
     private void assertCalEquals(String expected, CronComputer cpu, String argument)
             throws ParseException {
-        if (expected == null) {
-            assertNull(cpu.getNextOccurrence(cal(argument)));
-        } else {
-            assertEquals(cal(expected), cpu.getNextOccurrence(cal(argument)));
+        Calendar expectation = expected == null ? null : parse(expected);
+        Calendar actual = cpu.getNextOccurrence(parse(argument));
+        if (!Objects.equals(expectation, actual)) {
+            fail("expected " + format(expectation) + " but was " + format(actual));
         }
     }
 
-    private Calendar cal(String source) throws ParseException {
+    private String format(Calendar cal) {
+        return cal == null ? "null" : "<" + df.format(cal.getTime()) + ">";
+    }
+
+    private Calendar parse(String source) throws ParseException {
         Calendar cal = Calendar.getInstance();
         cal.setTime(df.parse(source));
         return cal;
