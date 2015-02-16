@@ -13,14 +13,21 @@ import org.junit.Test;
  */
 public class RepeatRuleTest {
 
-    private RepeatRule field = new RepeatRule(42, 1337, 3);
+    private RepeatRule rule = new RepeatRule(42, 1337, 3);
+
+    /** Tests {@link RepeatRule#hasMax()} and {@link RepeatRule#getMax()} methods. */
+    @Test
+    public void testMax() {
+        assertTrue(rule.hasMax());
+        assertEquals(1337, rule.getMax());
+    }
 
     /** Tests the getters. */
     @Test
     public void testGetters() {
-        assertEquals(42, field.getMin());
-        assertEquals(1337, field.getMax());
-        assertEquals(3, field.getStep());
+        assertEquals(42, rule.getMin());
+        assertEquals(1337, rule.getMax());
+        assertEquals(3, rule.getStep());
     }
 
     /**
@@ -31,9 +38,9 @@ public class RepeatRuleTest {
     @Test
     public void testLimits() {
         // Repeat OK
-        assertTrue(field.allows(42));
+        assertTrue(rule.allows(42));
         // Repeat KO
-        assertFalse(field.allows(1337));
+        assertFalse(rule.allows(1337));
     }
 
     /**
@@ -44,10 +51,10 @@ public class RepeatRuleTest {
     @Test
     public void testRepeatBody() {
         // Repeat OK
-        assertTrue(field.allows(420));
-        assertTrue(field.allows(423));
+        assertTrue(rule.allows(420));
+        assertTrue(rule.allows(423));
         // Repeat KO
-        assertFalse(field.allows(421));
+        assertFalse(rule.allows(421));
     }
 
     /**
@@ -58,10 +65,10 @@ public class RepeatRuleTest {
     @Test
     public void testBelowRange() {
         // Repeat OK
-        assertFalse(field.allows(0));
+        assertFalse(rule.allows(0));
         // Repeat KO
-        assertFalse(field.allows(-1));
-        assertFalse(field.allows(1));
+        assertFalse(rule.allows(-1));
+        assertFalse(rule.allows(1));
     }
 
     /**
@@ -72,9 +79,9 @@ public class RepeatRuleTest {
     @Test
     public void testAboveRange() {
         // Repeat OK
-        assertFalse(field.allows(1515));
+        assertFalse(rule.allows(1515));
         // Repeat KO
-        assertFalse(field.allows(1664));
+        assertFalse(rule.allows(1664));
     }
 
     /**
@@ -82,14 +89,14 @@ public class RepeatRuleTest {
      */
     @Test
     public void testBasicCase() {
-        RepeatRule field = new RepeatRule(1, 31, 10);
+        RepeatRule rule = new RepeatRule(1, 31, 10);
         // Repeat OK
-        assertTrue(field.allows(1));
-        assertTrue(field.allows(11));
-        assertTrue(field.allows(21));
-        assertTrue(field.allows(31));
+        assertTrue(rule.allows(1));
+        assertTrue(rule.allows(11));
+        assertTrue(rule.allows(21));
+        assertTrue(rule.allows(31));
         // Repeat KO
-        assertFalse(field.allows(9));
+        assertFalse(rule.allows(9));
     }
 
     /** Tests the behavior of the constructor with incorrect arguments. */

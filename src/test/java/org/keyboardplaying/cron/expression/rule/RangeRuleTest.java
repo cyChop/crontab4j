@@ -13,41 +13,48 @@ import org.junit.Test;
  */
 public class RangeRuleTest {
 
-    private RangeRule field = new RangeRule(42, 1337);
+    private RangeRule rule = new RangeRule(42, 1337);
+
+    /** Tests {@link RangeRule#hasMax()} and {@link RangeRule#getMax()} methods. */
+    @Test
+    public void testMax() {
+        assertTrue(rule.hasMax());
+        assertEquals(1337, rule.getMax());
+    }
 
     /** Tests the getters. */
     @Test
     public void testGetters() {
-        assertEquals(42, field.getMin());
-        assertEquals(1337, field.getMax());
+        assertEquals(42, rule.getMin());
+        assertEquals(1337, rule.getMax());
     }
 
     /** Ensures the range limits are accepted. */
     @Test
     public void testLimits() {
-        assertTrue(field.allows(42));
-        assertTrue(field.allows(1337));
+        assertTrue(rule.allows(42));
+        assertTrue(rule.allows(1337));
     }
 
     /** Ensures elements inbetween the range limit are accepted */
     @Test
     public void testRangeBody() {
-        assertTrue(field.allows(420));
+        assertTrue(rule.allows(420));
     }
 
     /** Ensures values below the lower limit are rejected. */
     @Test
     public void testBelowRange() {
-        assertFalse(field.allows(-1));
-        assertFalse(field.allows(0));
-        assertFalse(field.allows(41));
+        assertFalse(rule.allows(-1));
+        assertFalse(rule.allows(0));
+        assertFalse(rule.allows(41));
     }
 
     /** Ensures values above the upper limit are rejected. */
     @Test
     public void testAboveRange() {
-        assertFalse(field.allows(1338));
-        assertFalse(field.allows(Integer.MAX_VALUE));
+        assertFalse(rule.allows(1338));
+        assertFalse(rule.allows(Integer.MAX_VALUE));
     }
 
     /** Tests the behavior of the constructor with incorrect arguments. */

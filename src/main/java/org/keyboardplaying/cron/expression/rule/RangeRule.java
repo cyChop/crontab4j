@@ -30,6 +30,16 @@ public class RangeRule implements CronRule {
         this.max = max;
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.keyboardplaying.cron.expression.rule.CronRule.hasMax()
+     */
+    @Override
+    public boolean hasMax() {
+        return true;
+    }
+
     /**
      * Returns the lower range limit.
      *
@@ -44,6 +54,7 @@ public class RangeRule implements CronRule {
      *
      * @return the upper range limit
      */
+    @Override
     public int getMax() {
         return max;
     }

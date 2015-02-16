@@ -17,7 +17,7 @@ enum FieldComputer {
     //
     DAY {
 
-        private Shifter dowShifter = new Shifter(Calendar.DAY_OF_WEEK, 1, 7, ordinal()) {
+        private FieldShifter dowShifter = new FieldShifter(Calendar.DAY_OF_WEEK, 1, 7, ordinal()) {
             @Override
             public Calendar shift(Calendar cal, CronExpression expr, Field exprField) {
                 CronRule rule = expr.get(exprField);
@@ -43,10 +43,16 @@ enum FieldComputer {
             }
         };
 
-        private Shifter domShifter = new Shifter(Calendar.DAY_OF_MONTH, 1, 31, ordinal()) {
+        private FieldShifter domShifter = new FieldShifter(Calendar.DAY_OF_MONTH, 1, 31, ordinal()) {
             @Override
-            protected int getMax(Calendar cal) {
-                return cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+            protected int getMax(Calendar cal, CronRule rule) {
+                if (rule.hasMax()) {
+                    int ruleMax = rule.getMax();
+                    int caldMax = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+                    return ruleMax < caldMax ? ruleMax : caldMax;
+                } else {
+                    return cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+                }
             }
         };
 
@@ -102,14 +108,14 @@ enum FieldComputer {
     SECOND(Field.SECOND, Calendar.SECOND, 0, 59);
 
     private Field cronField;
-    private Shifter shifter;
+    private FieldShifter shifter;
 
     private FieldComputer() {
     }
 
     private FieldComputer(Field cronField, int calendarField, int min, int max) {
         this.cronField = cronField;
-        this.shifter = new Shifter(calendarField, min, max, ordinal());
+        this.shifter = new FieldShifter(calendarField, min, max, ordinal());
     }
 
     public boolean allows(Calendar cal, CronExpression expr) {

@@ -21,4 +21,20 @@ public interface CronRule {
      * @return {@code true} if the value is authorized for this segment, {@code false} otherwise
      */
     boolean allows(int value);
+
+    /**
+     * Tests whether this rule has a maximal allowed value.
+     *
+     * @return {@code true} if no value can be allowed above a maximal value
+     */
+    boolean hasMax();
+
+    /**
+     * Returns the maximal value above which no value can be allowed.
+     * <p/>
+     * Implementations without a maximal value should return {@link Integer#MAX_VALUE}.
+     *
+     * @return the maximal allowed value
+     */
+    int getMax();
 }

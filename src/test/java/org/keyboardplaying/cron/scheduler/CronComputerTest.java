@@ -37,15 +37,19 @@ public class CronComputerTest {
         CronComputer cpu = new CronComputer(Builder.create()
                 .set(Field.SECOND, new SingleValueRule(0)).set(Field.MINUTE, any)
                 .set(Field.HOUR, any).set(Field.DAY_OF_MONTH, any).set(Field.MONTH, any)
-                .set(Field.DAY_OF_WEEK, any).set(Field.YEAR, any).set(DayConstraint.NONE).build());
+                .set(Field.DAY_OF_WEEK, any).set(Field.YEAR, new RangeRule(1970, 2016))
+                .set(DayConstraint.NONE).build());
 
         assertCalEquals("2015-02-05T13:38:00", cpu, "2015-02-05T13:37:00");
         assertCalEquals("2015-02-05T13:37:00", cpu, "2015-02-05T13:36:30");
         assertCalEquals("2015-02-05T17:00:00", cpu, "2015-02-05T16:59:01");
         assertCalEquals("2015-02-06T00:00:00", cpu, "2015-02-05T23:59:02");
-        assertCalEquals("2015-03-01T00:00:00", cpu, "2015-02-28T23:59:02");
-        assertCalEquals("2016-01-01T00:00:00", cpu, "2015-12-31T23:59:03");
-        // FIXME test when exceeding year range
+        assertCalEquals("2015-03-01T00:00:00", cpu, "2015-02-28T23:59:03");
+        assertCalEquals("2015-03-01T00:00:00", cpu, "2015-02-28T23:59:04");
+        assertCalEquals("2015-04-01T00:00:00", cpu, "2015-03-31T23:59:05");
+        assertCalEquals("2015-05-01T00:00:00", cpu, "2015-04-30T23:59:06");
+        assertCalEquals("2016-01-01T00:00:00", cpu, "2015-12-31T23:59:07");
+        assertCalEquals(null, cpu, "2016-12-31T23:59:08");
     }
 
     @Test
@@ -136,7 +140,6 @@ public class CronComputerTest {
     }
 
     @Test
-    @Ignore
     public void testLeapYears() throws ParseException {
         CronRule any = new AnyValueRule();
         CronRule zero = new SingleValueRule(0);

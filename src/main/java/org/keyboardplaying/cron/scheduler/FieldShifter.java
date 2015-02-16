@@ -8,22 +8,23 @@ import org.keyboardplaying.cron.expression.rule.CronRule;
 
 // TODO Javadoc
 // package-restricted
-class Shifter {
+class FieldShifter {
 
     private int calendarField;
     private int min;
     private int max;
     private int ordinal;
 
-    public Shifter(int field, int min, int max, int ordinal) {
+    public FieldShifter(int field, int min, int max, int ordinal) {
         this.calendarField = field;
         this.min = min;
         this.max = max;
         this.ordinal = ordinal;
     }
 
-    protected int getMax(Calendar cal) {
-        return max;
+    protected int getMax(Calendar cal, CronRule rule) {
+        assert !rule.hasMax() || rule.getMax() <= max;
+        return rule.hasMax() ? rule.getMax() : max;
     }
 
     public boolean allowsField(Calendar cal, CronExpression expr, Field cronField) {
@@ -31,10 +32,12 @@ class Shifter {
     }
 
     public Calendar shift(Calendar cal, CronExpression expr, Field exprField) {
-        return shift(cal, expr, expr.get(exprField), getMax(cal));
+        // define a recursive sub method to avoid getting max and rule on each iteration
+        return shift(cal, expr, expr.get(exprField));
     }
 
-    private Calendar shift(Calendar cal, CronExpression expr, CronRule rule, int max) {
+    private Calendar shift(Calendar cal, CronExpression expr, CronRule rule) {
+        final int max = getMax(cal, rule);
         int value = cal.get(calendarField);
         do {
             value++;
@@ -43,8 +46,7 @@ class Shifter {
                 if (next == null) {
                     return null;
                 } else {
-                    return rule.allows(next.get(calendarField)) ? next
-                            : shift(cal, expr, rule, max);
+                    return rule.allows(next.get(calendarField)) ? next : shift(cal, expr, rule);
                 }
             }
         } while (!rule.allows(value));

@@ -24,7 +24,40 @@ public class MultipleRule implements CronRule {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.keyboardplaying.cron.expression.rule.CronRule.hasMax()
+     */
+    @Override
+    public boolean hasMax() {
+        for (CronRule rule : rules) {
+            if (!rule.hasMax()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.keyboardplaying.cron.expression.rule.CronRule.getMax()
+     */
+    @Override
+    public int getMax() {
+        int max = 0;
+        for (CronRule rule : rules) {
+            if (max < rule.getMax()) {
+                max = rule.getMax();
+            }
+        }
+        return max;
+    }
+
     /**
+     * Returns {@code true} if at least one of the constituting rules allows the supplied value.
+     *
      * @param value
      *            {@inheritDoc}
      * @return {@inheritDoc}
