@@ -41,7 +41,7 @@ possible, and therefore used ``java.util.Calendar`` instead.
 * Utilities
   1. Validator/Parser (parses regex into POJO; first version will use Regexes)
   2. ~~Cron expression~~
-  3. Computer (computes next occurrence)
+  3. ~~Computer~~ (computes next occurrence)
   4. Scheduler
   5. Optimizer
     * Optimisation strategies:
@@ -49,7 +49,8 @@ possible, and therefore used ``java.util.Calendar`` instead.
       * Repetition with step == ``1`` => range
       * Multiple expressions with at least one ``*`` (e.g. ``1-5,*,20-30/9``) => ``*``
       * Overlapping ranges (or repeats with same step) => Single range (or repeat with same step)
-      * Identical ranges with multiple steps (``*/4,*/2``) => ``*/2``
+      * Identical ranges with multiple steps (``*/4,*/2``) => ``*/2``~
+      * Out of access ranges (``0 0 2-7/2 31 *`` => 31st of every even month until July)
   6. Descriptor (low priority)
   7. Generator (lower priority)
 * V2.0 : test moving to Antlr and compare performances
