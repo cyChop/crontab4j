@@ -19,9 +19,18 @@ public class SingleValueRule extends RangeRule {
         super(value, value);
     }
 
+    /**
+     * Returns the single allowed value for this rule.
+     *
+     * @return the allowed value
+     */
+    public int getValue() {
+        return getMax();
+    }
+
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.keyboardplaying.cron.expression.rule.CronRule.allows(int)
      */
     @Override

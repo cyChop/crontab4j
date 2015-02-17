@@ -1,5 +1,6 @@
 package org.keyboardplaying.cron.expression.rule;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,7 +11,7 @@ import java.util.Set;
  */
 public class MultipleRule implements CronRule {
 
-    private Set<CronRule> rules = new HashSet<>();
+    private Set<CronRule> rules;
 
     /**
      * Creates a new instance.
@@ -19,14 +20,25 @@ public class MultipleRule implements CronRule {
      *            the {@link CronRule} representation for each rule
      */
     public MultipleRule(CronRule... rules) {
+        this.rules = new HashSet<>();
         for (CronRule rule : rules) {
             this.rules.add(rule);
         }
     }
 
+    /**
+     * Creates a new instance.
+     *
+     * @param rules
+     *            the {@link CronRule} representation for each rule
+     */
+    public MultipleRule(Collection<CronRule> rules) {
+        this.rules = new HashSet<>(rules);
+    }
+
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.keyboardplaying.cron.expression.rule.CronRule.hasMax()
      */
     @Override
@@ -41,7 +53,7 @@ public class MultipleRule implements CronRule {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.keyboardplaying.cron.expression.rule.CronRule.getMax()
      */
     @Override

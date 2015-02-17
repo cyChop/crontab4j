@@ -39,13 +39,13 @@ public class RepeatRule extends RangeRule {
      *
      * @return the repetition interval
      */
-    protected int getStep() {
+    public int getStep() {
         return step;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.keyboardplaying.cron.expression.rule.CronRule.allows(int)
      */
     @Override

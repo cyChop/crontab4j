@@ -39,8 +39,8 @@ possible, and therefore used ``java.util.Calendar`` instead.
   2. cron4j
   3. Quartz
 * Utilities
-  1. Validator/Parser (parses regex into POJO; first version will use Regexes)
-  2. ~~Cron expression~~
+  1. ~~Cron expression~~
+  2. Validator/Parser (parses CRON into POJO; first version will use Regexes)
   3. ~~Computer~~ (computes next occurrence)
   4. Scheduler
   5. Optimizer
