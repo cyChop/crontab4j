@@ -62,7 +62,7 @@ possible, and therefore used ``java.util.Calendar`` instead.
 [5]: https://img.shields.io/badge/license-MIT-blue.svg
 [6]: http://opensource.org/licenses/MIT
 [7]: http://www.unix.com/man-page/linux/5/crontab/
-[8]: http://www.sauronsoftware.it/projects/crontab4j/
+[8]: http://www.sauronsoftware.it/projects/cron4j/
 [9]: https://github.com/jmrozanec/cron-utils
 [10]: http://quartz-scheduler.org/
 [11]: http://www.joda.org/joda-time/

@@ -11,10 +11,15 @@ import org.keyboardplaying.cron.expression.rule.RepeatRule;
 import org.keyboardplaying.cron.expression.rule.SingleValueRule;
 
 /**
+ * A utility for adapting the day range for the computer.
+ * <p/>
+ * The number is not identical depending on the syntax (Unix uses 0 or 7 as Sunday, while Quartz
+ * uses 1; Calendar uses {@value Calendar#SUNDAY}).
+ *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
 // TODO Javadoc
-public class DayRangeAdapter {
+public class DayOfWeekRangeAdapter implements AtomicRuleAdapter {
 
     private static final int NB_DAYS_IN_WEEK = 7;
     private static final int MIN = Calendar.SUNDAY;
@@ -22,14 +27,30 @@ public class DayRangeAdapter {
 
     private final int shift;
 
-    public DayRangeAdapter(int sunday) {
+    public DayOfWeekRangeAdapter(int sunday) {
         this.shift = Calendar.SUNDAY - sunday;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.keyboardplaying.cron.parser.AtomicRuleAdapter#adapt(org.keyboardplaying.cron.expression
+     * .rule.SingleValueRule)
+     */
+    @Override
     public CronRule adapt(SingleValueRule rule) {
         return new SingleValueRule(shift(rule.getValue()));
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.keyboardplaying.cron.parser.AtomicRuleAdapter#adapt(org.keyboardplaying.cron.expression
+     * .rule.RangeRule)
+     */
+    @Override
     public CronRule adapt(RangeRule rule) {
         int min = shift(rule.getMin());
         int max = shift(rule.getMax());
@@ -44,6 +65,14 @@ public class DayRangeAdapter {
         return result;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.keyboardplaying.cron.parser.AtomicRuleAdapter#adapt(org.keyboardplaying.cron.expression
+     * .rule.RepeatRule)
+     */
+    @Override
     public CronRule adapt(RepeatRule rule) {
         int min = shift(rule.getMin());
         int max = shift(rule.getMax());

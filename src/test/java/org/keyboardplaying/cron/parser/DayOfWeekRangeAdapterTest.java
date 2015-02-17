@@ -14,15 +14,16 @@ import org.keyboardplaying.cron.expression.rule.RepeatRule;
 import org.keyboardplaying.cron.expression.rule.SingleValueRule;
 
 /**
- * Tests {@link DayRangeAdapter}.
+ * Tests {@link DayOfWeekRangeAdapter}.
  *
  * @author Cyrille Chopelet
  */
-public class DayRangeAdapterTest {
+// XXX Javadoc
+public class DayOfWeekRangeAdapterTest {
 
-    private static final int SUNDAY_UNIX = 0;
+    private static final int UNIX_SUNDAY = 0;
 
-    private DayRangeAdapter adptr = new DayRangeAdapter(SUNDAY_UNIX);
+    private DayOfWeekRangeAdapter adptr = new DayOfWeekRangeAdapter(UNIX_SUNDAY);
 
     @Test
     public void testSingleValueAdaptation() {
