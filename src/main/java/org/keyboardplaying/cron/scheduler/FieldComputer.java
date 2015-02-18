@@ -54,6 +54,7 @@ enum FieldComputer {
             }
         };
 
+        // FIXME Test if correct with all types of day constraint
         @Override
         public boolean allows(Calendar cal, CronExpression expr) {
             return domShifter.allowsField(cal, expr, Field.DAY_OF_MONTH)

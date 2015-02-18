@@ -1,4 +1,4 @@
-package org.keyboardplaying.cron.parser;
+package org.keyboardplaying.cron.parser.adapter;
 
 import static org.junit.Assert.assertEquals;
 

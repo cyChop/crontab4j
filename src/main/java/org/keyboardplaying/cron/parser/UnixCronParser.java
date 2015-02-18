@@ -16,21 +16,42 @@ import org.keyboardplaying.cron.expression.rule.MultipleRule;
 import org.keyboardplaying.cron.expression.rule.RangeRule;
 import org.keyboardplaying.cron.expression.rule.RepeatRule;
 import org.keyboardplaying.cron.expression.rule.SingleValueRule;
+import org.keyboardplaying.cron.parser.adapter.AtomicRuleAdapter;
+import org.keyboardplaying.cron.parser.adapter.DayOfWeekRangeAdapter;
+import org.keyboardplaying.cron.parser.adapter.NoChangeAdapter;
 
 /**
+ * A parser for Unix CRON expressions.
+ * <p/>
+ * The rules are implemented based on the crontab documentation.
+ *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  *
  * @see http://www.unix.com/man-page/linux/5/crontab/
  */
 // TODO Javadoc
+// TODO optimization: adapt day constraint according to expression
 // FIXME mon-sun (case insensitive)
 // FIXME jan-dec (case insensitive)
 // FIXME special strings
 public class UnixCronParser implements CronSyntacticParser {
 
     private static enum CronGroup {
-        MINUTE("[1-5]?\\d", 0, 60), HOUR("2[0-3]|1?\\d", 0, 23), DAY_OF_MONTH("3[0-1]|[1-2]?\\d",
-                1, 31), MONTH("1[0-2]|\\d", 1, 12), DAY_OF_WEEK("[0-7]", 0, 7);
+        // minutes
+        MINUTE("[1-5]?\\d", 0, 59),
+        // hours
+        HOUR("2[0-3]|1?\\d", 0, 23),
+        // day of month
+        DAY_OF_MONTH("3[0-1]|[1-2]?\\d", 1, 31),
+        // month
+        MONTH("1[0-2]|\\d", 1, 12),
+        // day of week
+        DAY_OF_WEEK("[0-7]", 0, 7) {
+            @Override
+            public AtomicRuleAdapter getAdapter() {
+                return DAY_OF_WEEK_ADAPTER;
+            }
+        };
 
         private String pattern;
         private int min;
@@ -58,6 +79,10 @@ public class UnixCronParser implements CronSyntacticParser {
         public int getMax() {
             return max;
         }
+
+        public AtomicRuleAdapter getAdapter() {
+            return NO_CHANGE_ADAPTER;
+        }
     }
 
     private static final String PATTERN_CRON = initCronPattern(CronGroup.values());
@@ -68,8 +93,9 @@ public class UnixCronParser implements CronSyntacticParser {
     private static final CronRule YEAR = new AnyValueRule();
 
     private static final int UNIX_SUNDAY = 0;
-    private AtomicRuleAdapter dowAdapter = new DayOfWeekRangeAdapter(UNIX_SUNDAY);
-    private AtomicRuleAdapter nchAdapter = new NoChangeAdapter();
+    private static final AtomicRuleAdapter NO_CHANGE_ADAPTER = new NoChangeAdapter();
+    private static final AtomicRuleAdapter DAY_OF_WEEK_ADAPTER =
+            new DayOfWeekRangeAdapter(UNIX_SUNDAY);
 
     private static String initCronPattern(CronGroup[] atomicGroups) {
         StringBuilder sb = new StringBuilder();
@@ -116,15 +142,13 @@ public class UnixCronParser implements CronSyntacticParser {
                     .create()
                     .set(DayConstraint.BOTH_OR)
                     .set(Field.SECOND, SECOND)
-                    .set(Field.MINUTE,
-                            parseGroup(getGroup(matcher, i++), CronGroup.MINUTE, nchAdapter))
-                    .set(Field.HOUR, parseGroup(getGroup(matcher, i++), CronGroup.HOUR, nchAdapter))
+                    .set(Field.MINUTE, parseGroup(getGroup(matcher, i++), CronGroup.MINUTE))
+                    .set(Field.HOUR, parseGroup(getGroup(matcher, i++), CronGroup.HOUR))
                     .set(Field.DAY_OF_MONTH,
-                            parseGroup(getGroup(matcher, i++), CronGroup.DAY_OF_MONTH, nchAdapter))
-                    .set(Field.MONTH,
-                            parseGroup(getGroup(matcher, i++), CronGroup.MONTH, nchAdapter))
+                            parseGroup(getGroup(matcher, i++), CronGroup.DAY_OF_MONTH))
+                    .set(Field.MONTH, parseGroup(getGroup(matcher, i++), CronGroup.MONTH))
                     .set(Field.DAY_OF_WEEK,
-                            parseGroup(getGroup(matcher, i++), CronGroup.DAY_OF_WEEK, dowAdapter))
+                            parseGroup(getGroup(matcher, i++), CronGroup.DAY_OF_WEEK))
                     .set(Field.YEAR, YEAR).build();
         }
     }
@@ -133,44 +157,39 @@ public class UnixCronParser implements CronSyntacticParser {
         return matcher.group(1 + i * NB_GROUPS_REPEAT);
     }
 
-    private CronRule parseGroup(String expr, CronGroup group, AtomicRuleAdapter adptr) {
+    private CronRule parseGroup(String expr, CronGroup group) {
         CronRule result;
         if (expr.contains(PATTERN_REPEAT_SEP)) {
             List<CronRule> rules = new ArrayList<CronRule>();
             for (String atomic : expr.split(PATTERN_REPEAT_SEP)) {
-                rules.add(parseAtomicGroup(atomic, group, adptr));
+                rules.add(parseGroup(atomic, group));
             }
             result = new MultipleRule(rules);
         } else {
-            result = parseAtomicGroup(expr, group, adptr);
-        }
-        return result;
-    }
+            Matcher matcher = Pattern.compile(group.getPattern()).matcher(expr);
+            matcher.find();
 
-    private CronRule parseAtomicGroup(String expr, CronGroup group, AtomicRuleAdapter adptr) {
-        CronRule result;
-        Matcher matcher = Pattern.compile(group.getPattern()).matcher(expr);
-        matcher.find();
-
-        String min = matcher.group(1);
-        String max = matcher.group(2);
-        String step = matcher.group(3);
-        if (step == null) {
-            if (min == null) {
-                result = new AnyValueRule();
+            String min = matcher.group(1);
+            String max = matcher.group(2);
+            String step = matcher.group(3);
+            if (step == null) {
+                if (min == null) {
+                    result = new AnyValueRule();
+                } else if (max == null) {
+                    result = group.getAdapter().adapt(new SingleValueRule(Integer.parseInt(min)));
+                } else {
+                    result = group.getAdapter().adapt(new RangeRule(Integer.parseInt(min),
+                            Integer.parseInt(max)));
+                }
+            } else if (min == null) {
+                result = group.getAdapter().adapt(new RepeatRule(group.getMin(), group.getMax(),
+                        Integer.parseInt(step)));
             } else if (max == null) {
-                result = adptr.adapt(new SingleValueRule(Integer.parseInt(min)));
+                result = group.getAdapter().adapt(new SingleValueRule(Integer.parseInt(min)));
             } else {
-                result = adptr.adapt(new RangeRule(Integer.parseInt(min), Integer.parseInt(max)));
+                result = group.getAdapter().adapt(new RepeatRule(Integer.parseInt(min), Integer
+                        .parseInt(max), Integer.parseInt(step)));
             }
-        } else if (min == null) {
-            result = adptr.adapt(new RepeatRule(group.getMin(), group.getMax(), Integer
-                    .parseInt(step)));
-        } else if (max == null) {
-            result = adptr.adapt(new SingleValueRule(Integer.parseInt(min)));
-        } else {
-            result = adptr.adapt(new RepeatRule(Integer.parseInt(min), Integer.parseInt(max),
-                    Integer.parseInt(step)));
         }
         return result;
     }

@@ -24,7 +24,7 @@ import org.keyboardplaying.cron.expression.rule.SingleValueRule;
  * @author Cyrille Chopelet
  */
 // XXX Javadoc
-// TODO test multiple field
+// TODO test multiple rule
 public class CronComputerTest {
 
     private DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");

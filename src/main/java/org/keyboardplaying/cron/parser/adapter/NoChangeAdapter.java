@@ -1,4 +1,4 @@
-package org.keyboardplaying.cron.parser;
+package org.keyboardplaying.cron.parser.adapter;
 
 import org.keyboardplaying.cron.expression.rule.CronRule;
 import org.keyboardplaying.cron.expression.rule.RangeRule;

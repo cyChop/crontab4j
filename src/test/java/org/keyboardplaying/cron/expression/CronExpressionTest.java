@@ -32,8 +32,9 @@ public class CronExpressionTest {
         CronExpression expr = Builder.create().set(Field.SECOND, roundMinutes)
                 .set(Field.MINUTE, everyQuarter).set(Field.HOUR, onlyWorkHours)
                 .set(Field.DAY_OF_MONTH, any).set(Field.MONTH, any)
-                .set(Field.DAY_OF_WEEK, weekDaysOnly).set(Field.YEAR, any).set(DayConstraint.NONE)
-                .build();
+                // test overwriting with DAY_OF_WEEK
+                .set(Field.DAY_OF_WEEK, any).set(Field.DAY_OF_WEEK, weekDaysOnly)
+                .set(Field.YEAR, any).set(DayConstraint.NONE).build();
 
         assertEquals(roundMinutes, expr.get(Field.SECOND));
         assertEquals(everyQuarter, expr.get(Field.MINUTE));

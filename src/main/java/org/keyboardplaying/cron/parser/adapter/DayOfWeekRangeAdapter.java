@@ -1,4 +1,4 @@
-package org.keyboardplaying.cron.parser;
+package org.keyboardplaying.cron.parser.adapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -14,11 +14,10 @@ import org.keyboardplaying.cron.expression.rule.SingleValueRule;
  * A utility for adapting the day range for the computer.
  * <p/>
  * The number is not identical depending on the syntax (Unix uses 0 or 7 as Sunday, while Quartz
- * uses 1; Calendar uses {@value Calendar#SUNDAY}).
+ * uses {@code 1}; Calendar uses {@value Calendar#SUNDAY}).
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-// TODO Javadoc
 public class DayOfWeekRangeAdapter implements AtomicRuleAdapter {
 
     private static final int NB_DAYS_IN_WEEK = 7;
@@ -27,13 +26,19 @@ public class DayOfWeekRangeAdapter implements AtomicRuleAdapter {
 
     private final int shift;
 
+    /**
+     * Creates a new instance.
+     *
+     * @param sunday
+     *            the integer value for Sunday in the referential to adapt from
+     */
     public DayOfWeekRangeAdapter(int sunday) {
         this.shift = Calendar.SUNDAY - sunday;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.keyboardplaying.cron.parser.AtomicRuleAdapter#adapt(org.keyboardplaying.cron.expression
      * .rule.SingleValueRule)
@@ -45,7 +50,7 @@ public class DayOfWeekRangeAdapter implements AtomicRuleAdapter {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.keyboardplaying.cron.parser.AtomicRuleAdapter#adapt(org.keyboardplaying.cron.expression
      * .rule.RangeRule)
@@ -67,7 +72,7 @@ public class DayOfWeekRangeAdapter implements AtomicRuleAdapter {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.keyboardplaying.cron.parser.AtomicRuleAdapter#adapt(org.keyboardplaying.cron.expression
      * .rule.RepeatRule)
