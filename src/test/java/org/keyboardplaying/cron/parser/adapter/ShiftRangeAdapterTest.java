@@ -14,14 +14,17 @@ import org.keyboardplaying.cron.expression.rule.RepeatRule;
 import org.keyboardplaying.cron.expression.rule.SingleValueRule;
 
 /**
- * Tests {@link DayOfWeekRangeAdapter}.
+ * Tests {@link ShiftRangeAdapter}.
+ * <p/>
+ * {@link DayOfWeekRangeAdapter} and {@link MonthRangeAdapter} will <em>not</em> be tested <em>per
+ * se</em> since they are nothing more than parameterized {@link ShiftRangeAdapter} implementations.
  *
  * @author Cyrille Chopelet
  */
-public class DayOfWeekRangeAdapterTest {
+public class ShiftRangeAdapterTest {
 
     private static final int UNIX_SUNDAY = 0;
-    private DayOfWeekRangeAdapter adptr = new DayOfWeekRangeAdapter(UNIX_SUNDAY);
+    private ShiftRangeAdapter adptr = new DayOfWeekRangeAdapter(UNIX_SUNDAY);
 
     /** Tests the adaptation of a {@link SingleValueRule}. */
     @Test

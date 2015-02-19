@@ -100,7 +100,7 @@ public class UnixCronParserTest {
         // ...
 
         assertTrue(month instanceof SingleValueRule);
-        assertEquals(1, ((SingleValueRule) month).getValue());
+        assertEquals(Calendar.JANUARY, ((SingleValueRule) month).getValue());
 
         assertTrue(dow instanceof RangeRule);
         assertEquals(Calendar.MONDAY, ((RangeRule) dow).getMin());

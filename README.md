@@ -39,11 +39,12 @@ possible, and therefore used ``java.util.Calendar`` instead.
   2. Validator/Parser (parses CRON into POJO; first version will use Regexes)
     1. Unix
       * ~~Number ranges~~
-        * Bug: require month shifting
-      * Day and months names
+      * Day and month names
       * Special expressions
     2. cron4j
     3. Quartz
+    4. Enhancements
+      * Ensure min < max in ranges when validating/parsing
   3. ~~Computer~~ (computes next occurrence)
     * Todo: test multiple rules
   4. Scheduler

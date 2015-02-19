@@ -16,8 +16,9 @@ import org.keyboardplaying.cron.expression.rule.MultipleRule;
 import org.keyboardplaying.cron.expression.rule.RangeRule;
 import org.keyboardplaying.cron.expression.rule.RepeatRule;
 import org.keyboardplaying.cron.expression.rule.SingleValueRule;
-import org.keyboardplaying.cron.parser.adapter.AtomicRuleAdapter;
+import org.keyboardplaying.cron.parser.adapter.AtomicRangeAdapter;
 import org.keyboardplaying.cron.parser.adapter.DayOfWeekRangeAdapter;
+import org.keyboardplaying.cron.parser.adapter.MonthRangeAdapter;
 import org.keyboardplaying.cron.parser.adapter.NoChangeAdapter;
 
 /**
@@ -36,6 +37,10 @@ import org.keyboardplaying.cron.parser.adapter.NoChangeAdapter;
 // FIXME special strings
 public class UnixCronParser implements CronSyntacticParser {
 
+    private static final AtomicRangeAdapter NO_CHANGE_ADAPTER = new NoChangeAdapter();
+    private static final int UNIX_JANUARY = 1;
+    private static final int UNIX_SUNDAY = 0;
+
     private static enum CronGroup {
         // minutes
         MINUTE("[1-5]?\\d", 0, 59),
@@ -44,23 +49,24 @@ public class UnixCronParser implements CronSyntacticParser {
         // day of month
         DAY_OF_MONTH("3[0-1]|[1-2]?\\d", 1, 31),
         // month
-        MONTH("1[0-2]|\\d", 1, 12),
+        MONTH("1[0-2]|\\d", 1, 12, new MonthRangeAdapter(UNIX_JANUARY)),
         // day of week
-        DAY_OF_WEEK("[0-7]", 0, 7) {
-            @Override
-            public AtomicRuleAdapter getAdapter() {
-                return DAY_OF_WEEK_ADAPTER;
-            }
-        };
+        DAY_OF_WEEK("[0-7]", 0, 7, new DayOfWeekRangeAdapter(UNIX_SUNDAY));
 
         private String pattern;
         private int min;
         private int max;
+        private AtomicRangeAdapter adapter;
 
         private CronGroup(String rangePattern, int min, int max) {
+            this(rangePattern, min, max, NO_CHANGE_ADAPTER);
+        }
+
+        private CronGroup(String rangePattern, int min, int max, AtomicRangeAdapter adapter) {
             this.pattern = initAtomicPattern(rangePattern);
             this.min = min;
             this.max = max;
+            this.adapter = adapter;
         }
 
         private static String initAtomicPattern(String rangePattern) {
@@ -80,22 +86,17 @@ public class UnixCronParser implements CronSyntacticParser {
             return max;
         }
 
-        public AtomicRuleAdapter getAdapter() {
-            return NO_CHANGE_ADAPTER;
+        public AtomicRangeAdapter getAdapter() {
+            return adapter;
         }
     }
-
-    private static final String PATTERN_CRON = initCronPattern(CronGroup.values());
-    private static final String PATTERN_REPEAT_SEP = ",";
-    private static final int NB_GROUPS_REPEAT = 7;
 
     private static final CronRule SECOND = new SingleValueRule(0);
     private static final CronRule YEAR = new AnyValueRule();
 
-    private static final int UNIX_SUNDAY = 0;
-    private static final AtomicRuleAdapter NO_CHANGE_ADAPTER = new NoChangeAdapter();
-    private static final AtomicRuleAdapter DAY_OF_WEEK_ADAPTER =
-            new DayOfWeekRangeAdapter(UNIX_SUNDAY);
+    private static final String PATTERN_CRON = initCronPattern(CronGroup.values());
+    private static final String PATTERN_REPEAT_SEP = ",";
+    private static final int NB_GROUPS_REPEAT = 7;
 
     private static String initCronPattern(CronGroup[] atomicGroups) {
         StringBuilder sb = new StringBuilder();
