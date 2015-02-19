@@ -59,7 +59,7 @@ public class UnixCronParserTest {
      */
     @Test
     public void testParse() throws InvalidCronException {
-        CronExpression expr = prsr.parse("0 * 1-15/2,*/3 1/2 1-5");
+        CronExpression expr = prsr.parse("0 * 1-15/2,*/3,31 1/2 1-5");
 
         CronRule second = expr.get(Field.SECOND);
         CronRule minute = expr.get(Field.MINUTE);
