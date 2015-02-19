@@ -23,8 +23,7 @@ import org.keyboardplaying.cron.expression.rule.SingleValueRule;
  *
  * @author Cyrille Chopelet
  */
-// XXX Javadoc
-// TODO test multiple rule
+// TODO test expressions with MultipleRule
 public class CronComputerTest {
 
     private CronComputer cpu = new CronComputer();
@@ -36,7 +35,10 @@ public class CronComputerTest {
         cpu.getNextOccurrence(null);
     }
 
-    /** Tests the incrementing of several fields with a Unix-expression such as {@code * * * *}. */
+    /**
+     * Tests the incrementing of several fields with a Quartz-like expression such as
+     * {@code 0 * * * ? 1970-2016}.
+     */
     @Test
     public void testBasicCaseAndIncrements() throws ParseException {
         CronRule any = new AnyValueRule();
@@ -58,8 +60,12 @@ public class CronComputerTest {
         assertCalEquals(null, expr, "2016-12-31T23:59:08");
     }
 
+    /**
+     * Tests the incrementing of some fields with a Quartz-like expression such as
+     * {@code 0 37 13 * * ? 1970-2015}.
+     */
     @Test
-    public void testTimeUpperIncrement() throws ParseException {
+    public void testConstrainedIncrement() throws ParseException {
         CronRule any = new AnyValueRule();
         CronExpression expr = CronExpression.Builder.create()
                 .set(Field.SECOND, new SingleValueRule(0))
@@ -74,6 +80,10 @@ public class CronComputerTest {
         assertCalEquals(null, expr, "2015-12-31T13:42:00");
     }
 
+    /**
+     * Tests the incrementing of some fields with a Quartz-like expression such as
+     * {@code 0 0 0 1-31/10 * ? 1970-2015}.
+     */
     @Test
     public void testDayOfMonthConstraints() throws ParseException {
         CronRule any = new AnyValueRule();
@@ -91,6 +101,10 @@ public class CronComputerTest {
         assertCalEquals(null, expr, "2015-12-31T00:00:00");
     }
 
+    /**
+     * Tests the incrementing of some fields with a Quartz-like expression such as
+     * {@code 0 0 0 ? * MON-FRI 1970-2015}.
+     */
     @Test
     public void testDayOfWeekConstraints() throws ParseException {
         CronRule any = new AnyValueRule();
@@ -108,15 +122,21 @@ public class CronComputerTest {
         assertCalEquals("2015-03-02T00:00:00", expr, "2015-02-28T00:00:00");
         assertCalEquals(null, expr, "2015-12-31T00:00:00");
 
+        // Need for testing month shifting
+        // 0 0 0 ? */2 MON-FRI
         expr = CronExpression.Builder.create().set(Field.SECOND, zero).set(Field.MINUTE, zero)
                 .set(Field.HOUR, zero).set(Field.DAY_OF_MONTH, any)
                 .set(Field.MONTH, new RepeatRule(Calendar.JANUARY, Calendar.DECEMBER, 2))
                 .set(Field.DAY_OF_WEEK, new RangeRule(Calendar.MONDAY, Calendar.FRIDAY))
-                .set(Field.YEAR, new RangeRule(1970, 2015)).set(DayConstraint.WEEK).build();
+                .set(Field.YEAR, any).set(DayConstraint.WEEK).build();
 
         assertCalEquals("2015-03-02T00:00:00", expr, "2015-01-31T00:00:00");
     }
 
+    /**
+     * Tests the incrementing of some fields with a Unix-like expression such as
+     * {@code 0 0 1-31/10 * mon-fri}. Year is ranged from 1970 to 2015.
+     */
     @Test
     public void testBothOrDayConstraints() throws ParseException {
         CronRule any = new AnyValueRule();
@@ -134,6 +154,10 @@ public class CronComputerTest {
         assertCalEquals(null, expr, "2015-12-31T00:00:00");
     }
 
+    /**
+     * Tests the incrementing of some fields with a Quartz-like expression such as
+     * {@code 0 0 0 1-31/10#W * ? 1970-2015}.
+     */
     @Test
     public void testBothAndDayConstraints() throws ParseException {
         CronRule any = new AnyValueRule();
@@ -151,6 +175,10 @@ public class CronComputerTest {
         assertCalEquals(null, expr, "2015-12-31T00:00:00");
     }
 
+    /**
+     * Tests the finding or leaping over February 29th, ensuring it is not equivalent with March
+     * 1st.
+     */
     @Test
     public void testLeapYears() throws ParseException {
         CronRule any = new AnyValueRule();
@@ -176,6 +204,8 @@ public class CronComputerTest {
         assertCalEquals("2016-02-29T00:00:00", expr, "2012-03-01T00:00:00");
     }
 
+    /* Testing utilities. */
+    // Test equality by providing formatted Strings
     private void assertCalEquals(String expected, CronExpression expr, String argument)
             throws ParseException {
         Calendar expectation = expected == null ? null : parse(expected);
@@ -185,13 +215,15 @@ public class CronComputerTest {
         }
     }
 
-    private String format(Calendar cal) {
-        return cal == null ? "null" : "<" + df.format(cal.getTime()) + ">";
-    }
-
+    // Null-safe method to create a calendar from a formatted String
     private Calendar parse(String source) throws ParseException {
         Calendar cal = Calendar.getInstance();
         cal.setTime(df.parse(source));
         return cal;
+    }
+
+    // Useful when test fails: null-safe method to return a Calendar as a formatted String
+    private String format(Calendar cal) {
+        return cal == null ? "null" : "<" + df.format(cal.getTime()) + ">";
     }
 }

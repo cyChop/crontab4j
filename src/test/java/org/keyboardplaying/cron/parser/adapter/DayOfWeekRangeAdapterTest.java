@@ -18,13 +18,12 @@ import org.keyboardplaying.cron.expression.rule.SingleValueRule;
  *
  * @author Cyrille Chopelet
  */
-// XXX Javadoc
 public class DayOfWeekRangeAdapterTest {
 
     private static final int UNIX_SUNDAY = 0;
-
     private DayOfWeekRangeAdapter adptr = new DayOfWeekRangeAdapter(UNIX_SUNDAY);
 
+    /** Tests the adaptation of a {@link SingleValueRule}. */
     @Test
     public void testSingleValueAdaptation() {
         CronRule rule;
@@ -38,16 +37,27 @@ public class DayOfWeekRangeAdapterTest {
         assertEquals(Calendar.SUNDAY, ((SingleValueRule) rule).getValue());
     }
 
+    /**
+     * Tests the adaptation of a {@link RangeValueRule} in case it requires only shifting the
+     * limits.
+     */
     @Test
-    public void testRangeAdaptation() {
-        CronRule rule;
+    public void testRangeSimpleAdaptation() {
+        CronRule rule = adptr.adapt(new RangeRule(1, 5));
 
-        rule = adptr.adapt(new RangeRule(1, 5));
         assertTrue(rule instanceof RangeRule);
         assertEquals(Calendar.MONDAY, ((RangeRule) rule).getMin());
         assertEquals(Calendar.FRIDAY, ((RangeRule) rule).getMax());
+    }
 
-        rule = adptr.adapt(new RangeRule(6, 7));
+    /**
+     * Tests the adaptation of a {@link RangeValueRule} in case it requires splitting into two
+     * ranges (limits overlapping).
+     */
+    @Test
+    public void testRangeComplexAdaptation() {
+        CronRule rule = adptr.adapt(new RangeRule(6, 7));
+
         assertTrue(rule instanceof MultipleRule);
         assertTrue(rule.allows(Calendar.SUNDAY));
         assertFalse(rule.allows(Calendar.MONDAY));
@@ -58,17 +68,28 @@ public class DayOfWeekRangeAdapterTest {
         assertTrue(rule.allows(Calendar.SATURDAY));
     }
 
+    /**
+     * Tests the adaptation of a {@link RepeatValueRule} in case it requires only shifting the
+     * limits.
+     */
     @Test
-    public void testRepeatAdaptation() {
-        CronRule rule;
+    public void testRepeatSimpleAdaptation() {
+        CronRule rule = adptr.adapt(new RepeatRule(1, 5, 2));
 
-        rule = adptr.adapt(new RepeatRule(1, 5, 2));
         assertTrue(rule instanceof RepeatRule);
         assertEquals(Calendar.MONDAY, ((RepeatRule) rule).getMin());
         assertEquals(Calendar.FRIDAY, ((RepeatRule) rule).getMax());
         assertEquals(2, ((RepeatRule) rule).getStep());
+    }
 
-        rule = adptr.adapt(new RepeatRule(4, 7, 3));
+    /**
+     * Tests the adaptation of a {@link RangeValueRule} in case it requires more complex
+     * processing (limits overlapping).
+     */
+    @Test
+    public void testRepeatComplexAdaptation() {
+        CronRule rule = adptr.adapt(new RepeatRule(4, 7, 3));
+
         assertTrue(rule instanceof MultipleRule);
         assertTrue(rule.allows(Calendar.SUNDAY));
         assertFalse(rule.allows(Calendar.MONDAY));

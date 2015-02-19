@@ -34,23 +34,26 @@ possible, and therefore used ``java.util.Calendar`` instead.
 
 ## TODO
 
-* Prepare generic parser, make compatible with following syntaxes:
-  1. Unix
-  2. cron4j
-  3. Quartz
 * Utilities
   1. ~~Cron expression~~
   2. Validator/Parser (parses CRON into POJO; first version will use Regexes)
+    1. Unix
+      * ~~Number ranges~~
+        * Bug: require month shifting
+      * Day and months names
+      * Special expressions
+    2. cron4j
+    3. Quartz
   3. ~~Computer~~ (computes next occurrence)
+    * Todo: test multiple rules
   4. Scheduler
   5. Optimizer
-    * Optimisation strategies:
-      * Remove CRON expressions without a next occurrence
-      * Repetition with step == ``1`` => range
-      * Multiple expressions with at least one ``*`` (e.g. ``1-5,*,20-30/9``) => ``*``
-      * Overlapping ranges (or repeats with same step) => Single range (or repeat with same step)
-      * Identical ranges with multiple steps (``*/4,*/2``) => ``*/2``~
-      * Out of access ranges (``0 0 2-7/2 31 *`` => 31st of every even month until July)
+    * Remove CRON expressions without a next occurrence
+    * Repetition with step == ``1`` => range
+    * Multiple expressions with at least one ``*`` (e.g. ``1-5,*,20-30/9``) => ``*``
+    * Overlapping ranges (or repeats with same step) => Single range (or repeat with same step)
+    * Identical ranges with multiple steps (``*/4,*/2``) => ``*/2``~
+    * Out of access ranges (``0 0 2-7/2 31 *`` => 31st of every even month until July)
   6. Descriptor (low priority)
   7. Generator (lower priority)
 * V2.0 : test moving to Antlr and compare performances

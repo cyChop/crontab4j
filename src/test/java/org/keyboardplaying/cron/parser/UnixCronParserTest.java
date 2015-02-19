@@ -18,13 +18,15 @@ import org.keyboardplaying.cron.expression.rule.RangeRule;
 import org.keyboardplaying.cron.expression.rule.SingleValueRule;
 
 /**
+ * Tests {@link UnixCronParser}.
+ *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-// XXX Javadoc
 public class UnixCronParserTest {
 
     CronSyntacticParser prsr = new UnixCronParser();
 
+    /** Tests {@link UnixCronParser#isValid(java.lang.String)}. */
     @Test
     public void testValidate() {
         assertTrue(prsr.isValid("* * * * *"));
@@ -33,16 +35,28 @@ public class UnixCronParserTest {
         assertFalse(prsr.isValid(null));
     }
 
+    /**
+     * Ensures the parser fails with a {@link NullPointerException} if the supplied expression is
+     * {@code null}.
+     */
     @Test(expected = NullPointerException.class)
     public void testParseNull() throws InvalidCronException {
         prsr.parse(null);
     }
 
+    /**
+     * Ensures the parser fails with a {@link InvalidCronException} if the supplied expression does
+     * not match the validation regex.
+     */
     @Test(expected = InvalidCronException.class)
     public void testParseInvalid() throws InvalidCronException {
         prsr.parse("* * * *");
     }
 
+    /**
+     * Ensures the {@link CronExpression} obtained from the parsing of a complex expression is
+     * correct.
+     */
     @Test
     public void testParse() throws InvalidCronException {
         CronExpression expr = prsr.parse("0 * 1-15/2,*/3 1/2 1-5");
@@ -59,15 +73,39 @@ public class UnixCronParserTest {
 
         assertTrue(second instanceof SingleValueRule);
         assertEquals(0, ((SingleValueRule) second).getValue());
+
         assertTrue(minute instanceof SingleValueRule);
         assertEquals(0, ((SingleValueRule) minute).getValue());
+
         assertTrue(hour instanceof AnyValueRule);
+
         assertTrue(dom instanceof MultipleRule);
+        assertTrue(dom.allows(1));
+        assertFalse(dom.allows(2));
+        assertTrue(dom.allows(3));
+        assertTrue(dom.allows(4));
+        assertTrue(dom.allows(5));
+        assertFalse(dom.allows(6));
+        assertTrue(dom.allows(7));
+        assertFalse(dom.allows(8));
+        // ...
+        assertFalse(dom.allows(12));
+        assertTrue(dom.allows(13));
+        assertFalse(dom.allows(14));
+        assertTrue(dom.allows(15));
+        assertTrue(dom.allows(16));
+        assertFalse(dom.allows(17));
+        assertFalse(dom.allows(18));
+        assertTrue(dom.allows(19));
+        // ...
+
         assertTrue(month instanceof SingleValueRule);
         assertEquals(1, ((SingleValueRule) month).getValue());
+
         assertTrue(dow instanceof RangeRule);
         assertEquals(Calendar.MONDAY, ((RangeRule) dow).getMin());
         assertEquals(Calendar.FRIDAY, ((RangeRule) dow).getMax());
+
         assertTrue(year instanceof AnyValueRule);
     }
 }
