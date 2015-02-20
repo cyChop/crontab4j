@@ -37,13 +37,7 @@ possible, and therefore used ``java.util.Calendar`` instead.
 ### V1.0 - The basic needs
 
   1. [x] Cron expression
-  2. [ ] Validator/Parser (parses CRON into POJO; first version will use Regexes)
-    1. [ ] Unix
-      * [x] Number ranges
-      * [x] Day and month names
-      * Special expressions
-    2. [ ] cron4j
-    3. [ ] Quartz
+  2. [x] Validator/Parser (parses CRON into POJO; v1.0: Regex and Unix-like CRONs only)
   3. [x] Computer (computes next occurrence)
     * [ ] test multiple rules
   4. [ ] Scheduler
@@ -53,6 +47,11 @@ possible, and therefore used ``java.util.Calendar`` instead.
   1. [ ] Test rewriting engine in Antlr (using a grammar has advantages in terms of readibility,
 scalibility and maintenance)
   2. [ ] Compare performances/footprint and retain overall best version
+
+### V2.1 - Additional syntaxes
+
+  1. [ ] cron4j
+  2. [ ] Quartz
 
 ### V3.0 - The utilities
 

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.keyboardplaying.cron.exception.InvalidCronException;
+import org.keyboardplaying.cron.exception.UnsupportedCronException;
 import org.keyboardplaying.cron.expression.CronExpression;
 import org.keyboardplaying.cron.expression.rule.AnyValueRule;
 import org.keyboardplaying.cron.expression.rule.CronRule;
@@ -37,12 +37,12 @@ public interface CronSyntacticParser {
      * @return a parsed {@link CronExpression}
      * @throws NullPointerException
      *             if the expression is {@code null}
-     * @throws InvalidCronException
+     * @throws UnsupportedCronException
      *             if the expression is invalid
      *
      * @see #isValid(String)
      */
-    CronExpression parse(String cron) throws InvalidCronException;
+    CronExpression parse(String cron) throws UnsupportedCronException;
 
     /**
      * Representation of the rule and parsing specifications of a group.
@@ -136,15 +136,21 @@ public interface CronSyntacticParser {
          *            a pattern to match the allowed integer values
          * @param names
          *            a list of allowed substitution names for readibility of the CRON expression
+         * @param caseSensitive
+         *            {@code true} if aliases are to be case-senstive, {@code false} otherwise
          */
-        public static String initGroupPattern(String rangePattern, CronAlias[] names) {
+        public static String initGroupPattern(String rangePattern, CronAlias[] aliases,
+                boolean caseSensitive) {
             String allowedNames;
-            if (names == null || names.length == 0) {
+            if (aliases == null || aliases.length == 0) {
                 allowedNames = "";
             } else {
                 StringBuilder sb = new StringBuilder();
-                for (CronAlias name : names) {
-                    sb.append('|').append(name.getAlias());
+                for (CronAlias alias : aliases) {
+                    sb.append('|').append(alias.getAlias());
+                }
+                if (!caseSensitive) {
+                    sb.insert(1, "(?i)").append("?-i");
                 }
                 allowedNames = sb.toString();
             }

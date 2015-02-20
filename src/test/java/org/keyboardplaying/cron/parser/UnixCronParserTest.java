@@ -3,11 +3,12 @@ package org.keyboardplaying.cron.parser;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Calendar;
 
 import org.junit.Test;
-import org.keyboardplaying.cron.exception.InvalidCronException;
+import org.keyboardplaying.cron.exception.UnsupportedCronException;
 import org.keyboardplaying.cron.expression.CronExpression;
 import org.keyboardplaying.cron.expression.CronExpression.DayConstraint;
 import org.keyboardplaying.cron.expression.CronExpression.Field;
@@ -40,17 +41,23 @@ public class UnixCronParserTest {
      * {@code null}.
      */
     @Test(expected = NullPointerException.class)
-    public void testParseNull() throws InvalidCronException {
+    public void testParseNull() throws UnsupportedCronException {
         prsr.parse(null);
     }
 
     /**
-     * Ensures the parser fails with a {@link InvalidCronException} if the supplied expression does
+     * Ensures the parser fails with a {@link UnsupportedCronException} if the supplied expression does
      * not match the validation regex.
      */
-    @Test(expected = InvalidCronException.class)
-    public void testParseInvalid() throws InvalidCronException {
-        prsr.parse("* * * */mon *");
+    @Test
+    public void testParseInvalid() throws UnsupportedCronException {
+        try {
+            prsr.parse("* * * */mon *");
+            fail();
+        } catch (UnsupportedCronException e) {
+            assertFalse(e.isValid());
+            assertEquals("* * * */mon *", e.getCron());
+        }
     }
 
     /**
@@ -58,7 +65,7 @@ public class UnixCronParserTest {
      * correct.
      */
     @Test
-    public void testParse() throws InvalidCronException {
+    public void testParse() throws UnsupportedCronException {
         CronExpression expr = prsr.parse("0 * 1-15/2,*/3,31 1/2 1-5");
 
         CronRule second = expr.get(Field.SECOND);
@@ -114,8 +121,9 @@ public class UnixCronParserTest {
      * using names for months and days of week is correct.
      */
     @Test
-    public void testParseWithNames() throws InvalidCronException {
+    public void testParseWithNames() throws UnsupportedCronException {
         // also test names are case insensitive
+        assertTrue(prsr.isValid("* * * JaN mon-FRI"));
         CronExpression expr = prsr.parse("* * * JaN mon-FRI");
 
         CronRule month = expr.get(Field.MONTH);
@@ -127,5 +135,159 @@ public class UnixCronParserTest {
         assertTrue(dow instanceof RangeRule);
         assertEquals(Calendar.MONDAY, ((RangeRule) dow).getMin());
         assertEquals(Calendar.FRIDAY, ((RangeRule) dow).getMax());
+    }
+
+    /** Tests the parsing of the special expression {@code @reboot}. */
+    @Test
+    public void testAtReboot() {
+        assertTrue(prsr.isValid("@reboot"));
+        try {
+            prsr.parse("@reboot");
+            fail();
+        } catch (UnsupportedCronException e) {
+            assertTrue(e.isValid());
+            assertEquals("@reboot", e.getCron());
+        }
+    }
+
+    /** Tests the parsing of the special expression {@code @yearly}. */
+    @Test
+    public void testAtYearly() throws UnsupportedCronException {
+        testAtYearly("@yearly");
+    }
+
+    /** Tests the parsing of the special expression {@code @annually}. */
+    @Test
+    public void testAtAnnually() throws UnsupportedCronException {
+        testAtYearly("@annually");
+    }
+
+    private void testAtYearly(String special) throws UnsupportedCronException {
+        assertTrue(prsr.isValid(special));
+        CronExpression expr = prsr.parse(special);
+
+        CronRule minute = expr.get(Field.MINUTE);
+        CronRule hour = expr.get(Field.HOUR);
+        CronRule dom = expr.get(Field.DAY_OF_MONTH);
+        CronRule month = expr.get(Field.MONTH);
+        CronRule dow = expr.get(Field.DAY_OF_WEEK);
+
+        assertTrue(minute instanceof SingleValueRule);
+        assertEquals(0, ((SingleValueRule) minute).getValue());
+
+        assertTrue(hour instanceof SingleValueRule);
+        assertEquals(0, ((SingleValueRule) hour).getValue());
+
+        assertTrue(dom instanceof SingleValueRule);
+        assertEquals(1, ((SingleValueRule) dom).getValue());
+
+        assertTrue(month instanceof SingleValueRule);
+        assertEquals(Calendar.JANUARY, ((SingleValueRule) month).getValue());
+
+        assertTrue(dow instanceof AnyValueRule);
+    }
+
+    /** Tests the parsing of the special expression {@code @monthly}. */
+    @Test
+    public void testAtMonthly() throws UnsupportedCronException {
+        assertTrue(prsr.isValid("@monthly"));
+        CronExpression expr = prsr.parse("@monthly");
+
+        CronRule minute = expr.get(Field.MINUTE);
+        CronRule hour = expr.get(Field.HOUR);
+        CronRule dom = expr.get(Field.DAY_OF_MONTH);
+        CronRule month = expr.get(Field.MONTH);
+        CronRule dow = expr.get(Field.DAY_OF_WEEK);
+
+        assertTrue(minute instanceof SingleValueRule);
+        assertEquals(0, ((SingleValueRule) minute).getValue());
+
+        assertTrue(hour instanceof SingleValueRule);
+        assertEquals(0, ((SingleValueRule) hour).getValue());
+
+        assertTrue(dom instanceof SingleValueRule);
+        assertEquals(1, ((SingleValueRule) dom).getValue());
+
+        assertTrue(month instanceof AnyValueRule);
+        assertTrue(dow instanceof AnyValueRule);
+    }
+
+    /** Tests the parsing of the special expression {@code @weekly}. */
+    @Test
+    public void testAtWeekly() throws UnsupportedCronException {
+        assertTrue(prsr.isValid("@weekly"));
+        CronExpression expr = prsr.parse("@weekly");
+
+        CronRule minute = expr.get(Field.MINUTE);
+        CronRule hour = expr.get(Field.HOUR);
+        CronRule dom = expr.get(Field.DAY_OF_MONTH);
+        CronRule month = expr.get(Field.MONTH);
+        CronRule dow = expr.get(Field.DAY_OF_WEEK);
+
+        assertTrue(minute instanceof SingleValueRule);
+        assertEquals(0, ((SingleValueRule) minute).getValue());
+
+        assertTrue(hour instanceof SingleValueRule);
+        assertEquals(0, ((SingleValueRule) hour).getValue());
+
+        assertTrue(dow instanceof SingleValueRule);
+        assertEquals(Calendar.SUNDAY, ((SingleValueRule) dow).getValue());
+
+        assertTrue(dom instanceof AnyValueRule);
+        assertTrue(month instanceof AnyValueRule);
+    }
+
+    /** Tests the parsing of the special expression {@code @daily}. */
+    @Test
+    public void testAtDaily() throws UnsupportedCronException {
+        testAtDaily("@daily");
+    }
+
+    /** Tests the parsing of the special expression {@code @midnight}. */
+    @Test
+    public void testAtMidnight() throws UnsupportedCronException {
+        testAtDaily("@midnight");
+    }
+
+    private void testAtDaily(String special) throws UnsupportedCronException {
+        assertTrue(prsr.isValid(special));
+        CronExpression expr = prsr.parse(special);
+
+        CronRule minute = expr.get(Field.MINUTE);
+        CronRule hour = expr.get(Field.HOUR);
+        CronRule dom = expr.get(Field.DAY_OF_MONTH);
+        CronRule month = expr.get(Field.MONTH);
+        CronRule dow = expr.get(Field.DAY_OF_WEEK);
+
+        assertTrue(minute instanceof SingleValueRule);
+        assertEquals(0, ((SingleValueRule) minute).getValue());
+
+        assertTrue(hour instanceof SingleValueRule);
+        assertEquals(0, ((SingleValueRule) hour).getValue());
+
+        assertTrue(dom instanceof AnyValueRule);
+        assertTrue(month instanceof AnyValueRule);
+        assertTrue(dow instanceof AnyValueRule);
+    }
+
+    /** Tests the parsing of the special expression {@code @hourly}. */
+    @Test
+    public void testAtHourly() throws UnsupportedCronException {
+        assertTrue(prsr.isValid("@hourly"));
+        CronExpression expr = prsr.parse("@hourly");
+
+        CronRule minute = expr.get(Field.MINUTE);
+        CronRule hour = expr.get(Field.HOUR);
+        CronRule dom = expr.get(Field.DAY_OF_MONTH);
+        CronRule month = expr.get(Field.MONTH);
+        CronRule dow = expr.get(Field.DAY_OF_WEEK);
+
+        assertTrue(minute instanceof SingleValueRule);
+        assertEquals(0, ((SingleValueRule) minute).getValue());
+
+        assertTrue(hour instanceof AnyValueRule);
+        assertTrue(dom instanceof AnyValueRule);
+        assertTrue(month instanceof AnyValueRule);
+        assertTrue(dow instanceof AnyValueRule);
     }
 }

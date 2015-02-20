@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.keyboardplaying.cron.exception.InvalidCronException;
+import org.keyboardplaying.cron.exception.UnsupportedCronException;
 import org.keyboardplaying.cron.expression.CronExpression;
 import org.keyboardplaying.cron.expression.CronExpression.DayConstraint;
 import org.keyboardplaying.cron.expression.CronExpression.Field;
@@ -35,6 +35,32 @@ public class UnixCronParser implements CronSyntacticParser {
     private static final RangeAdapter NO_CHANGE_ADAPTER = new NoChangeAdapter();
     private static final int UNIX_JANUARY = 1;
     private static final int UNIX_SUNDAY = 0;
+
+    private static final String SPECIAL_EXP_KEY = "@";
+
+    private static enum SpecialExpression {
+        reboot(null) {
+            @Override
+            public String getEquivalent() throws UnsupportedCronException {
+                throw new UnsupportedCronException(getExpression(), true);
+            }
+        }, yearly("0 0 1 1 *"), annually("0 0 1 1 *"), monthly("0 0 1 * *"), weekly("0 0 * * 0"),
+        daily("0 0 * * *"), midnight("0 0 * * *"), hourly("0 * * * *");
+
+        private String equivalent;
+
+        private SpecialExpression(String equivalent) {
+            this.equivalent = equivalent;
+        }
+
+        public String getExpression() {
+            return SPECIAL_EXP_KEY + name();
+        }
+
+        public String getEquivalent() throws UnsupportedCronException {
+            return equivalent;
+        }
+    }
 
     private static enum UnixCronGroup implements CronGroup {
         // minutes
@@ -69,7 +95,7 @@ public class UnixCronParser implements CronSyntacticParser {
 
         private UnixCronGroup(String rangePattern, int min, int max, CronAlias[] aliases,
                 RangeAdapter adapter) {
-            this.pattern = CronRegexUtils.initGroupPattern(rangePattern, aliases);
+            this.pattern = CronRegexUtils.initGroupPattern(rangePattern, aliases, false);
             this.min = min;
             this.max = max;
             this.adapter = adapter;
@@ -92,12 +118,12 @@ public class UnixCronParser implements CronSyntacticParser {
         }
 
         public CronRule parse(Matcher matcher) {
-            return CronRegexUtils.parseGroup(matcher.group(1 + ordinal() * NB_GROUPS_REPEAT),
-                    PATTERN_REPEAT_SEP, this);
+            return CronRegexUtils.parseGroup(matcher.group(
+                    NB_GROUPS_BASE + ordinal() * NB_GROUPS_REPEAT), PATTERN_REPEAT_SEP, this);
         }
 
         protected CronRule parse(Matcher matcher, CronAlias[] aliases) {
-            String group = matcher.group(1 + ordinal() * NB_GROUPS_REPEAT).toUpperCase();
+            String group = matcher.group(NB_GROUPS_BASE + ordinal() * NB_GROUPS_REPEAT).toUpperCase();
             for (CronAlias alias : aliases) {
                 group = group.replaceAll(alias.getAlias(), String.valueOf(alias.getValue()));
             }
@@ -137,10 +163,21 @@ public class UnixCronParser implements CronSyntacticParser {
     private static final CronRule YEAR = new AnyValueRule();
 
     private static final String PATTERN_REPEAT_SEP = ",";
-    private static final String PATTERN_CRON =
-            CronRegexUtils.initCronPattern(PATTERN_REPEAT_SEP, UnixCronGroup.values());
+    private static final String PATTERN_CRON = initUnixCronPattern();
+
+    private static final int NB_GROUPS_BASE = 1;
     private static final int NB_GROUPS_REPEAT = 7;
 
+    private static String initUnixCronPattern() {
+        StringBuilder sb = new StringBuilder();
+        // the standard regex
+        sb.append(CronRegexUtils.initCronPattern(PATTERN_REPEAT_SEP, UnixCronGroup.values()));
+        // the special expressions
+        for (SpecialExpression se : SpecialExpression.values()) {
+            sb.append('|').append(se.getExpression());
+        }
+        return sb.toString();
+    }
     /*
      * (non-Javadoc)
      *
@@ -159,16 +196,18 @@ public class UnixCronParser implements CronSyntacticParser {
      * @see org.keyboardplaying.cron.parser.CronSyntacticParser#parse(java.lang.String)
      */
     @Override
-    public CronExpression parse(String cron) throws InvalidCronException {
+    public CronExpression parse(String cron) throws UnsupportedCronException {
         Objects.requireNonNull(cron, "cron expression cannot be null.");
 
-        Matcher matcher = Pattern.compile(PATTERN_CRON, Pattern.CASE_INSENSITIVE)
-                .matcher(cron.trim());
-        if (!matcher.matches()) {
-            throw new InvalidCronException(cron);
+        if (!cron.matches(PATTERN_CRON)) {
+            throw new UnsupportedCronException(cron, false);
         } else {
-            return CronExpression.Builder
-                    .create()
+            String toParse = cron.startsWith(SPECIAL_EXP_KEY)
+                    ? SpecialExpression.valueOf(cron.substring(1)).getEquivalent() : cron;
+            Matcher matcher = Pattern.compile(PATTERN_CRON).matcher(toParse);
+            matcher.find();
+
+            return CronExpression.Builder.create()
                     .set(DayConstraint.BOTH_OR)
                     .set(Field.SECOND, SECOND)
                     .set(Field.MINUTE, UnixCronGroup.MINUTE.parse(matcher))
