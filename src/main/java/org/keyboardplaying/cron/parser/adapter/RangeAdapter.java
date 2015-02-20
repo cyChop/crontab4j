@@ -19,7 +19,7 @@ import org.keyboardplaying.cron.expression.rule.SingleValueRule;
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public interface AtomicRangeAdapter {
+public interface RangeAdapter {
 
     /**
      * Computes a change of base of the supplied rule from its original syntax to the system base.

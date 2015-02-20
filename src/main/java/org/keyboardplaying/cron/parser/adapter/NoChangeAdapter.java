@@ -10,13 +10,13 @@ import org.keyboardplaying.cron.expression.rule.SingleValueRule;
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public class NoChangeAdapter implements AtomicRangeAdapter {
+public class NoChangeAdapter implements RangeAdapter {
 
     /*
      * (non-Javadoc)
      *
      * @see
-     * org.keyboardplaying.cron.parser.AtomicRangeAdapter#adapt(org.keyboardplaying.cron.expression
+     * org.keyboardplaying.cron.parser.RangeAdapter#adapt(org.keyboardplaying.cron.expression
      * .rule.SingleValueRule)
      */
     @Override
@@ -28,7 +28,7 @@ public class NoChangeAdapter implements AtomicRangeAdapter {
      * (non-Javadoc)
      *
      * @see
-     * org.keyboardplaying.cron.parser.AtomicRangeAdapter#adapt(org.keyboardplaying.cron.expression
+     * org.keyboardplaying.cron.parser.RangeAdapter#adapt(org.keyboardplaying.cron.expression
      * .rule.RangeRule)
      */
     @Override
@@ -40,7 +40,7 @@ public class NoChangeAdapter implements AtomicRangeAdapter {
      * (non-Javadoc)
      *
      * @see
-     * org.keyboardplaying.cron.parser.AtomicRangeAdapter#adapt(org.keyboardplaying.cron.expression
+     * org.keyboardplaying.cron.parser.RangeAdapter#adapt(org.keyboardplaying.cron.expression
      * .rule.RepeatRule)
      */
     @Override

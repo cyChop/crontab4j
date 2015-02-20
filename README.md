@@ -47,6 +47,7 @@ possible, and therefore used ``java.util.Calendar`` instead.
   3. [x] Computer (computes next occurrence)
     * [ ] test multiple rules
   4. [ ] Scheduler
+
 ### V2.0 - Changing parsing engine
 
   1. [ ] Test rewriting engine in Antlr (using a grammar has advantages in terms of readibility,
@@ -58,12 +59,13 @@ scalibility and maintenance)
   1. [ ] Enhancements
     * [ ] Ensure min < max in ranges when validating/parsing
   2. [ ] Optimizer (parses the rules and rewrite them for optimization)
+    * [ ] Single values with a step (``1/2`` -> ``1``)
     * [ ] Remove CRON expressions without a next occurrence
-    * [ ] Repetition with step == ``1`` => range
-    * [ ] Multiple expressions with at least one ``*`` (e.g. ``1-5,*,20-30/9``) => ``*``
-    * [ ] Overlapping ranges (or repeats with same step) => Single range (or repeat with same step)
-    * [ ] Identical ranges with multiple steps (``*/4,*/2``) => ``*/2``~
-    * [ ] Out of access ranges (``0 0 2-7/2 31 *`` => 31st of every even month until July)
+    * [ ] Repetition with step == ``1`` -> range
+    * [ ] Multiple expressions with at least one ``*`` (e.g. ``1-5,*,20-30/9``) -> ``*``
+    * [ ] Overlapping ranges (or repeats with same step) -> Single range (or repeat with same step)
+    * [ ] Identical ranges with multiple steps (``*/4,*/2``) -> ``*/2``~
+    * [ ] Out of access ranges (``0 0 2-7/2 31 *`` -> 31st of every even month until July)
   3. [ ] Generator (related to previous; reverts a ``CronExpression`` to a ``String``)
   4. [ ] Descriptor (describes a CRON in natural language; low priority)
   5. [ ] Split into ``crontab4j-core`` and ``crontab4j-utils`` to reduce footprint if need be

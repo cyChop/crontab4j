@@ -13,7 +13,7 @@ import org.keyboardplaying.cron.expression.CronExpression.Field;
 import org.keyboardplaying.cron.expression.rule.AnyValueRule;
 import org.keyboardplaying.cron.expression.rule.CronRule;
 import org.keyboardplaying.cron.expression.rule.SingleValueRule;
-import org.keyboardplaying.cron.parser.adapter.AtomicRangeAdapter;
+import org.keyboardplaying.cron.parser.adapter.RangeAdapter;
 import org.keyboardplaying.cron.parser.adapter.DayOfWeekRangeAdapter;
 import org.keyboardplaying.cron.parser.adapter.MonthRangeAdapter;
 import org.keyboardplaying.cron.parser.adapter.NoChangeAdapter;
@@ -32,7 +32,7 @@ import org.keyboardplaying.cron.parser.adapter.NoChangeAdapter;
 // FIXME special strings
 public class UnixCronParser implements CronSyntacticParser {
 
-    private static final AtomicRangeAdapter NO_CHANGE_ADAPTER = new NoChangeAdapter();
+    private static final RangeAdapter NO_CHANGE_ADAPTER = new NoChangeAdapter();
     private static final int UNIX_JANUARY = 1;
     private static final int UNIX_SUNDAY = 0;
 
@@ -44,32 +44,32 @@ public class UnixCronParser implements CronSyntacticParser {
         // day of month
         DAY_OF_MONTH("3[0-1]|[1-2]?\\d", 1, 31),
         // month
-        MONTH("1[0-2]|\\d", 1, 12, MonthName.values(), new MonthRangeAdapter(UNIX_JANUARY)) {
+        MONTH("1[0-2]|\\d", 1, 12, MonthAlias.values(), new MonthRangeAdapter(UNIX_JANUARY)) {
             @Override
             public CronRule parse(Matcher matcher) {
-                return parse(matcher, MonthName.values());
+                return parse(matcher, MonthAlias.values());
             }
         },
         // day of week
-        DAY_OF_WEEK("[0-7]", 0, 7, DayOfWeekName.values(), new DayOfWeekRangeAdapter(UNIX_SUNDAY)) {
+        DAY_OF_WEEK("[0-7]", 0, 7, DayOfWeekAlias.values(), new DayOfWeekRangeAdapter(UNIX_SUNDAY)) {
             @Override
             public CronRule parse(Matcher matcher) {
-                return parse(matcher, DayOfWeekName.values());
+                return parse(matcher, DayOfWeekAlias.values());
             }
         };
 
         private String pattern;
         private int min;
         private int max;
-        private AtomicRangeAdapter adapter;
+        private RangeAdapter adapter;
 
         private UnixCronGroup(String rangePattern, int min, int max) {
             this(rangePattern, min, max, null, NO_CHANGE_ADAPTER);
         }
 
-        private UnixCronGroup(String rangePattern, int min, int max, CronElementName[] names,
-                AtomicRangeAdapter adapter) {
-            this.pattern = CronRegexUtils.initGroupPattern(rangePattern, names);
+        private UnixCronGroup(String rangePattern, int min, int max, CronAlias[] aliases,
+                RangeAdapter adapter) {
+            this.pattern = CronRegexUtils.initGroupPattern(rangePattern, aliases);
             this.min = min;
             this.max = max;
             this.adapter = adapter;
@@ -87,7 +87,7 @@ public class UnixCronParser implements CronSyntacticParser {
             return max;
         }
 
-        public AtomicRangeAdapter getAdapter() {
+        public RangeAdapter getAdapter() {
             return adapter;
         }
 
@@ -96,35 +96,39 @@ public class UnixCronParser implements CronSyntacticParser {
                     PATTERN_REPEAT_SEP, this);
         }
 
-        protected CronRule parse(Matcher matcher, CronElementName[] names) {
+        protected CronRule parse(Matcher matcher, CronAlias[] aliases) {
             String group = matcher.group(1 + ordinal() * NB_GROUPS_REPEAT).toUpperCase();
-            for (CronElementName name : names) {
-                group = group.replaceAll(name.getName(), String.valueOf(name.getReplacement()));
+            for (CronAlias alias : aliases) {
+                group = group.replaceAll(alias.getAlias(), String.valueOf(alias.getValue()));
             }
             return CronRegexUtils.parseGroup(group, PATTERN_REPEAT_SEP, this);
         }
     }
 
-    private static enum MonthName implements CronElementName {
+    private static enum MonthAlias implements CronAlias {
         JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC;
 
-        public String getName() {
+        @Override
+        public String getAlias() {
             return name();
         }
 
-        public int getReplacement() {
+        @Override
+        public int getValue() {
             return ordinal() + UNIX_JANUARY;
         }
     }
 
-    private static enum DayOfWeekName implements CronElementName {
+    private static enum DayOfWeekAlias implements CronAlias {
         SUN, MON, TUE, WED, THU, FRI, SAT;
 
-        public String getName() {
+        @Override
+        public String getAlias() {
             return name();
         }
 
-        public int getReplacement() {
+        @Override
+        public int getValue() {
             return ordinal() + UNIX_SUNDAY;
         }
     }

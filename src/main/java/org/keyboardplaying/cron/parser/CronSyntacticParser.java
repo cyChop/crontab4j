@@ -13,7 +13,7 @@ import org.keyboardplaying.cron.expression.rule.MultipleRule;
 import org.keyboardplaying.cron.expression.rule.RangeRule;
 import org.keyboardplaying.cron.expression.rule.RepeatRule;
 import org.keyboardplaying.cron.expression.rule.SingleValueRule;
-import org.keyboardplaying.cron.parser.adapter.AtomicRangeAdapter;
+import org.keyboardplaying.cron.parser.adapter.RangeAdapter;
 
 /**
  * Parent for syntax-dependent parsers.
@@ -44,39 +44,107 @@ public interface CronSyntacticParser {
      */
     CronExpression parse(String cron) throws InvalidCronException;
 
-    // TODO Javadoc
+    /**
+     * Representation of the rule and parsing specifications of a group.
+     * <p/>
+     * The "group" in the name of this interface refers to the regex notion of group, as each field
+     * of the CRON expression should be isolated as a group before being parsed using the
+     * information provided via this interface.
+     *
+     * @author Cyrille Chopelet (http://keyboardplaying.org)
+     */
     static interface CronGroup {
 
+        /**
+         * Returns a regular expression to identify the allowed integer values for the rule
+         * corresponding to this group.
+         *
+         * @return the pattern for the range of authorized integer values
+         */
         String getRangePattern();
 
+        /**
+         * Returns the minimal allowed value for this group.
+         *
+         * @return the minimal allowed value
+         */
         int getMin();
 
+        /**
+         * Returns the maximal allowed value for this group.
+         *
+         * @return the maximal allowed value
+         */
         int getMax();
 
-        AtomicRangeAdapter getAdapter();
+        /**
+         * Returns the {@link RangeAdapter} to use when parsing the rule for this group.
+         *
+         * @return the range adapter
+         */
+        RangeAdapter getAdapter();
     }
 
-    static interface CronElementName {
+    /**
+     * An interface for substitution names (e.g. day or month names) in CRON expressions.
+     * <p/>
+     * This interface is used when names are to be allowed on a segment of a CRON expression. They
+     * basically are represented as an alias-value pair.
+     *
+     * @author Cyrille Chopelet (http://keyboardplaying.org)
+     */
+    static interface CronAlias {
 
-        String getName();
+        /**
+         * Returns the {@link String} representation of this alias.
+         *
+         * @return the alias
+         */
+        String getAlias();
 
-        int getReplacement();
+        /**
+         * Returns the actual value of this alias.
+         *
+         * @return the values
+         */
+        int getValue();
     }
 
+    /**
+     * Provides utilities for parsing regexes based on the Unix standard.
+     * <p/>
+     * As the base for the most commonly used CRON formats, Unix CRON standard seemed a good basis.
+     * <p/>
+     * This utility class provides methods for generating CRON patterns from allowed range and
+     * names, and from parsing them back to {@link CronRule}.
+     *
+     * @author Cyrille Chopelet (http://keyboardplaying)
+     */
     static final class CronRegexUtils {
 
         /** Private constructor to avoid instantiation. */
         private CronRegexUtils() {
         }
 
-        public static String initGroupPattern(String rangePattern, CronElementName[] names) {
+        /**
+         * Creates a regular expression to match a single, atomic rule.
+         * <p/>
+         * The generated regex will represent the following idea:
+         * {@code *|rangePattern|names(-(rangePattern|names))?(/(rangePattern|names))?}
+         *
+         * @param rangePattern
+         *            a pattern to match the allowed integer values
+         * @param names
+         *            a list of allowed substitution names for readibility of the CRON expression
+         */
+        public static String initGroupPattern(String rangePattern, CronAlias[] names) {
             String allowedNames;
             if (names == null || names.length == 0) {
                 allowedNames = "";
             } else {
                 StringBuilder sb = new StringBuilder();
-                for (CronElementName name : names) {
-                    sb.append('|').append(name.getName());
+                for (CronAlias name : names) {
+                    sb.append('|').append(name.getAlias());
                 }
                 allowedNames = sb.toString();
             }
@@ -84,10 +152,19 @@ public interface CronSyntacticParser {
                     + "))?)(?:/(" + rangePattern + "))?";
         }
 
-        public static String initCronPattern(String sep, CronGroup[] atomicGroups) {
+        /**
+         * Creates a regular expression to match the CRON expression.
+         *
+         * @param sep
+         *            the parameter to be used when allowing multiple rules for a group
+         * @param groups
+         *            the rule and parsing specifications for each group in the regex; the array
+         *            must be ordered the same way the CRON expressions will be
+         */
+        public static String initCronPattern(String sep, CronGroup[] groups) {
             StringBuilder sb = new StringBuilder();
             boolean first = true;
-            for (CronGroup group : atomicGroups) {
+            for (CronGroup group : groups) {
                 if (first) {
                     first = false;
                 } else {
@@ -103,6 +180,20 @@ public interface CronSyntacticParser {
             return sb.toString();
         }
 
+        /**
+         * Parses a group to a {@link CronRule}. Only integers and {@code *} are allowed; if names
+         * were used in the original expression, they must have been replaced with their integer
+         * equivalent before the group is passed to this method.
+         *
+         * @param grp
+         *            the group extracted from the CronExpression
+         * @param sep
+         *            the separator to be used when allowing multiple rules for a group
+         * @param group
+         *            the rule and parsing specifications for the group
+         *
+         * @return the parsed rule
+         */
         public static CronRule parseGroup(String grp, String sep, CronGroup group) {
             CronRule result;
             if (sep != null && grp.contains(sep)) {
