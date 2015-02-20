@@ -50,7 +50,7 @@ public class UnixCronParserTest {
      */
     @Test(expected = InvalidCronException.class)
     public void testParseInvalid() throws InvalidCronException {
-        prsr.parse("* * * *");
+        prsr.parse("* * * */mon *");
     }
 
     /**
@@ -107,5 +107,25 @@ public class UnixCronParserTest {
         assertEquals(Calendar.FRIDAY, ((RangeRule) dow).getMax());
 
         assertTrue(year instanceof AnyValueRule);
+    }
+
+    /**
+     * Ensures the parsing of {@link CronExpression} obtained from the parsing of an expression
+     * using names for months and days of week is correct.
+     */
+    @Test
+    public void testParseWithNames() throws InvalidCronException {
+        // also test names are case insensitive
+        CronExpression expr = prsr.parse("* * * JaN mon-FRI");
+
+        CronRule month = expr.get(Field.MONTH);
+        CronRule dow = expr.get(Field.DAY_OF_WEEK);
+
+        assertTrue(month instanceof SingleValueRule);
+        assertEquals(Calendar.JANUARY, ((SingleValueRule) month).getValue());
+
+        assertTrue(dow instanceof RangeRule);
+        assertEquals(Calendar.MONDAY, ((RangeRule) dow).getMin());
+        assertEquals(Calendar.FRIDAY, ((RangeRule) dow).getMax());
     }
 }

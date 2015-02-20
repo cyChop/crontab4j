@@ -34,30 +34,39 @@ possible, and therefore used ``java.util.Calendar`` instead.
 
 ## TODO
 
-* Utilities
-  1. ~~Cron expression~~
-  2. Validator/Parser (parses CRON into POJO; first version will use Regexes)
-    1. Unix
-      * ~~Number ranges~~
-      * Day and month names
+### V1.0 - The basic needs
+
+  1. [x] Cron expression
+  2. [ ] Validator/Parser (parses CRON into POJO; first version will use Regexes)
+    1. [ ] Unix
+      * [x] Number ranges
+      * [x] Day and month names
       * Special expressions
-    2. cron4j
-    3. Quartz
-    4. Enhancements
-      * Ensure min < max in ranges when validating/parsing
-  3. ~~Computer~~ (computes next occurrence)
-    * Todo: test multiple rules
-  4. Scheduler
-  5. Optimizer
-    * Remove CRON expressions without a next occurrence
-    * Repetition with step == ``1`` => range
-    * Multiple expressions with at least one ``*`` (e.g. ``1-5,*,20-30/9``) => ``*``
-    * Overlapping ranges (or repeats with same step) => Single range (or repeat with same step)
-    * Identical ranges with multiple steps (``*/4,*/2``) => ``*/2``~
-    * Out of access ranges (``0 0 2-7/2 31 *`` => 31st of every even month until July)
-  6. Descriptor (low priority)
-  7. Generator (lower priority)
-* V2.0 : test moving to Antlr and compare performances
+    2. [ ] cron4j
+    3. [ ] Quartz
+  3. [x] Computer (computes next occurrence)
+    * [ ] test multiple rules
+  4. [ ] Scheduler
+### V2.0 - Changing parsing engine
+
+  1. [ ] Test rewriting engine in Antlr (using a grammar has advantages in terms of readibility,
+scalibility and maintenance)
+  2. [ ] Compare performances/footprint and retain overall best version
+
+### V3.0 - The utilities
+
+  1. [ ] Enhancements
+    * [ ] Ensure min < max in ranges when validating/parsing
+  2. [ ] Optimizer (parses the rules and rewrite them for optimization)
+    * [ ] Remove CRON expressions without a next occurrence
+    * [ ] Repetition with step == ``1`` => range
+    * [ ] Multiple expressions with at least one ``*`` (e.g. ``1-5,*,20-30/9``) => ``*``
+    * [ ] Overlapping ranges (or repeats with same step) => Single range (or repeat with same step)
+    * [ ] Identical ranges with multiple steps (``*/4,*/2``) => ``*/2``~
+    * [ ] Out of access ranges (``0 0 2-7/2 31 *`` => 31st of every even month until July)
+  3. [ ] Generator (related to previous; reverts a ``CronExpression`` to a ``String``)
+  4. [ ] Descriptor (describes a CRON in natural language; low priority)
+  5. [ ] Split into ``crontab4j-core`` and ``crontab4j-utils`` to reduce footprint if need be
 
 [1]: http://img.shields.io/travis/cyChop/crontab4j/master.svg
 [2]: https://travis-ci.org/cyChop/crontab4j

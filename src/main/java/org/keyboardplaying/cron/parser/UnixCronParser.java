@@ -29,8 +29,6 @@ import org.keyboardplaying.cron.parser.adapter.NoChangeAdapter;
  */
 // TODO Javadoc
 // TODO optimization: adapt day constraint according to expression
-// FIXME mon-sun (case insensitive)
-// FIXME jan-dec (case insensitive)
 // FIXME special strings
 public class UnixCronParser implements CronSyntacticParser {
 
@@ -46,9 +44,19 @@ public class UnixCronParser implements CronSyntacticParser {
         // day of month
         DAY_OF_MONTH("3[0-1]|[1-2]?\\d", 1, 31),
         // month
-        MONTH("1[0-2]|\\d", 1, 12, new MonthRangeAdapter(UNIX_JANUARY)),
+        MONTH("1[0-2]|\\d", 1, 12, MonthName.values(), new MonthRangeAdapter(UNIX_JANUARY)) {
+            @Override
+            public CronRule parse(Matcher matcher) {
+                return parse(matcher, MonthName.values());
+            }
+        },
         // day of week
-        DAY_OF_WEEK("[0-7]", 0, 7, new DayOfWeekRangeAdapter(UNIX_SUNDAY));
+        DAY_OF_WEEK("[0-7]", 0, 7, DayOfWeekName.values(), new DayOfWeekRangeAdapter(UNIX_SUNDAY)) {
+            @Override
+            public CronRule parse(Matcher matcher) {
+                return parse(matcher, DayOfWeekName.values());
+            }
+        };
 
         private String pattern;
         private int min;
@@ -56,11 +64,12 @@ public class UnixCronParser implements CronSyntacticParser {
         private AtomicRangeAdapter adapter;
 
         private UnixCronGroup(String rangePattern, int min, int max) {
-            this(rangePattern, min, max, NO_CHANGE_ADAPTER);
+            this(rangePattern, min, max, null, NO_CHANGE_ADAPTER);
         }
 
-        private UnixCronGroup(String rangePattern, int min, int max, AtomicRangeAdapter adapter) {
-            this.pattern = CronRegexUtils.initGroupPattern(rangePattern);
+        private UnixCronGroup(String rangePattern, int min, int max, CronElementName[] names,
+                AtomicRangeAdapter adapter) {
+            this.pattern = CronRegexUtils.initGroupPattern(rangePattern, names);
             this.min = min;
             this.max = max;
             this.adapter = adapter;
@@ -86,6 +95,38 @@ public class UnixCronParser implements CronSyntacticParser {
             return CronRegexUtils.parseGroup(matcher.group(1 + ordinal() * NB_GROUPS_REPEAT),
                     PATTERN_REPEAT_SEP, this);
         }
+
+        protected CronRule parse(Matcher matcher, CronElementName[] names) {
+            String group = matcher.group(1 + ordinal() * NB_GROUPS_REPEAT).toUpperCase();
+            for (CronElementName name : names) {
+                group = group.replaceAll(name.getName(), String.valueOf(name.getReplacement()));
+            }
+            return CronRegexUtils.parseGroup(group, PATTERN_REPEAT_SEP, this);
+        }
+    }
+
+    private static enum MonthName implements CronElementName {
+        JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC;
+
+        public String getName() {
+            return name();
+        }
+
+        public int getReplacement() {
+            return ordinal() + UNIX_JANUARY;
+        }
+    }
+
+    private static enum DayOfWeekName implements CronElementName {
+        SUN, MON, TUE, WED, THU, FRI, SAT;
+
+        public String getName() {
+            return name();
+        }
+
+        public int getReplacement() {
+            return ordinal() + UNIX_SUNDAY;
+        }
     }
 
     private static final CronRule SECOND = new SingleValueRule(0);
@@ -103,6 +144,8 @@ public class UnixCronParser implements CronSyntacticParser {
      */
     @Override
     public boolean isValid(String cron) {
+        // TODO finer validation:
+        // - ranges are correct (min-max, not max-min)
         return cron != null && cron.matches(PATTERN_CRON);
     }
 
@@ -115,7 +158,8 @@ public class UnixCronParser implements CronSyntacticParser {
     public CronExpression parse(String cron) throws InvalidCronException {
         Objects.requireNonNull(cron, "cron expression cannot be null.");
 
-        Matcher matcher = Pattern.compile(PATTERN_CRON).matcher(cron.trim());
+        Matcher matcher = Pattern.compile(PATTERN_CRON, Pattern.CASE_INSENSITIVE)
+                .matcher(cron.trim());
         if (!matcher.matches()) {
             throw new InvalidCronException(cron);
         } else {

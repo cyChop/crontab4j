@@ -44,6 +44,7 @@ public interface CronSyntacticParser {
      */
     CronExpression parse(String cron) throws InvalidCronException;
 
+    // TODO Javadoc
     static interface CronGroup {
 
         String getRangePattern();
@@ -55,15 +56,32 @@ public interface CronSyntacticParser {
         AtomicRangeAdapter getAdapter();
     }
 
+    static interface CronElementName {
+
+        String getName();
+
+        int getReplacement();
+    }
+
     static final class CronRegexUtils {
 
         /** Private constructor to avoid instantiation. */
         private CronRegexUtils() {
         }
 
-        public static String initGroupPattern(String rangePattern) {
-            return "(?:\\*|(" + rangePattern + ")(?:-(" + rangePattern + "))?)(?:/(" + rangePattern
-                    + "))?";
+        public static String initGroupPattern(String rangePattern, CronElementName[] names) {
+            String allowedNames;
+            if (names == null || names.length == 0) {
+                allowedNames = "";
+            } else {
+                StringBuilder sb = new StringBuilder();
+                for (CronElementName name : names) {
+                    sb.append('|').append(name.getName());
+                }
+                allowedNames = sb.toString();
+            }
+            return "(?:\\*|(" + rangePattern + allowedNames + ")(?:-(" + rangePattern + allowedNames
+                    + "))?)(?:/(" + rangePattern + "))?";
         }
 
         public static String initCronPattern(String sep, CronGroup[] atomicGroups) {

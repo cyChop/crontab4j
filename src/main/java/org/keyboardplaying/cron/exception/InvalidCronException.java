@@ -20,6 +20,7 @@ public class InvalidCronException extends Exception {
      */
     public InvalidCronException(String cron) {
         super();
+        this.cron = cron;
     }
 
     /**

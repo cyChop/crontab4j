@@ -141,9 +141,10 @@ public class CronComputerTest {
     public void testBothOrDayConstraints() throws ParseException {
         CronRule any = new AnyValueRule();
         CronRule zero = new SingleValueRule(0);
-        CronExpression expr = CronExpression.Builder.create().set(Field.SECOND, zero)
-                .set(Field.MINUTE, zero).set(Field.HOUR, zero)
-                .set(Field.DAY_OF_MONTH, new RepeatRule(1, 31, 10)).set(Field.MONTH, any)
+        CronExpression expr;
+        expr = CronExpression.Builder.create().set(Field.SECOND, zero).set(Field.MINUTE, zero)
+                .set(Field.HOUR, zero).set(Field.DAY_OF_MONTH, new RepeatRule(1, 31, 10))
+                .set(Field.MONTH, any)
                 .set(Field.DAY_OF_WEEK, new RangeRule(Calendar.MONDAY, Calendar.FRIDAY))
                 .set(Field.YEAR, new RangeRule(1970, 2015)).set(DayConstraint.BOTH_OR).build();
 
@@ -152,6 +153,15 @@ public class CronComputerTest {
         assertCalEquals("2015-02-21T00:00:00", expr, "2015-02-20T13:37:00");
         assertCalEquals("2015-02-23T00:00:00", expr, "2015-02-21T00:00:00");
         assertCalEquals(null, expr, "2015-12-31T00:00:00");
+
+        // special case for null day of week
+        expr = CronExpression.Builder.create().set(Field.SECOND, zero).set(Field.MINUTE, zero)
+                .set(Field.HOUR, zero).set(Field.DAY_OF_MONTH, new RepeatRule(1, 31, 10))
+                .set(Field.MONTH, any)
+                .set(Field.DAY_OF_WEEK, new RangeRule(Calendar.MONDAY, Calendar.WEDNESDAY))
+                .set(Field.YEAR, new RangeRule(1970, 2015)).set(DayConstraint.BOTH_OR).build();
+
+        assertCalEquals("2015-12-31T00:00:00", expr, "2015-12-30T00:00:00");
     }
 
     /**
