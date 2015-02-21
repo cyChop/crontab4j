@@ -10,8 +10,8 @@ import org.keyboardplaying.cron.expression.rule.RepeatRule;
 import org.keyboardplaying.cron.expression.rule.SingleValueRule;
 
 /**
- * Common implementation of {@link RangeAdapter} to shift the range rules in order to match
- * the default values of crontab4j implementation.
+ * Common implementation of {@link RangeAdapter} to shift the range rules in order to match the
+ * default values of crontab4j implementation.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
@@ -42,9 +42,8 @@ public abstract class ShiftRangeAdapter implements RangeAdapter {
 
     /*
      * (non-Javadoc)
-     *
-     * @see
-     * org.keyboardplaying.cron.parser.RangeAdapter#adapt(org.keyboardplaying.cron.expression
+     * 
+     * @see org.keyboardplaying.cron.parser.RangeAdapter#adapt(org.keyboardplaying.cron.expression
      * .rule.SingleValueRule)
      */
     @Override
@@ -54,9 +53,8 @@ public abstract class ShiftRangeAdapter implements RangeAdapter {
 
     /*
      * (non-Javadoc)
-     *
-     * @see
-     * org.keyboardplaying.cron.parser.RangeAdapter#adapt(org.keyboardplaying.cron.expression
+     * 
+     * @see org.keyboardplaying.cron.parser.RangeAdapter#adapt(org.keyboardplaying.cron.expression
      * .rule.RangeRule)
      */
     @Override
@@ -77,9 +75,8 @@ public abstract class ShiftRangeAdapter implements RangeAdapter {
 
     /*
      * (non-Javadoc)
-     *
-     * @see
-     * org.keyboardplaying.cron.parser.RangeAdapter#adapt(org.keyboardplaying.cron.expression
+     * 
+     * @see org.keyboardplaying.cron.parser.RangeAdapter#adapt(org.keyboardplaying.cron.expression
      * .rule.RepeatRule)
      */
     @Override

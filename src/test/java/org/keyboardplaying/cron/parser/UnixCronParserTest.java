@@ -46,8 +46,8 @@ public class UnixCronParserTest {
     }
 
     /**
-     * Ensures the parser fails with a {@link UnsupportedCronException} if the supplied expression does
-     * not match the validation regex.
+     * Ensures the parser fails with a {@link UnsupportedCronException} if the supplied expression
+     * does not match the validation regex.
      */
     @Test
     public void testParseInvalid() throws UnsupportedCronException {

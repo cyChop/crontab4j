@@ -154,8 +154,8 @@ public interface CronSyntacticParser {
                 }
                 allowedNames = sb.toString();
             }
-            return "(?:\\*|(" + rangePattern + allowedNames + ")(?:-(" + rangePattern + allowedNames
-                    + "))?)(?:/(" + rangePattern + "))?";
+            return "(?:\\*|(" + rangePattern + allowedNames + ")(?:-(" + rangePattern
+                    + allowedNames + "))?)(?:/(" + rangePattern + "))?";
         }
 
         /**
@@ -222,17 +222,18 @@ public interface CronSyntacticParser {
                         result = group.getAdapter().adapt(
                                 new SingleValueRule(Integer.parseInt(min)));
                     } else {
-                        result = group.getAdapter().adapt(new RangeRule(Integer.parseInt(min),
-                                Integer.parseInt(max)));
+                        result = group.getAdapter().adapt(
+                                new RangeRule(Integer.parseInt(min), Integer.parseInt(max)));
                     }
                 } else if (min == null) {
-                    result = group.getAdapter().adapt(new RepeatRule(group.getMin(), group.getMax(),
-                            Integer.parseInt(step)));
+                    result = group.getAdapter().adapt(
+                            new RepeatRule(group.getMin(), group.getMax(), Integer.parseInt(step)));
                 } else if (max == null) {
                     result = group.getAdapter().adapt(new SingleValueRule(Integer.parseInt(min)));
                 } else {
-                    result = group.getAdapter().adapt(new RepeatRule(Integer.parseInt(min), Integer
-                            .parseInt(max), Integer.parseInt(step)));
+                    result = group.getAdapter().adapt(
+                            new RepeatRule(Integer.parseInt(min), Integer.parseInt(max), Integer
+                                    .parseInt(step)));
                 }
             }
             return result;

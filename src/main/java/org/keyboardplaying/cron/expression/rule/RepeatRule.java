@@ -45,7 +45,7 @@ public class RepeatRule extends RangeRule {
 
     /*
      * (non-Javadoc)
-     *
+     * 
      * @see org.keyboardplaying.cron.expression.rule.CronRule.allows(int)
      */
     @Override

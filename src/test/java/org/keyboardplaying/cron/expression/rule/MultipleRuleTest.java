@@ -24,7 +24,7 @@ public class MultipleRuleTest {
         assertEquals(45, rule.getMax());
 
         CronRule withAnyRule = new MultipleRule(new RepeatRule(0, 10, 2), new SingleValueRule(15),
-            new AnyValueRule());
+                new AnyValueRule());
         assertFalse(withAnyRule.hasMax());
         assertEquals(Integer.MAX_VALUE, withAnyRule.getMax());
     }

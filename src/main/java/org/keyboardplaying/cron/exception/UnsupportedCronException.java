@@ -39,12 +39,12 @@ public class UnsupportedCronException extends Exception {
     /**
      * Returns {@code true} if the CRON is valid according to the parser, {@code false} otherwise.
      * <p/>
-     * A valid CRON may not be supported because of the complexity of implementing its
-     * triggering in the scheduler.
+     * A valid CRON may not be supported because of the complexity of implementing its triggering in
+     * the scheduler.
      *
      * @return {@code true} if the CRON is valid, {@code false} otherwise
      */
-     public boolean isValid() {
-         return valid;
-     }
+    public boolean isValid() {
+        return valid;
+    }
 }

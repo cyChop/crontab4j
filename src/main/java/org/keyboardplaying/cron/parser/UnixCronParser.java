@@ -13,10 +13,10 @@ import org.keyboardplaying.cron.expression.CronExpression.Field;
 import org.keyboardplaying.cron.expression.rule.AnyValueRule;
 import org.keyboardplaying.cron.expression.rule.CronRule;
 import org.keyboardplaying.cron.expression.rule.SingleValueRule;
-import org.keyboardplaying.cron.parser.adapter.RangeAdapter;
 import org.keyboardplaying.cron.parser.adapter.DayOfWeekRangeAdapter;
 import org.keyboardplaying.cron.parser.adapter.MonthRangeAdapter;
 import org.keyboardplaying.cron.parser.adapter.NoChangeAdapter;
+import org.keyboardplaying.cron.parser.adapter.RangeAdapter;
 
 /**
  * A parser for Unix CRON expressions.
@@ -29,7 +29,6 @@ import org.keyboardplaying.cron.parser.adapter.NoChangeAdapter;
  */
 // TODO Javadoc
 // TODO optimization: adapt day constraint according to expression
-// FIXME special strings
 public class UnixCronParser implements CronSyntacticParser {
 
     private static final RangeAdapter NO_CHANGE_ADAPTER = new NoChangeAdapter();
@@ -44,8 +43,9 @@ public class UnixCronParser implements CronSyntacticParser {
             public String getEquivalent() throws UnsupportedCronException {
                 throw new UnsupportedCronException(getExpression(), true);
             }
-        }, yearly("0 0 1 1 *"), annually("0 0 1 1 *"), monthly("0 0 1 * *"), weekly("0 0 * * 0"),
-        daily("0 0 * * *"), midnight("0 0 * * *"), hourly("0 * * * *");
+        },
+        yearly("0 0 1 1 *"), annually("0 0 1 1 *"), monthly("0 0 1 * *"), weekly("0 0 * * 0"), daily(
+                "0 0 * * *"), midnight("0 0 * * *"), hourly("0 * * * *");
 
         private String equivalent;
 
@@ -101,29 +101,35 @@ public class UnixCronParser implements CronSyntacticParser {
             this.adapter = adapter;
         }
 
+        @Override
         public String getRangePattern() {
             return pattern;
         }
 
+        @Override
         public int getMin() {
             return min;
         }
 
+        @Override
         public int getMax() {
             return max;
         }
 
+        @Override
         public RangeAdapter getAdapter() {
             return adapter;
         }
 
         public CronRule parse(Matcher matcher) {
-            return CronRegexUtils.parseGroup(matcher.group(
-                    NB_GROUPS_BASE + ordinal() * NB_GROUPS_REPEAT), PATTERN_REPEAT_SEP, this);
+            return CronRegexUtils.parseGroup(
+                    matcher.group(NB_GROUPS_BASE + ordinal() * NB_GROUPS_REPEAT),
+                    PATTERN_REPEAT_SEP, this);
         }
 
         protected CronRule parse(Matcher matcher, CronAlias[] aliases) {
-            String group = matcher.group(NB_GROUPS_BASE + ordinal() * NB_GROUPS_REPEAT).toUpperCase();
+            String group = matcher.group(NB_GROUPS_BASE + ordinal() * NB_GROUPS_REPEAT)
+                    .toUpperCase();
             for (CronAlias alias : aliases) {
                 group = group.replaceAll(alias.getAlias(), String.valueOf(alias.getValue()));
             }
@@ -178,6 +184,7 @@ public class UnixCronParser implements CronSyntacticParser {
         }
         return sb.toString();
     }
+
     /*
      * (non-Javadoc)
      *
@@ -202,13 +209,12 @@ public class UnixCronParser implements CronSyntacticParser {
         if (!cron.matches(PATTERN_CRON)) {
             throw new UnsupportedCronException(cron, false);
         } else {
-            String toParse = cron.startsWith(SPECIAL_EXP_KEY)
-                    ? SpecialExpression.valueOf(cron.substring(1)).getEquivalent() : cron;
+            String toParse = cron.startsWith(SPECIAL_EXP_KEY) ? SpecialExpression.valueOf(
+                    cron.substring(1)).getEquivalent() : cron;
             Matcher matcher = Pattern.compile(PATTERN_CRON).matcher(toParse);
             matcher.find();
 
-            return CronExpression.Builder.create()
-                    .set(DayConstraint.BOTH_OR)
+            return CronExpression.Builder.create().set(DayConstraint.BOTH_OR)
                     .set(Field.SECOND, SECOND)
                     .set(Field.MINUTE, UnixCronGroup.MINUTE.parse(matcher))
                     .set(Field.HOUR, UnixCronGroup.HOUR.parse(matcher))

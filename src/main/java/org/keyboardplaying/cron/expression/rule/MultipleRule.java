@@ -38,7 +38,7 @@ public class MultipleRule implements CronRule {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.keyboardplaying.cron.expression.rule.CronRule.hasMax()
      */
     @Override
@@ -53,7 +53,7 @@ public class MultipleRule implements CronRule {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.keyboardplaying.cron.expression.rule.CronRule.getMax()
      */
     @Override

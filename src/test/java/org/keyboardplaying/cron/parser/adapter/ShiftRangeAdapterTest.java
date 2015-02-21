@@ -86,8 +86,8 @@ public class ShiftRangeAdapterTest {
     }
 
     /**
-     * Tests the adaptation of a {@link RangeValueRule} in case it requires more complex
-     * processing (limits overlapping).
+     * Tests the adaptation of a {@link RangeValueRule} in case it requires more complex processing
+     * (limits overlapping).
      */
     @Test
     public void testRepeatComplexAdaptation() {
