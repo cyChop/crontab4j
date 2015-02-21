@@ -1,4 +1,4 @@
-package org.keyboardplaying.cron.scheduler;
+package org.keyboardplaying.cron.computer;
 
 import java.util.Calendar;
 
@@ -8,7 +8,7 @@ import org.keyboardplaying.cron.expression.rule.CronRule;
 
 // TODO Javadoc
 // package-restricted
-enum FieldComputer {
+enum PredictorField {
 
     //
     YEAR(Field.YEAR, Calendar.YEAR, 1970, 9999),
@@ -122,10 +122,10 @@ enum FieldComputer {
     private Field cronField;
     private FieldShifter shifter;
 
-    private FieldComputer() {
+    private PredictorField() {
     }
 
-    private FieldComputer(Field cronField, int calendarField, int min, int max) {
+    private PredictorField(Field cronField, int calendarField, int min, int max) {
         this.cronField = cronField;
         this.shifter = new FieldShifter(calendarField, min, max, ordinal());
     }

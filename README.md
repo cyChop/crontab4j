@@ -34,24 +34,36 @@ possible, and therefore used ``java.util.Calendar`` instead.
 
 ## TODO
 
-### V1.0 - The basic needs
+### V0.1 - The basic needs
 
   1. [x] Cron expression
   2. [x] Validator/Parser (parses CRON into POJO; v1.0: Regex and Unix-like CRONs only)
-  3. [x] Computer (computes next occurrence)
+  3. [x] Predictor (computes next occurrence)
     * [ ] test multiple rules
   4. [ ] Scheduler
+    * [ ] Java instantiation
+    * [ ] Daemon on/off
+    * [ ] Concurrent
+
+### V1.0 - Available for release
+
+  1. [ ] Scheduler ameliorations
+    * [ ] Spring instantiation
+  2. [ ] Documentation
 
 ### V2.0 - Changing parsing engine
 
   1. [ ] Test rewriting engine in Antlr (using a grammar has advantages in terms of readibility,
 scalibility and maintenance)
-  2. [ ] Compare performances/footprint and retain overall best version
+  2. [ ] Rewrite the Scheduler to skip the use of Java's timer and focus on the essentials
+  3. [ ] Compare performances/footprint and retain overall best version
+  4. [ ] Review documentation
 
 ### V2.1 - Additional syntaxes
 
   1. [ ] cron4j
   2. [ ] Quartz
+  3. [ ] Review documentation
 
 ### V3.0 - The utilities
 
@@ -68,6 +80,7 @@ scalibility and maintenance)
   3. [ ] Generator (related to previous; reverts a ``CronExpression`` to a ``String``)
   4. [ ] Descriptor (describes a CRON in natural language; low priority)
   5. [ ] Split into ``crontab4j-core`` and ``crontab4j-utils`` to reduce footprint if need be
+  6. [ ] Review documentation
 
 [1]: http://img.shields.io/travis/cyChop/crontab4j/master.svg
 [2]: https://travis-ci.org/cyChop/crontab4j

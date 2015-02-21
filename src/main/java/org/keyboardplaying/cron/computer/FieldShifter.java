@@ -1,4 +1,4 @@
-package org.keyboardplaying.cron.scheduler;
+package org.keyboardplaying.cron.computer;
 
 import java.util.Calendar;
 
@@ -62,7 +62,7 @@ class FieldShifter {
             // no upper, no possible result
             return null;
         } else {
-            return FieldComputer.values()[ordinal - 1].shift(cal, expr);
+            return PredictorField.values()[ordinal - 1].shift(cal, expr);
         }
     }
 
@@ -71,7 +71,7 @@ class FieldShifter {
     }
 
     protected final Calendar resetLowers(Calendar cal) {
-        FieldComputer[] values = FieldComputer.values();
+        PredictorField[] values = PredictorField.values();
         for (int i = ordinal + 1; i < values.length; i++) {
             values[i].reset(cal);
         }

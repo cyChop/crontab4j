@@ -1,4 +1,4 @@
-package org.keyboardplaying.cron.scheduler;
+package org.keyboardplaying.cron.predictor;
 
 import static org.junit.Assert.fail;
 
@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Objects;
 
 import org.junit.Test;
+import org.keyboardplaying.cron.computer.CronPredictor;
 import org.keyboardplaying.cron.expression.CronExpression;
 import org.keyboardplaying.cron.expression.CronExpression.DayConstraint;
 import org.keyboardplaying.cron.expression.CronExpression.Field;
@@ -19,14 +20,14 @@ import org.keyboardplaying.cron.expression.rule.RepeatRule;
 import org.keyboardplaying.cron.expression.rule.SingleValueRule;
 
 /**
- * Tests the {@link CronComputer}.
+ * Tests the {@link CronPredictor}.
  *
  * @author Cyrille Chopelet
  */
 // TODO test expressions with MultipleRule
-public class CronComputerTest {
+public class CronPredictorTest {
 
-    private CronComputer cpu = new CronComputer();
+    private CronPredictor cpu = new CronPredictor();
     private DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     /** Ensures the computer throws an exception if the supplied {@link CronExpression} is null. */

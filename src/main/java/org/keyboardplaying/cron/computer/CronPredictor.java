@@ -1,4 +1,4 @@
-package org.keyboardplaying.cron.scheduler;
+package org.keyboardplaying.cron.computer;
 
 import java.util.Calendar;
 import java.util.Objects;
@@ -11,7 +11,7 @@ import org.keyboardplaying.cron.expression.CronExpression;
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public class CronComputer {
+public class CronPredictor {
 
     /**
      * Returns the next time the CRON expression will be triggered.
@@ -56,7 +56,7 @@ public class CronComputer {
         next.set(Calendar.MILLISECOND, 0);
         next.add(Calendar.SECOND, 1);
 
-        for (FieldComputer computer : FieldComputer.values()) {
+        for (PredictorField computer : PredictorField.values()) {
             if (!computer.allows(next, expr)) {
                 next = computer.shift(next, expr);
                 if (next == null) {
