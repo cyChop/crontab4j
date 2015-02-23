@@ -24,7 +24,6 @@ import org.keyboardplaying.cron.expression.rule.SingleValueRule;
  *
  * @author Cyrille Chopelet
  */
-// TODO test expressions with MultipleRule
 public class CronPredictorTest {
 
     private CronPredictor cpu = new CronPredictor();

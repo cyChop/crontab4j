@@ -39,10 +39,8 @@ possible, and therefore used ``java.util.Calendar`` instead.
   1. [x] Cron expression
   2. [x] Validator/Parser (parses CRON into POJO; v1.0: Regex and Unix-like CRONs only)
   3. [x] Predictor (computes next occurrence)
-    * [ ] test multiple rules
-  4. [ ] Scheduler
-    * [ ] Java instantiation
-    * [ ] Daemon on/off
+  4. [x] Scheduler
+  5. [ ] Cleaning, Javadoc
 
 ### V0.2 - Changing the parsing engine
 
