@@ -9,7 +9,7 @@ import java.util.Calendar;
 import java.util.Objects;
 
 import org.junit.Test;
-import org.keyboardplaying.cron.computer.CronPredictor;
+import org.keyboardplaying.cron.predictor.CronPredictor;
 import org.keyboardplaying.cron.expression.CronExpression;
 import org.keyboardplaying.cron.expression.CronExpression.DayConstraint;
 import org.keyboardplaying.cron.expression.CronExpression.Field;

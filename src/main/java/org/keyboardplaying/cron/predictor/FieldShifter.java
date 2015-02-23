@@ -1,4 +1,4 @@
-package org.keyboardplaying.cron.computer;
+package org.keyboardplaying.cron.predictor;
 
 import java.util.Calendar;
 

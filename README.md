@@ -43,29 +43,29 @@ possible, and therefore used ``java.util.Calendar`` instead.
   4. [ ] Scheduler
     * [ ] Java instantiation
     * [ ] Daemon on/off
-    * [ ] Concurrent
+
+### V0.2 - Changing the parsing engine
+
+  1. [ ] Test rewriting engine in Antlr (using a grammar has advantages in terms of readibility,
+scalibility and maintenance)
+  2. [ ] Compare performances/footprint and retain overall best version
+  3. [ ] Scheduler enhancement
+    * [ ] Concurrence management (per job!)
 
 ### V1.0 - Available for release
 
   1. [ ] Scheduler ameliorations
     * [ ] Spring instantiation
+    * [ ] Study how to skip the use of Java's timer and focus on the essentials
   2. [ ] Documentation
 
-### V2.0 - Changing parsing engine
-
-  1. [ ] Test rewriting engine in Antlr (using a grammar has advantages in terms of readibility,
-scalibility and maintenance)
-  2. [ ] Rewrite the Scheduler to skip the use of Java's timer and focus on the essentials
-  3. [ ] Compare performances/footprint and retain overall best version
-  4. [ ] Review documentation
-
-### V2.1 - Additional syntaxes
+### V1.1 - Additional syntaxes
 
   1. [ ] cron4j
   2. [ ] Quartz
   3. [ ] Review documentation
 
-### V3.0 - The utilities
+### V2.0 - The utilities
 
   1. [ ] Enhancements
     * [ ] Ensure min < max in ranges when validating/parsing
