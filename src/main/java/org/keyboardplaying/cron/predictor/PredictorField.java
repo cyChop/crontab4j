@@ -19,8 +19,8 @@ enum PredictorField {
 
         private FieldShifter dowShifter = new FieldShifter(Calendar.DAY_OF_WEEK, 1, 7, ordinal()) {
             @Override
-            public Calendar shift(Calendar cal, CronExpression expr, Field exprField) {
-                CronRule rule = expr.get(exprField);
+            public Calendar shift(Calendar cal, CronExpression cron, Field exprField) {
+                CronRule rule = cron.get(exprField);
                 Calendar next = resetLowers((Calendar) cal.clone());
 
                 // at most 7 iterations
@@ -29,12 +29,12 @@ enum PredictorField {
                 } while (!rule.allows(next.get(Calendar.DAY_OF_WEEK)));
 
                 // The month may have shifted, ensure the constraints are still OK
-                if (next.get(Calendar.MONTH) != cal.get(Calendar.MONTH) && !MONTH.allows(next, expr)
+                if (next.get(Calendar.MONTH) != cal.get(Calendar.MONTH) && !MONTH.allows(next, cron)
                         || next.get(Calendar.YEAR) != cal.get(Calendar.YEAR)
-                        && !YEAR.allows(next, expr)) {
-                    next = shiftUpper(cal, expr);
-                    if (next != null && !allowsField(next, expr, Field.DAY_OF_WEEK)) {
-                        next = shift(next, expr, exprField);
+                        && !YEAR.allows(next, cron)) {
+                    next = shiftUpper(cal, cron);
+                    if (next != null && !allowsField(next, cron, Field.DAY_OF_WEEK)) {
+                        next = shift(next, cron, exprField);
                     }
                 }
                 return next;
@@ -56,28 +56,28 @@ enum PredictorField {
 
         // FIXME Test if correct with all types of day constraint
         @Override
-        public boolean allows(Calendar cal, CronExpression expr) {
-            return domShifter.allowsField(cal, expr, Field.DAY_OF_MONTH)
-                    && dowShifter.allowsField(cal, expr, Field.DAY_OF_WEEK);
+        public boolean allows(Calendar cal, CronExpression cron) {
+            return domShifter.allowsField(cal, cron, Field.DAY_OF_MONTH)
+                    && dowShifter.allowsField(cal, cron, Field.DAY_OF_WEEK);
         }
 
         @Override
-        public Calendar shift(Calendar cal, CronExpression expr) {
+        public Calendar shift(Calendar cal, CronExpression cron) {
             Calendar next = null;
-            switch (expr.getDayConstraint()) {
+            switch (cron.getDayConstraint()) {
 
             case NONE:
             case MONTH:
-                next = shiftDayOfMonth(cal, expr);
+                next = shiftDayOfMonth(cal, cron);
                 break;
 
             case WEEK:
-                next = shiftDayOfWeek(cal, expr);
+                next = shiftDayOfWeek(cal, cron);
                 break;
 
             case BOTH_OR:
-                Calendar domNext = shiftDayOfMonth((Calendar) cal.clone(), expr);
-                Calendar dowNext = shiftDayOfWeek((Calendar) cal.clone(), expr);
+                Calendar domNext = shiftDayOfMonth((Calendar) cal.clone(), cron);
+                Calendar dowNext = shiftDayOfWeek((Calendar) cal.clone(), cron);
 
                 if (domNext == null) {
                     next = dowNext;
@@ -90,21 +90,21 @@ enum PredictorField {
                 break;
 
             case BOTH_AND:
-                final CronRule dowRule = expr.get(Field.DAY_OF_WEEK);
+                final CronRule dowRule = cron.get(Field.DAY_OF_WEEK);
                 next = cal;
                 do {
-                    next = shiftDayOfMonth(next, expr);
+                    next = shiftDayOfMonth(next, cron);
                 } while (next != null && !dowRule.allows(next.get(Calendar.DAY_OF_WEEK)));
             }
             return next;
         }
 
-        private Calendar shiftDayOfMonth(Calendar cal, CronExpression expr) {
-            return domShifter.shift(cal, expr, Field.DAY_OF_MONTH);
+        private Calendar shiftDayOfMonth(Calendar cal, CronExpression cron) {
+            return domShifter.shift(cal, cron, Field.DAY_OF_MONTH);
         }
 
-        private Calendar shiftDayOfWeek(Calendar cal, CronExpression expr) {
-            return dowShifter.shift(cal, expr, Field.DAY_OF_WEEK);
+        private Calendar shiftDayOfWeek(Calendar cal, CronExpression cron) {
+            return dowShifter.shift(cal, cron, Field.DAY_OF_WEEK);
         }
 
         @Override
@@ -130,12 +130,12 @@ enum PredictorField {
         this.shifter = new FieldShifter(calendarField, min, max, ordinal());
     }
 
-    public boolean allows(Calendar cal, CronExpression expr) {
-        return shifter.allowsField(cal, expr, cronField);
+    public boolean allows(Calendar cal, CronExpression cron) {
+        return shifter.allowsField(cal, cron, cronField);
     }
 
-    public Calendar shift(Calendar cal, CronExpression expr) {
-        return shifter.shift(cal, expr, cronField);
+    public Calendar shift(Calendar cal, CronExpression cron) {
+        return shifter.shift(cal, cron, cronField);
     }
 
     public void reset(Calendar cal) {

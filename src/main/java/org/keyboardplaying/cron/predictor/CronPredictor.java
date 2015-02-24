@@ -18,7 +18,7 @@ public class CronPredictor {
      * <p/>
      * If the CRON will not be triggered again in the future, this method returns {@code null}.
      *
-     * @param expr
+     * @param cron
      *            the CRON expression to use to evaluate
      * @return a {@link Calendar} representing the next time the expression will be triggered, or
      *            {@code null} if no next occurrence can be found
@@ -28,8 +28,8 @@ public class CronPredictor {
      * @see #getNextOccurrence(org.keyboardplaying.cron.expression.CronExpression,
      *            java.util.Calendar)
      */
-    public Calendar getNextOccurrence(CronExpression expr) {
-        return getNextOccurrence(expr, null);
+    public Calendar getNextOccurrence(CronExpression cron) {
+        return getNextOccurrence(cron, null);
     }
 
     /**
@@ -41,15 +41,15 @@ public class CronPredictor {
      *
      * @param cal
      *            the time base for searching next occurrence
-     * @param expr
+     * @param cron
      *            the CRON expression to use to evaluate
      * @return a {@link Calendar} representing the next time the expression will be triggered, or
      *            {@code null} if no next occurrence can be found
      * @throws NullPointerException
      *            if the supplied expression is {@code null}
      */
-    public Calendar getNextOccurrence(CronExpression expr, Calendar cal) {
-        Objects.requireNonNull(expr, "A CRON must be supplied");
+    public Calendar getNextOccurrence(CronExpression cron, Calendar cal) {
+        Objects.requireNonNull(cron, "A CRON must be supplied");
 
         Calendar next = cal == null ? Calendar.getInstance() : (Calendar) cal.clone();
         // next occurrence won't be before next second
@@ -57,8 +57,8 @@ public class CronPredictor {
         next.add(Calendar.SECOND, 1);
 
         for (PredictorField computer : PredictorField.values()) {
-            if (!computer.allows(next, expr)) {
-                next = computer.shift(next, expr);
+            if (!computer.allows(next, cron)) {
+                next = computer.shift(next, cron);
                 if (next == null) {
                     return null;
                 }

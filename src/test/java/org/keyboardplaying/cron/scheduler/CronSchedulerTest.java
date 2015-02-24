@@ -18,7 +18,6 @@ import org.keyboardplaying.cron.parser.CronSyntacticParser;
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-// XXX Javadoc
 public class CronSchedulerTest {
 
     private Runnable job = new Runnable() {
@@ -31,6 +30,7 @@ public class CronSchedulerTest {
     private CronScheduler schd;
     private CountDownLatch latch;
 
+    /* Initializes the CronScheduler. */
     {
         schd = new CronScheduler();
         // Use a mock CRON parser to trigger a CRON everyy second.
@@ -56,11 +56,21 @@ public class CronSchedulerTest {
         });
     }
 
+    /** Tests the execution and recurrence of a job with a CronScheduler (2 executions). */
     @Test(timeout = 3500)
     public void testExecution() throws InterruptedException, UnsupportedCronException {
         latch = new CountDownLatch(2);
-        schd.startJob(new CronJob(job, "* * * * * *"));
+        schd.scheduleJob(new CronJob(job, "* * * * * *"));
         latch.await(3000, TimeUnit.MILLISECONDS);
         assertEquals(0, latch.getCount());
+    }
+
+    /** Ensures that {@link CronScheduler#stopAllJobs} immediately stops all awaiting executions. */
+    @Test(timeout = 500)
+    public void testTerminate() throws InterruptedException, UnsupportedCronException {
+        latch = new CountDownLatch(2);
+        schd.scheduleJob(new CronJob(job, "* * * * * *"));
+        schd.terminate();
+        assertEquals(2, latch.getCount());
     }
 }

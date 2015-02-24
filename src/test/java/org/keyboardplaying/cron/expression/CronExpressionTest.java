@@ -29,21 +29,21 @@ public class CronExpressionTest {
         CronRule weekDaysOnly = new RangeRule(1, 5);
         CronRule onlyWorkHours = new MultipleRule(new RangeRule(8, 12), new RangeRule(14, 18));
 
-        CronExpression expr = Builder.create().set(Field.SECOND, roundMinutes)
+        CronExpression cron = Builder.create().set(Field.SECOND, roundMinutes)
                 .set(Field.MINUTE, everyQuarter).set(Field.HOUR, onlyWorkHours)
                 .set(Field.DAY_OF_MONTH, any).set(Field.MONTH, any)
                 // test overwriting with DAY_OF_WEEK
                 .set(Field.DAY_OF_WEEK, any).set(Field.DAY_OF_WEEK, weekDaysOnly)
                 .set(Field.YEAR, any).set(DayConstraint.NONE).build();
 
-        assertEquals(roundMinutes, expr.get(Field.SECOND));
-        assertEquals(everyQuarter, expr.get(Field.MINUTE));
-        assertEquals(onlyWorkHours, expr.get(Field.HOUR));
-        assertEquals(any, expr.get(Field.DAY_OF_MONTH));
-        assertEquals(any, expr.get(Field.MONTH));
-        assertEquals(weekDaysOnly, expr.get(Field.DAY_OF_WEEK));
-        assertEquals(any, expr.get(Field.YEAR));
-        assertEquals(DayConstraint.NONE, expr.getDayConstraint());
+        assertEquals(roundMinutes, cron.get(Field.SECOND));
+        assertEquals(everyQuarter, cron.get(Field.MINUTE));
+        assertEquals(onlyWorkHours, cron.get(Field.HOUR));
+        assertEquals(any, cron.get(Field.DAY_OF_MONTH));
+        assertEquals(any, cron.get(Field.MONTH));
+        assertEquals(weekDaysOnly, cron.get(Field.DAY_OF_WEEK));
+        assertEquals(any, cron.get(Field.YEAR));
+        assertEquals(DayConstraint.NONE, cron.getDayConstraint());
     }
 
     /** Tests the creation of a {@link CronExpression and the setting} with a missing rule. */

@@ -42,22 +42,22 @@ public class CronPredictorTest {
     @Test
     public void testBasicCaseAndIncrements() throws ParseException {
         CronRule any = new AnyValueRule();
-        CronExpression expr = CronExpression.Builder.create()
+        CronExpression cron = CronExpression.Builder.create()
                 .set(Field.SECOND, new SingleValueRule(0)).set(Field.MINUTE, any)
                 .set(Field.HOUR, any).set(Field.DAY_OF_MONTH, any).set(Field.MONTH, any)
                 .set(Field.DAY_OF_WEEK, any).set(Field.YEAR, new RangeRule(1970, 2016))
                 .set(DayConstraint.NONE).build();
 
-        assertCalEquals("2015-02-05T13:38:00", expr, "2015-02-05T13:37:00");
-        assertCalEquals("2015-02-05T13:37:00", expr, "2015-02-05T13:36:30");
-        assertCalEquals("2015-02-05T17:00:00", expr, "2015-02-05T16:59:01");
-        assertCalEquals("2015-02-06T00:00:00", expr, "2015-02-05T23:59:02");
-        assertCalEquals("2015-03-01T00:00:00", expr, "2015-02-28T23:59:03");
-        assertCalEquals("2015-03-01T00:00:00", expr, "2015-02-28T23:59:04");
-        assertCalEquals("2015-04-01T00:00:00", expr, "2015-03-31T23:59:05");
-        assertCalEquals("2015-05-01T00:00:00", expr, "2015-04-30T23:59:06");
-        assertCalEquals("2016-01-01T00:00:00", expr, "2015-12-31T23:59:07");
-        assertCalEquals(null, expr, "2016-12-31T23:59:08");
+        assertCalEquals("2015-02-05T13:38:00", cron, "2015-02-05T13:37:00");
+        assertCalEquals("2015-02-05T13:37:00", cron, "2015-02-05T13:36:30");
+        assertCalEquals("2015-02-05T17:00:00", cron, "2015-02-05T16:59:01");
+        assertCalEquals("2015-02-06T00:00:00", cron, "2015-02-05T23:59:02");
+        assertCalEquals("2015-03-01T00:00:00", cron, "2015-02-28T23:59:03");
+        assertCalEquals("2015-03-01T00:00:00", cron, "2015-02-28T23:59:04");
+        assertCalEquals("2015-04-01T00:00:00", cron, "2015-03-31T23:59:05");
+        assertCalEquals("2015-05-01T00:00:00", cron, "2015-04-30T23:59:06");
+        assertCalEquals("2016-01-01T00:00:00", cron, "2015-12-31T23:59:07");
+        assertCalEquals(null, cron, "2016-12-31T23:59:08");
     }
 
     /**
@@ -67,17 +67,17 @@ public class CronPredictorTest {
     @Test
     public void testConstrainedIncrement() throws ParseException {
         CronRule any = new AnyValueRule();
-        CronExpression expr = CronExpression.Builder.create()
+        CronExpression cron = CronExpression.Builder.create()
                 .set(Field.SECOND, new SingleValueRule(0))
                 .set(Field.MINUTE, new SingleValueRule(37))
                 .set(Field.HOUR, new SingleValueRule(13)).set(Field.DAY_OF_MONTH, any)
                 .set(Field.MONTH, any).set(Field.DAY_OF_WEEK, any)
                 .set(Field.YEAR, new RangeRule(1970, 2015)).set(DayConstraint.NONE).build();
 
-        assertCalEquals("2015-02-05T13:37:00", expr, "2015-02-05T10:40:00");
-        assertCalEquals("2015-02-05T13:37:00", expr, "2015-02-05T13:30:00");
-        assertCalEquals("2015-02-06T13:37:00", expr, "2015-02-05T13:42:00");
-        assertCalEquals(null, expr, "2015-12-31T13:42:00");
+        assertCalEquals("2015-02-05T13:37:00", cron, "2015-02-05T10:40:00");
+        assertCalEquals("2015-02-05T13:37:00", cron, "2015-02-05T13:30:00");
+        assertCalEquals("2015-02-06T13:37:00", cron, "2015-02-05T13:42:00");
+        assertCalEquals(null, cron, "2015-12-31T13:42:00");
     }
 
     /**
@@ -88,17 +88,17 @@ public class CronPredictorTest {
     public void testDayOfMonthConstraints() throws ParseException {
         CronRule any = new AnyValueRule();
         CronRule zero = new SingleValueRule(0);
-        CronExpression expr = CronExpression.Builder.create().set(Field.SECOND, zero)
+        CronExpression cron = CronExpression.Builder.create().set(Field.SECOND, zero)
                 .set(Field.MINUTE, zero).set(Field.HOUR, zero)
                 .set(Field.DAY_OF_MONTH, new RepeatRule(1, 31, 10)).set(Field.MONTH, any)
                 .set(Field.DAY_OF_WEEK, any).set(Field.YEAR, new RangeRule(1970, 2015))
                 .set(DayConstraint.MONTH).build();
 
-        assertCalEquals("2015-02-01T00:00:00", expr, "2015-01-31T16:42:30");
-        assertCalEquals("2015-02-11T00:00:00", expr, "2015-02-01T00:00:00");
-        assertCalEquals("2015-02-21T00:00:00", expr, "2015-02-11T00:00:00");
-        assertCalEquals("2015-03-01T00:00:00", expr, "2015-02-21T00:00:00");
-        assertCalEquals(null, expr, "2015-12-31T00:00:00");
+        assertCalEquals("2015-02-01T00:00:00", cron, "2015-01-31T16:42:30");
+        assertCalEquals("2015-02-11T00:00:00", cron, "2015-02-01T00:00:00");
+        assertCalEquals("2015-02-21T00:00:00", cron, "2015-02-11T00:00:00");
+        assertCalEquals("2015-03-01T00:00:00", cron, "2015-02-21T00:00:00");
+        assertCalEquals(null, cron, "2015-12-31T00:00:00");
     }
 
     /**
@@ -109,28 +109,28 @@ public class CronPredictorTest {
     public void testDayOfWeekConstraints() throws ParseException {
         CronRule any = new AnyValueRule();
         CronRule zero = new SingleValueRule(0);
-        CronExpression expr;
+        CronExpression cron;
 
-        expr = CronExpression.Builder.create().set(Field.SECOND, zero).set(Field.MINUTE, zero)
+        cron = CronExpression.Builder.create().set(Field.SECOND, zero).set(Field.MINUTE, zero)
                 .set(Field.HOUR, zero).set(Field.DAY_OF_MONTH, any).set(Field.MONTH, any)
                 .set(Field.DAY_OF_WEEK, new RangeRule(Calendar.MONDAY, Calendar.FRIDAY))
                 .set(Field.YEAR, new RangeRule(1970, 2015)).set(DayConstraint.WEEK).build();
 
-        assertCalEquals("2015-02-02T00:00:00", expr, "2015-01-31T16:42:30");
-        assertCalEquals("2015-02-03T00:00:00", expr, "2015-02-02T00:00:00");
-        assertCalEquals("2015-02-16T00:00:00", expr, "2015-02-13T00:00:00");
-        assertCalEquals("2015-03-02T00:00:00", expr, "2015-02-28T00:00:00");
-        assertCalEquals(null, expr, "2015-12-31T00:00:00");
+        assertCalEquals("2015-02-02T00:00:00", cron, "2015-01-31T16:42:30");
+        assertCalEquals("2015-02-03T00:00:00", cron, "2015-02-02T00:00:00");
+        assertCalEquals("2015-02-16T00:00:00", cron, "2015-02-13T00:00:00");
+        assertCalEquals("2015-03-02T00:00:00", cron, "2015-02-28T00:00:00");
+        assertCalEquals(null, cron, "2015-12-31T00:00:00");
 
         // Need for testing month shifting
         // 0 0 0 ? */2 MON-FRI
-        expr = CronExpression.Builder.create().set(Field.SECOND, zero).set(Field.MINUTE, zero)
+        cron = CronExpression.Builder.create().set(Field.SECOND, zero).set(Field.MINUTE, zero)
                 .set(Field.HOUR, zero).set(Field.DAY_OF_MONTH, any)
                 .set(Field.MONTH, new RepeatRule(Calendar.JANUARY, Calendar.DECEMBER, 2))
                 .set(Field.DAY_OF_WEEK, new RangeRule(Calendar.MONDAY, Calendar.FRIDAY))
                 .set(Field.YEAR, any).set(DayConstraint.WEEK).build();
 
-        assertCalEquals("2015-03-02T00:00:00", expr, "2015-01-31T00:00:00");
+        assertCalEquals("2015-03-02T00:00:00", cron, "2015-01-31T00:00:00");
     }
 
     /**
@@ -141,27 +141,27 @@ public class CronPredictorTest {
     public void testBothOrDayConstraints() throws ParseException {
         CronRule any = new AnyValueRule();
         CronRule zero = new SingleValueRule(0);
-        CronExpression expr;
-        expr = CronExpression.Builder.create().set(Field.SECOND, zero).set(Field.MINUTE, zero)
+        CronExpression cron;
+        cron = CronExpression.Builder.create().set(Field.SECOND, zero).set(Field.MINUTE, zero)
                 .set(Field.HOUR, zero).set(Field.DAY_OF_MONTH, new RepeatRule(1, 31, 10))
                 .set(Field.MONTH, any)
                 .set(Field.DAY_OF_WEEK, new RangeRule(Calendar.MONDAY, Calendar.FRIDAY))
                 .set(Field.YEAR, new RangeRule(1970, 2015)).set(DayConstraint.BOTH_OR).build();
 
-        assertCalEquals("2015-02-01T00:00:00", expr, "2015-01-31T16:42:30");
-        assertCalEquals("2015-02-02T00:00:00", expr, "2015-02-01T00:00:00");
-        assertCalEquals("2015-02-21T00:00:00", expr, "2015-02-20T13:37:00");
-        assertCalEquals("2015-02-23T00:00:00", expr, "2015-02-21T00:00:00");
-        assertCalEquals(null, expr, "2015-12-31T00:00:00");
+        assertCalEquals("2015-02-01T00:00:00", cron, "2015-01-31T16:42:30");
+        assertCalEquals("2015-02-02T00:00:00", cron, "2015-02-01T00:00:00");
+        assertCalEquals("2015-02-21T00:00:00", cron, "2015-02-20T13:37:00");
+        assertCalEquals("2015-02-23T00:00:00", cron, "2015-02-21T00:00:00");
+        assertCalEquals(null, cron, "2015-12-31T00:00:00");
 
         // special case for null day of week
-        expr = CronExpression.Builder.create().set(Field.SECOND, zero).set(Field.MINUTE, zero)
+        cron = CronExpression.Builder.create().set(Field.SECOND, zero).set(Field.MINUTE, zero)
                 .set(Field.HOUR, zero).set(Field.DAY_OF_MONTH, new RepeatRule(1, 31, 10))
                 .set(Field.MONTH, any)
                 .set(Field.DAY_OF_WEEK, new RangeRule(Calendar.MONDAY, Calendar.WEDNESDAY))
                 .set(Field.YEAR, new RangeRule(1970, 2015)).set(DayConstraint.BOTH_OR).build();
 
-        assertCalEquals("2015-12-31T00:00:00", expr, "2015-12-30T00:00:00");
+        assertCalEquals("2015-12-31T00:00:00", cron, "2015-12-30T00:00:00");
     }
 
     /**
@@ -172,17 +172,17 @@ public class CronPredictorTest {
     public void testBothAndDayConstraints() throws ParseException {
         CronRule any = new AnyValueRule();
         CronRule zero = new SingleValueRule(0);
-        CronExpression expr = CronExpression.Builder.create().set(Field.SECOND, zero)
+        CronExpression cron = CronExpression.Builder.create().set(Field.SECOND, zero)
                 .set(Field.MINUTE, zero).set(Field.HOUR, zero)
                 .set(Field.DAY_OF_MONTH, new RepeatRule(1, 31, 10)).set(Field.MONTH, any)
                 .set(Field.DAY_OF_WEEK, new RangeRule(Calendar.MONDAY, Calendar.FRIDAY))
                 .set(Field.YEAR, new RangeRule(1970, 2015)).set(DayConstraint.BOTH_AND).build();
 
-        assertCalEquals("2015-02-11T00:00:00", expr, "2015-01-31T16:42:30");
-        assertCalEquals("2015-02-11T00:00:00", expr, "2015-02-01T00:00:00");
-        assertCalEquals("2015-03-11T00:00:00", expr, "2015-02-20T13:37:00");
-        assertCalEquals("2015-03-31T00:00:00", expr, "2015-03-11T00:00:00");
-        assertCalEquals(null, expr, "2015-12-31T00:00:00");
+        assertCalEquals("2015-02-11T00:00:00", cron, "2015-01-31T16:42:30");
+        assertCalEquals("2015-02-11T00:00:00", cron, "2015-02-01T00:00:00");
+        assertCalEquals("2015-03-11T00:00:00", cron, "2015-02-20T13:37:00");
+        assertCalEquals("2015-03-31T00:00:00", cron, "2015-03-11T00:00:00");
+        assertCalEquals(null, cron, "2015-12-31T00:00:00");
     }
 
     /**
@@ -193,33 +193,33 @@ public class CronPredictorTest {
     public void testLeapYears() throws ParseException {
         CronRule any = new AnyValueRule();
         CronRule zero = new SingleValueRule(0);
-        CronExpression expr;
+        CronExpression cron;
 
         // 29/02 in a range with no leap years
-        expr = CronExpression.Builder.create().set(Field.SECOND, zero).set(Field.MINUTE, zero)
+        cron = CronExpression.Builder.create().set(Field.SECOND, zero).set(Field.MINUTE, zero)
                 .set(Field.HOUR, zero).set(Field.DAY_OF_MONTH, new SingleValueRule(29))
                 .set(Field.MONTH, new SingleValueRule(Calendar.FEBRUARY))
                 .set(Field.DAY_OF_WEEK, any).set(Field.YEAR, new RangeRule(2013, 2015))
                 .set(DayConstraint.MONTH).build();
 
-        assertCalEquals(null, expr, "2012-03-01T00:00:00");
+        assertCalEquals(null, cron, "2012-03-01T00:00:00");
 
         // 29/02 in a range with leap years
-        expr = CronExpression.Builder.create().set(Field.SECOND, zero).set(Field.MINUTE, zero)
+        cron = CronExpression.Builder.create().set(Field.SECOND, zero).set(Field.MINUTE, zero)
                 .set(Field.HOUR, zero).set(Field.DAY_OF_MONTH, new SingleValueRule(29))
                 .set(Field.MONTH, new SingleValueRule(Calendar.FEBRUARY))
                 .set(Field.DAY_OF_WEEK, any).set(Field.YEAR, new RangeRule(2012, 2050))
                 .set(DayConstraint.MONTH).build();
 
-        assertCalEquals("2016-02-29T00:00:00", expr, "2012-03-01T00:00:00");
+        assertCalEquals("2016-02-29T00:00:00", cron, "2012-03-01T00:00:00");
     }
 
     /* Testing utilities. */
     // Test equality by providing formatted Strings
-    private void assertCalEquals(String expected, CronExpression expr, String argument)
+    private void assertCalEquals(String expected, CronExpression cron, String argument)
             throws ParseException {
         Calendar expectation = expected == null ? null : parse(expected);
-        Calendar actual = cpu.getNextOccurrence(expr, parse(argument));
+        Calendar actual = cpu.getNextOccurrence(cron, parse(argument));
         if (!Objects.equals(expectation, actual)) {
             fail("expected " + format(expectation) + " but was " + format(actual));
         }

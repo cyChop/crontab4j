@@ -19,7 +19,7 @@ import org.keyboardplaying.cron.parser.adapter.NoChangeAdapter;
 import org.keyboardplaying.cron.parser.adapter.RangeAdapter;
 
 /**
- * A parser for Unix CRON expressions.
+ * A parser for Unix-like CRON expressions.
  * <p/>
  * The rules are implemented based on the crontab documentation.
  *
@@ -27,7 +27,6 @@ import org.keyboardplaying.cron.parser.adapter.RangeAdapter;
  *
  * @see http://www.unix.com/man-page/linux/5/crontab/
  */
-// TODO Javadoc
 // TODO optimization: adapt day constraint according to expression
 public class UnixCronParser implements CronSyntacticParser {
 

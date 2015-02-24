@@ -42,7 +42,7 @@ public abstract class ShiftRangeAdapter implements RangeAdapter {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.keyboardplaying.cron.parser.RangeAdapter#adapt(org.keyboardplaying.cron.expression
      * .rule.SingleValueRule)
      */
@@ -53,7 +53,7 @@ public abstract class ShiftRangeAdapter implements RangeAdapter {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.keyboardplaying.cron.parser.RangeAdapter#adapt(org.keyboardplaying.cron.expression
      * .rule.RangeRule)
      */
@@ -75,7 +75,7 @@ public abstract class ShiftRangeAdapter implements RangeAdapter {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.keyboardplaying.cron.parser.RangeAdapter#adapt(org.keyboardplaying.cron.expression
      * .rule.RepeatRule)
      */
@@ -89,7 +89,7 @@ public abstract class ShiftRangeAdapter implements RangeAdapter {
             result = new RepeatRule(min, max, rule.getStep());
         } else {
             // XXX min/max calculation is tricky, but two repeats should work
-            List<CronRule> allowed = new ArrayList<>();
+            List<CronRule> allowed = new ArrayList<CronRule>();
             for (int i = rule.getMin(); i <= rule.getMax(); i++) {
                 if (rule.allows(i)) {
                     allowed.add(new SingleValueRule(shift(i)));

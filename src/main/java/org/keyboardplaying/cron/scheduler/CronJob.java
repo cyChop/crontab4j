@@ -3,9 +3,10 @@ package org.keyboardplaying.cron.scheduler;
 import java.util.Objects;
 
 /**
+ * Object utility to represent a job that may be supplied to the scheduler.
+ *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-// TODO Javadoc
 public class CronJob {
 
     private Runnable job;
@@ -19,7 +20,7 @@ public class CronJob {
      * @param cron
      *            the CRON expression to trigger this job
      * @throws NullPointerException
-     *            if {@code job} is {@code null}
+     *            if {@code job} or {@code cron} are {@code null}
      */
     public CronJob(Runnable job, String cron) {
         Objects.requireNonNull(job);
@@ -28,10 +29,20 @@ public class CronJob {
         this.cron = cron;
     }
 
+    /**
+     * Returns the job to be run.
+     *
+     * @return the job to be run
+     */
     public Runnable getJob() {
         return job;
     }
 
+    /**
+     * Returns the CRON expression to trigger this job.
+     *
+     * @return the CRON expression
+     */
     public String getCron() {
         return cron;
     }

@@ -66,17 +66,17 @@ public class UnixCronParserTest {
      */
     @Test
     public void testParse() throws UnsupportedCronException {
-        CronExpression expr = prsr.parse("0 * 1-15/2,*/3,31 1/2 1-5");
+        CronExpression cron = prsr.parse("0 * 1-15/2,*/3,31 1/2 1-5");
 
-        CronRule second = expr.get(Field.SECOND);
-        CronRule minute = expr.get(Field.MINUTE);
-        CronRule hour = expr.get(Field.HOUR);
-        CronRule dom = expr.get(Field.DAY_OF_MONTH);
-        CronRule month = expr.get(Field.MONTH);
-        CronRule dow = expr.get(Field.DAY_OF_WEEK);
-        CronRule year = expr.get(Field.YEAR);
+        CronRule second = cron.get(Field.SECOND);
+        CronRule minute = cron.get(Field.MINUTE);
+        CronRule hour = cron.get(Field.HOUR);
+        CronRule dom = cron.get(Field.DAY_OF_MONTH);
+        CronRule month = cron.get(Field.MONTH);
+        CronRule dow = cron.get(Field.DAY_OF_WEEK);
+        CronRule year = cron.get(Field.YEAR);
 
-        assertEquals(DayConstraint.BOTH_OR, expr.getDayConstraint());
+        assertEquals(DayConstraint.BOTH_OR, cron.getDayConstraint());
 
         assertTrue(second instanceof SingleValueRule);
         assertEquals(0, ((SingleValueRule) second).getValue());
@@ -124,10 +124,10 @@ public class UnixCronParserTest {
     public void testParseWithNames() throws UnsupportedCronException {
         // also test names are case insensitive
         assertTrue(prsr.isValid("* * * JaN mon-FRI"));
-        CronExpression expr = prsr.parse("* * * JaN mon-FRI");
+        CronExpression cron = prsr.parse("* * * JaN mon-FRI");
 
-        CronRule month = expr.get(Field.MONTH);
-        CronRule dow = expr.get(Field.DAY_OF_WEEK);
+        CronRule month = cron.get(Field.MONTH);
+        CronRule dow = cron.get(Field.DAY_OF_WEEK);
 
         assertTrue(month instanceof SingleValueRule);
         assertEquals(Calendar.JANUARY, ((SingleValueRule) month).getValue());
@@ -164,13 +164,13 @@ public class UnixCronParserTest {
 
     private void testAtYearly(String special) throws UnsupportedCronException {
         assertTrue(prsr.isValid(special));
-        CronExpression expr = prsr.parse(special);
+        CronExpression cron = prsr.parse(special);
 
-        CronRule minute = expr.get(Field.MINUTE);
-        CronRule hour = expr.get(Field.HOUR);
-        CronRule dom = expr.get(Field.DAY_OF_MONTH);
-        CronRule month = expr.get(Field.MONTH);
-        CronRule dow = expr.get(Field.DAY_OF_WEEK);
+        CronRule minute = cron.get(Field.MINUTE);
+        CronRule hour = cron.get(Field.HOUR);
+        CronRule dom = cron.get(Field.DAY_OF_MONTH);
+        CronRule month = cron.get(Field.MONTH);
+        CronRule dow = cron.get(Field.DAY_OF_WEEK);
 
         assertTrue(minute instanceof SingleValueRule);
         assertEquals(0, ((SingleValueRule) minute).getValue());
@@ -191,13 +191,13 @@ public class UnixCronParserTest {
     @Test
     public void testAtMonthly() throws UnsupportedCronException {
         assertTrue(prsr.isValid("@monthly"));
-        CronExpression expr = prsr.parse("@monthly");
+        CronExpression cron = prsr.parse("@monthly");
 
-        CronRule minute = expr.get(Field.MINUTE);
-        CronRule hour = expr.get(Field.HOUR);
-        CronRule dom = expr.get(Field.DAY_OF_MONTH);
-        CronRule month = expr.get(Field.MONTH);
-        CronRule dow = expr.get(Field.DAY_OF_WEEK);
+        CronRule minute = cron.get(Field.MINUTE);
+        CronRule hour = cron.get(Field.HOUR);
+        CronRule dom = cron.get(Field.DAY_OF_MONTH);
+        CronRule month = cron.get(Field.MONTH);
+        CronRule dow = cron.get(Field.DAY_OF_WEEK);
 
         assertTrue(minute instanceof SingleValueRule);
         assertEquals(0, ((SingleValueRule) minute).getValue());
@@ -216,13 +216,13 @@ public class UnixCronParserTest {
     @Test
     public void testAtWeekly() throws UnsupportedCronException {
         assertTrue(prsr.isValid("@weekly"));
-        CronExpression expr = prsr.parse("@weekly");
+        CronExpression cron = prsr.parse("@weekly");
 
-        CronRule minute = expr.get(Field.MINUTE);
-        CronRule hour = expr.get(Field.HOUR);
-        CronRule dom = expr.get(Field.DAY_OF_MONTH);
-        CronRule month = expr.get(Field.MONTH);
-        CronRule dow = expr.get(Field.DAY_OF_WEEK);
+        CronRule minute = cron.get(Field.MINUTE);
+        CronRule hour = cron.get(Field.HOUR);
+        CronRule dom = cron.get(Field.DAY_OF_MONTH);
+        CronRule month = cron.get(Field.MONTH);
+        CronRule dow = cron.get(Field.DAY_OF_WEEK);
 
         assertTrue(minute instanceof SingleValueRule);
         assertEquals(0, ((SingleValueRule) minute).getValue());
@@ -251,13 +251,13 @@ public class UnixCronParserTest {
 
     private void testAtDaily(String special) throws UnsupportedCronException {
         assertTrue(prsr.isValid(special));
-        CronExpression expr = prsr.parse(special);
+        CronExpression cron = prsr.parse(special);
 
-        CronRule minute = expr.get(Field.MINUTE);
-        CronRule hour = expr.get(Field.HOUR);
-        CronRule dom = expr.get(Field.DAY_OF_MONTH);
-        CronRule month = expr.get(Field.MONTH);
-        CronRule dow = expr.get(Field.DAY_OF_WEEK);
+        CronRule minute = cron.get(Field.MINUTE);
+        CronRule hour = cron.get(Field.HOUR);
+        CronRule dom = cron.get(Field.DAY_OF_MONTH);
+        CronRule month = cron.get(Field.MONTH);
+        CronRule dow = cron.get(Field.DAY_OF_WEEK);
 
         assertTrue(minute instanceof SingleValueRule);
         assertEquals(0, ((SingleValueRule) minute).getValue());
@@ -274,13 +274,13 @@ public class UnixCronParserTest {
     @Test
     public void testAtHourly() throws UnsupportedCronException {
         assertTrue(prsr.isValid("@hourly"));
-        CronExpression expr = prsr.parse("@hourly");
+        CronExpression cron = prsr.parse("@hourly");
 
-        CronRule minute = expr.get(Field.MINUTE);
-        CronRule hour = expr.get(Field.HOUR);
-        CronRule dom = expr.get(Field.DAY_OF_MONTH);
-        CronRule month = expr.get(Field.MONTH);
-        CronRule dow = expr.get(Field.DAY_OF_WEEK);
+        CronRule minute = cron.get(Field.MINUTE);
+        CronRule hour = cron.get(Field.HOUR);
+        CronRule dom = cron.get(Field.DAY_OF_MONTH);
+        CronRule month = cron.get(Field.MONTH);
+        CronRule dow = cron.get(Field.DAY_OF_WEEK);
 
         assertTrue(minute instanceof SingleValueRule);
         assertEquals(0, ((SingleValueRule) minute).getValue());

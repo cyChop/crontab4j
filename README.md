@@ -36,38 +36,45 @@ possible, and therefore used ``java.util.Calendar`` instead.
 
 ### V0.1 - The basic needs
 
-  1. [x] Cron expression
-  2. [x] Validator/Parser (parses CRON into POJO; v1.0: Regex and Unix-like CRONs only)
-  3. [x] Predictor (computes next occurrence)
-  4. [x] Scheduler
-  5. [ ] Cleaning, Javadoc
+  * [x] Cron expression
+  * [x] Validator/Parser (parses CRON into POJO; v1.0: Regex and Unix-like CRONs only)
+  * [x] Predictor (computes next occurrence)
+  * [x] Scheduler
+  * [ ] Finalizing
+    * [ ] Missing tests
+      * [ ] Test ``allows`` for day with all types of DayConstraint
+      * [ ] Test predictor with MultipleRules
+    * [ ] Documentation
+      * [x] Javadoc
+      * [ ] README.md: quick use guide/code samples
+    * [ ] Cleaning and formatting
 
 ### V0.2 - Changing the parsing engine
 
-  1. [ ] Test rewriting engine in Antlr (using a grammar has advantages in terms of readibility,
+  * [ ] Test rewriting engine in Antlr (using a grammar has advantages in terms of readibility,
 scalibility and maintenance)
-  2. [ ] Compare performances/footprint and retain overall best version
-  3. [ ] Scheduler enhancement
+  * [ ] Compare performances/footprint and retain overall best version
+  * [ ] Scheduler enhancement
     * [ ] Concurrence management (per job!)
 
 ### V1.0 - Available for release
 
-  1. [ ] Scheduler ameliorations
+  * [ ] Scheduler ameliorations
     * [ ] Spring instantiation
     * [ ] Study how to skip the use of Java's timer and focus on the essentials
-  2. [ ] Documentation
+  * [ ] Documentation
 
 ### V1.1 - Additional syntaxes
 
-  1. [ ] cron4j
-  2. [ ] Quartz
-  3. [ ] Review documentation
+  * [ ] cron4j
+  * [ ] Quartz
+  * [ ] Review documentation
 
 ### V2.0 - The utilities
 
-  1. [ ] Enhancements
+  * [ ] Enhancements
     * [ ] Ensure min < max in ranges when validating/parsing
-  2. [ ] Optimizer (parses the rules and rewrite them for optimization)
+  * [ ] Optimizer (parses the rules and rewrite them for optimization)
     * [ ] Single values with a step (``1/2`` -> ``1``)
     * [ ] Remove CRON expressions without a next occurrence
     * [ ] Repetition with step == ``1`` -> range
@@ -75,10 +82,10 @@ scalibility and maintenance)
     * [ ] Overlapping ranges (or repeats with same step) -> Single range (or repeat with same step)
     * [ ] Identical ranges with multiple steps (``*/4,*/2``) -> ``*/2``~
     * [ ] Out of access ranges (``0 0 2-7/2 31 *`` -> 31st of every even month until July)
-  3. [ ] Generator (related to previous; reverts a ``CronExpression`` to a ``String``)
-  4. [ ] Descriptor (describes a CRON in natural language; low priority)
-  5. [ ] Split into ``crontab4j-core`` and ``crontab4j-utils`` to reduce footprint if need be
-  6. [ ] Review documentation
+  * [ ] Generator (related to previous; reverts a ``CronExpression`` to a ``String``)
+  * [ ] Descriptor (describes a CRON in natural language; low priority)
+  * [ ] Split into ``crontab4j-core`` and ``crontab4j-utils`` to reduce footprint if need be
+  * [ ] Review documentation
 
 [1]: http://img.shields.io/travis/cyChop/crontab4j/master.svg
 [2]: https://travis-ci.org/cyChop/crontab4j

@@ -27,26 +27,26 @@ class FieldShifter {
         return rule.hasMax() ? rule.getMax() : max;
     }
 
-    public boolean allowsField(Calendar cal, CronExpression expr, Field cronField) {
-        return expr.get(cronField).allows(cal.get(calendarField));
+    public boolean allowsField(Calendar cal, CronExpression cron, Field cronField) {
+        return cron.get(cronField).allows(cal.get(calendarField));
     }
 
-    public Calendar shift(Calendar cal, CronExpression expr, Field exprField) {
+    public Calendar shift(Calendar cal, CronExpression cron, Field exprField) {
         // define a recursive sub method to avoid getting max and rule on each iteration
-        return shift(cal, expr, expr.get(exprField));
+        return shift(cal, cron, cron.get(exprField));
     }
 
-    private Calendar shift(Calendar cal, CronExpression expr, CronRule rule) {
+    private Calendar shift(Calendar cal, CronExpression cron, CronRule rule) {
         final int max = getMax(cal, rule);
         int value = cal.get(calendarField);
         do {
             value++;
             if (value > max) {
-                Calendar next = shiftUpper(cal, expr);
+                Calendar next = shiftUpper(cal, cron);
                 if (next == null) {
                     return null;
                 } else {
-                    return rule.allows(next.get(calendarField)) ? next : shift(cal, expr, rule);
+                    return rule.allows(next.get(calendarField)) ? next : shift(cal, cron, rule);
                 }
             }
         } while (!rule.allows(value));
@@ -57,12 +57,12 @@ class FieldShifter {
         return next;
     }
 
-    protected final Calendar shiftUpper(Calendar cal, CronExpression expr) {
+    protected final Calendar shiftUpper(Calendar cal, CronExpression cron) {
         if (ordinal == 0) {
             // no upper, no possible result
             return null;
         } else {
-            return PredictorField.values()[ordinal - 1].shift(cal, expr);
+            return PredictorField.values()[ordinal - 1].shift(cal, cron);
         }
     }
 
