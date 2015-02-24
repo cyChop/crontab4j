@@ -21,12 +21,12 @@ public class CronPredictor {
      * @param cron
      *            the CRON expression to use to evaluate
      * @return a {@link Calendar} representing the next time the expression will be triggered, or
-     *            {@code null} if no next occurrence can be found
+     *         {@code null} if no next occurrence can be found
      * @throws NullPointerException
-     *            if the supplied expression is {@code null}
+     *             if the supplied expression is {@code null}
      *
      * @see #getNextOccurrence(org.keyboardplaying.cron.expression.CronExpression,
-     *            java.util.Calendar)
+     *      java.util.Calendar)
      */
     public Calendar getNextOccurrence(CronExpression cron) {
         return getNextOccurrence(cron, null);
@@ -44,9 +44,9 @@ public class CronPredictor {
      * @param cron
      *            the CRON expression to use to evaluate
      * @return a {@link Calendar} representing the next time the expression will be triggered, or
-     *            {@code null} if no next occurrence can be found
+     *         {@code null} if no next occurrence can be found
      * @throws NullPointerException
-     *            if the supplied expression is {@code null}
+     *             if the supplied expression is {@code null}
      */
     public Calendar getNextOccurrence(CronExpression cron, Calendar cal) {
         Objects.requireNonNull(cron, "A CRON must be supplied");

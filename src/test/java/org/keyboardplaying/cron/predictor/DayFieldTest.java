@@ -2,7 +2,6 @@ package org.keyboardplaying.cron.predictor;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -15,7 +14,6 @@ import org.keyboardplaying.cron.expression.rule.AnyValueRule;
 import org.keyboardplaying.cron.expression.rule.CronRule;
 import org.keyboardplaying.cron.expression.rule.RangeRule;
 import org.keyboardplaying.cron.expression.rule.RepeatRule;
-import org.keyboardplaying.cron.predictor.PredictorField;
 import org.keyboardplaying.cron.utils.CalendarUtils;
 
 /**

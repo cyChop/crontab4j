@@ -35,14 +35,23 @@ public class UnixCronParser implements CronSyntacticParser {
     private static final String SPECIAL_EXP_KEY = "@";
 
     private static enum SpecialExpression {
+        // reboot
         reboot(null) {
             @Override
             public String getEquivalent() throws UnsupportedCronException {
                 throw new UnsupportedCronException(getExpression(), true);
             }
         },
-        yearly("0 0 1 1 *"), annually("0 0 1 1 *"), monthly("0 0 1 * *"), weekly("0 0 * * 0"), daily(
-                "0 0 * * *"), midnight("0 0 * * *"), hourly("0 * * * *");
+        // yearly
+        yearly("0 0 1 1 *"), annually("0 0 1 1 *"),
+        // monthly
+        monthly("0 0 1 * *"),
+        // weekly
+        weekly("0 0 * * 0"),
+        // daily
+        daily("0 0 * * *"), midnight("0 0 * * *"),
+        // hourly
+        hourly("0 * * * *");
 
         private String equivalent;
 

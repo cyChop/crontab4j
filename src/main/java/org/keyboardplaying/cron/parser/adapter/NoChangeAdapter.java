@@ -14,7 +14,7 @@ public class NoChangeAdapter implements RangeAdapter {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.keyboardplaying.cron.parser.RangeAdapter#adapt(org.keyboardplaying.cron.expression
      * .rule.SingleValueRule)
      */
@@ -25,7 +25,7 @@ public class NoChangeAdapter implements RangeAdapter {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.keyboardplaying.cron.parser.RangeAdapter#adapt(org.keyboardplaying.cron.expression
      * .rule.RangeRule)
      */
@@ -36,7 +36,7 @@ public class NoChangeAdapter implements RangeAdapter {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.keyboardplaying.cron.parser.RangeAdapter#adapt(org.keyboardplaying.cron.expression
      * .rule.RepeatRule)
      */

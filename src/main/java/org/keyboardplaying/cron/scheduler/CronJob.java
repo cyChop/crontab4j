@@ -20,7 +20,7 @@ public class CronJob {
      * @param cron
      *            the CRON expression to trigger this job
      * @throws NullPointerException
-     *            if {@code job} or {@code cron} are {@code null}
+     *             if {@code job} or {@code cron} are {@code null}
      */
     public CronJob(Runnable job, String cron) {
         this.job = Objects.requireNonNull(job);

@@ -32,7 +32,7 @@ public class RangeRule implements CronRule {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.keyboardplaying.cron.expression.rule.CronRule.hasMax()
      */
     @Override
@@ -61,7 +61,7 @@ public class RangeRule implements CronRule {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.keyboardplaying.cron.expression.rule.CronRule.allows(int)
      */
     @Override

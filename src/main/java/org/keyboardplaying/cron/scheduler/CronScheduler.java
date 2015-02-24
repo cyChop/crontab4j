@@ -1,10 +1,10 @@
 package org.keyboardplaying.cron.scheduler;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import org.keyboardplaying.cron.exception.UnsupportedCronException;
 import org.keyboardplaying.cron.expression.CronExpression;
 import org.keyboardplaying.cron.parser.CronSyntacticParser;
@@ -14,8 +14,8 @@ import org.keyboardplaying.cron.predictor.CronPredictor;
 /**
  * The CRON scheduler.
  * <p/>
- * It is expected to be used as a singleton. When used inside a Spring context, you should specify
- * a parser ({@link #setParser(org.keyboardplaying.cron.parser.CronSyntacticParser}) and a list of
+ * It is expected to be used as a singleton. When used inside a Spring context, you should specify a
+ * parser ({@link #setParser(org.keyboardplaying.cron.parser.CronSyntacticParser}) and a list of
  * jobs ({@link #setJobs(java.util.List)}). All jobs set this way will be started automatically.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
@@ -24,8 +24,8 @@ import org.keyboardplaying.cron.predictor.CronPredictor;
 public class CronScheduler {
 
     private static CronPredictor predictor = new CronPredictor();
-    private static CronSyntacticParser parser;
 
+    private CronSyntacticParser parser;
     private Timer timer;
 
     /** Creates a scheduler whose associated thread will run as a daemon. */
@@ -50,7 +50,7 @@ public class CronScheduler {
      * @param threadName
      *            the name of the associated thread
      * @throws NullPointerException
-     *            if {@code name} is {@code null}
+     *             if {@code name} is {@code null}
      */
     public CronScheduler(String threadName) {
         this.timer = new Timer(threadName);
@@ -66,7 +66,7 @@ public class CronScheduler {
      *            {@code true} if the associated thread should run as a daemon, {@code false}
      *            otherwise
      * @throws NullPointerException
-     *            if {@code name} is {@code null}
+     *             if {@code name} is {@code null}
      */
     public CronScheduler(String threadName, boolean daemon) {
         this.timer = new Timer(threadName);
@@ -77,7 +77,8 @@ public class CronScheduler {
      * <p/>
      * If not explicitely set, a {@link UnixCronParser} will be used.
      *
-     * @param parser a syntactic CRON parser
+     * @param parser
+     *            a syntactic CRON parser
      */
     public void setParser(CronSyntacticParser parser) {
         this.parser = parser;
@@ -171,8 +172,6 @@ public class CronScheduler {
         private Runnable job;
         private Timer timer;
         private CronExpression cron;
-
-        private boolean locked = false;
 
         /**
          * Creates a new wrapper.

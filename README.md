@@ -47,7 +47,7 @@ possible, and therefore used ``java.util.Calendar`` instead.
     * [ ] Documentation
       * [x] Javadoc
       * [ ] README.md: quick use guide/code samples
-    * [ ] Cleaning and formatting
+    * [x] Cleaning and formatting
     * [ ] Generate MANIFEST.MF
 
 ### V0.2 - Changing the parsing engine and adding syntaxes
@@ -94,8 +94,8 @@ scalibility and maintenance)
 [2]: https://travis-ci.org/cyChop/crontab4j
 [3]: http://img.shields.io/coveralls/cyChop/crontab4j/master.svg
 [4]: https://coveralls.io/r/cyChop/crontab4j?branch=master
-[5]: https://img.shields.io/badge/license-MIT-blue.svg
-[6]: http://opensource.org/licenses/MIT
+[5]: https://img.shields.io/badge/license-BSD-blue.svg
+[6]: http://opensource.org/licenses/BSD-3-Clause
 [7]: http://www.unix.com/man-page/linux/5/crontab/
 [8]: http://www.sauronsoftware.it/projects/cron4j/
 [9]: https://github.com/jmrozanec/cron-utils

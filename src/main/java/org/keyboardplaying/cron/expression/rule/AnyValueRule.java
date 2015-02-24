@@ -9,7 +9,7 @@ public class AnyValueRule implements CronRule {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.keyboardplaying.cron.expression.rule.CronRule.hasMax()
      */
     @Override
@@ -19,7 +19,7 @@ public class AnyValueRule implements CronRule {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.keyboardplaying.cron.expression.rule.CronRule.getMax()
      */
     @Override
@@ -29,7 +29,7 @@ public class AnyValueRule implements CronRule {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.keyboardplaying.cron.expression.rule.CronRule.allows(int)
      */
     @Override

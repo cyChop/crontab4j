@@ -8,7 +8,7 @@ package org.keyboardplaying.cron.exception;
 public class UnsupportedCronException extends Exception {
 
     /** Generated serial version UID. */
-    private static final long serialVersionUID = -2849228524072084277L;
+    private static final long serialVersionUID = 5555024545989431954L;
 
     private String cron;
     private boolean valid;

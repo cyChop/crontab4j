@@ -29,7 +29,8 @@ enum PredictorField {
                 } while (!rule.allows(next.get(Calendar.DAY_OF_WEEK)));
 
                 // The month may have shifted, ensure the constraints are still OK
-                if (next.get(Calendar.MONTH) != cal.get(Calendar.MONTH) && !MONTH.allows(next, cron)
+                if (next.get(Calendar.MONTH) != cal.get(Calendar.MONTH)
+                        && !MONTH.allows(next, cron)
                         || next.get(Calendar.YEAR) != cal.get(Calendar.YEAR)
                         && !YEAR.allows(next, cron)) {
                     next = shiftUpper(cal, cron);
@@ -58,19 +59,19 @@ enum PredictorField {
         @Override
         public boolean allows(Calendar cal, CronExpression cron) {
             switch (cron.getDayConstraint()) {
-                case NONE:
-                    return true;
-                case MONTH:
-                    return domShifter.allowsField(cal, cron, Field.DAY_OF_MONTH);
-                case WEEK:
-                    return dowShifter.allowsField(cal, cron, Field.DAY_OF_WEEK);
-                case BOTH_OR:
-                    return domShifter.allowsField(cal, cron, Field.DAY_OF_MONTH)
-                            || dowShifter.allowsField(cal, cron, Field.DAY_OF_WEEK);
-                case BOTH_AND:
-                default:
-                    return domShifter.allowsField(cal, cron, Field.DAY_OF_MONTH)
-                            && dowShifter.allowsField(cal, cron, Field.DAY_OF_WEEK);
+            case NONE:
+                return true;
+            case MONTH:
+                return domShifter.allowsField(cal, cron, Field.DAY_OF_MONTH);
+            case WEEK:
+                return dowShifter.allowsField(cal, cron, Field.DAY_OF_WEEK);
+            case BOTH_OR:
+                return domShifter.allowsField(cal, cron, Field.DAY_OF_MONTH)
+                        || dowShifter.allowsField(cal, cron, Field.DAY_OF_WEEK);
+            case BOTH_AND:
+            default:
+                return domShifter.allowsField(cal, cron, Field.DAY_OF_MONTH)
+                        && dowShifter.allowsField(cal, cron, Field.DAY_OF_WEEK);
             }
         }
 

@@ -2,10 +2,10 @@ package org.keyboardplaying.cron.expression.rule;
 
 /**
  * A representation for fields allowing a range with a repeat step (e.g. {@code 42-1337/2} or
- * {@code *\/5}).
+ * {@code * /5}).
  * <p/>
  * A {@link RepeatRule} must always be defined as a range and a repetition step. In case the repeat
- * is defined as {@code *\/5}, the range is the maximal range allowed for the corresponding field.
+ * is defined as {@code * /5}, the range is the maximal range allowed for the corresponding field.
  * <p/>
  * A value will be allowed only if it meets both following condition:
  * <ul>
@@ -45,7 +45,7 @@ public class RepeatRule extends RangeRule {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.keyboardplaying.cron.expression.rule.CronRule.allows(int)
      */
     @Override

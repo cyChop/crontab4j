@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+
 import org.junit.Test;
 import org.keyboardplaying.cron.exception.UnsupportedCronException;
 import org.keyboardplaying.cron.expression.CronExpression;
@@ -45,13 +46,9 @@ public class CronSchedulerTest {
             public CronExpression parse(String cron) {
                 final CronRule any = new AnyValueRule();
                 return CronExpression.Builder.create().set(DayConstraint.NONE)
-                        .set(Field.SECOND, any)
-                        .set(Field.MINUTE, any)
-                        .set(Field.HOUR, any)
-                        .set(Field.DAY_OF_MONTH, any)
-                        .set(Field.MONTH, any)
-                        .set(Field.DAY_OF_WEEK, any)
-                        .set(Field.YEAR, any).build();
+                        .set(Field.SECOND, any).set(Field.MINUTE, any).set(Field.HOUR, any)
+                        .set(Field.DAY_OF_MONTH, any).set(Field.MONTH, any)
+                        .set(Field.DAY_OF_WEEK, any).set(Field.YEAR, any).build();
             }
         });
     }
