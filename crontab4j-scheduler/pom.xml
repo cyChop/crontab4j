@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.keyboardplaying</groupId>
+    <artifactId>crontab4j</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>crontab4j-scheduler</artifactId>
+  <packaging>jar</packaging>
+
+  <name>crontab4j Scheduler</name>
+  <description>The crontab parser and scheduler for crontab4j.</description>
+  <url>http://cychop.github.io/crontab4j</url>
+
+  <licenses>
+    <license>
+      <name>BSD 3-Clause License</name>
+      <url>http://opensource.org/licenses/BSD-3-Clause</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <dependencies>
+    <!--  _____       _    -->
+    <!-- |_   _|__ __| |_  -->
+    <!--   | |/ -_|_-<  _| -->
+    <!--   |_|\___/__/\__| -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>jdepend</groupId>
+      <artifactId>jdepend</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <!--     _   _              _    -->
+  <!--    /_\ | |__  ___ _  _| |_  -->
+  <!--   / _ \| '_ \/ _ \ || |  _| -->
+  <!--  /_/ \_\_.__/\___/\_,_|\__| -->
+  <scm>
+    <url>https://github.com/${github.user}/${github.repo}</url>
+    <connection>scm:git:https://github.com/${github.user}/${github.repo}.git</connection>
+    <developerConnection>scm:git:git@github.com:${github.user}/${github.repo}.git</developerConnection>
+  </scm>
+</project>

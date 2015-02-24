@@ -2,11 +2,12 @@ package org.keyboardplaying.cron.scheduler;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
-import org.keyboardplaying.cron.exception.UnsupportedCronException;
 import org.keyboardplaying.cron.expression.CronExpression;
 import org.keyboardplaying.cron.expression.CronExpression.DayConstraint;
 import org.keyboardplaying.cron.expression.CronExpression.Field;
@@ -55,17 +56,30 @@ public class CronSchedulerTest {
 
     /** Tests the execution and recurrence of a job with a CronScheduler (2 executions). */
     @Test(timeout = 3500)
-    public void testExecution() throws InterruptedException, UnsupportedCronException {
+    public void testExecution() throws InterruptedException {
         latch = new CountDownLatch(2);
-        schd.scheduleJob(new CronJob(job, "* * * * * *"));
+        schd.scheduleJob(job, "* * * * * *");
+        latch.await(3000, TimeUnit.MILLISECONDS);
+        assertEquals(0, latch.getCount());
+    }
+
+    /** Tests the execution and recurrence of a job with a CronScheduler (2 executions). */
+    @Test(timeout = 3500)
+    public void testExecutionList() throws InterruptedException {
+        List<CronJob> jobs = new ArrayList<CronJob>();
+        jobs.add(new CronJob(job, "* * * * *"));
+
+        latch = new CountDownLatch(2);
+        schd.setJobs(jobs);
         latch.await(3000, TimeUnit.MILLISECONDS);
         assertEquals(0, latch.getCount());
     }
 
     /** Ensures that {@link CronScheduler#stopAllJobs} immediately stops all awaiting executions. */
     @Test(timeout = 500)
-    public void testTerminate() throws InterruptedException, UnsupportedCronException {
+    public void testTerminate() throws InterruptedException {
         latch = new CountDownLatch(2);
+
         schd.scheduleJob(new CronJob(job, "* * * * * *"));
         schd.terminate();
         assertEquals(2, latch.getCount());

@@ -5,7 +5,7 @@ package org.keyboardplaying.cron.exception;
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
-public class UnsupportedCronException extends Exception {
+public class UnsupportedCronException extends RuntimeException {
 
     /** Generated serial version UID. */
     private static final long serialVersionUID = 5555024545989431954L;

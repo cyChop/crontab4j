@@ -38,7 +38,7 @@ public class UnixCronParser implements CronSyntacticParser {
         // reboot
         reboot(null) {
             @Override
-            public String getEquivalent() throws UnsupportedCronException {
+            public String getEquivalent() {
                 throw new UnsupportedCronException(getExpression(), true);
             }
         },
@@ -63,7 +63,7 @@ public class UnixCronParser implements CronSyntacticParser {
             return SPECIAL_EXP_KEY + name();
         }
 
-        public String getEquivalent() throws UnsupportedCronException {
+        public String getEquivalent() {
             return equivalent;
         }
     }
@@ -209,7 +209,7 @@ public class UnixCronParser implements CronSyntacticParser {
      * @see org.keyboardplaying.cron.parser.CronSyntacticParser#parse(java.lang.String)
      */
     @Override
-    public CronExpression parse(String cron) throws UnsupportedCronException {
+    public CronExpression parse(String cron) {
         if (!Objects.requireNonNull(cron).matches(PATTERN_CRON)) {
             throw new UnsupportedCronException(cron, false);
         } else {

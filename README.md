@@ -4,6 +4,91 @@
 [![Coverage Status][3]][4]
 [![License][5]][6]
 
+## Quick start
+
+### Goal
+
+This library allows for the triggering of a Java job based on a CRON expression.
+
+### Supported CRON syntaxes
+
+#### At the moment
+
+* [Unix][7]
+  * Classic integer ranges
+  * Day and month names (3 letters, case insensitive)
+  * Special expressions, with the exception of ``@reboot``
+
+#### Planned for later
+
+* [cron4j][8]
+* [Quartz][10] (but CRONs are only a little part of it)
+* crontab4j (take the best of each world and make it the most flexible as can be)
+
+### How to use it
+
+```java
+import org.keyboardplaying.cron.parser.UnixCronParser;
+import org.keyboardplaying.cron.scheduler.CronScheduler;
+
+public class CronStarter {
+
+    public static void main(String[] args) {
+        CronScheduler schd = new CronScheduler();
+        // Set parser: only Unix at the moment, but more to come
+        schd.setParser(new UnixCronParser());
+        schd.scheduleJob(new Runnable() {
+            public void run() {
+                System.out.println("Another minute ticked.");
+            }
+        }, "* * * * *");
+        // schd is a daemon: it will not prevent the JVM from stopping
+    }
+}
+```
+
+### Daemon
+
+The JVM will stop automatically if all remaining threads are daemons. The ``CronScheduler`` is a daemon
+by default. To prevent this behaviour, you should instantiate it this way:
+```java
+CronScheduler schd = new CronScheduler(false);
+```
+
+A fair warning: you will have to stop it for the JVM to close:
+```java
+schd.terminate();
+```
+
+### Using with Spring
+
+```xml
+<bean id="schd" class="org.keyboardplaying.cron.scheduler.CronScheduler">
+    <property name="parser"><bean class="org.keyboardplaying.cron.parser.UnixCronParser"/></property>
+    <property name="jobs">
+        <list>
+            <ref bean="job1"/>
+            <ref bean="job2"/>
+            ...
+        </list>
+    </property>
+</bean>
+
+<bean id="job1" class="org.keyboardplaying.cron.scheduler.CronJob">
+    <property name="job" ref="myRunnableBean"/>
+    <property name="cron" value="0 0 * * *"/>
+</bean>
+
+...
+```
+
+## Interesting links
+
+* [Unix man crontab][7]
+* [Quartz][10] (but CRONs are only a little part of it)
+* [cron4j][8]
+* [cron-utils][9]
+
 ## History
 
 It happened at work: we wanted to gain the flexibility of CRON expressions for job scheduling, but
@@ -20,35 +105,7 @@ My first try had been using [``joda-time``][11] for comfort and ease of use. How
 chose to avoid external libraries as much as possible in order to keep the footprint as light as
 possible, and therefore used ``java.util.Calendar`` instead.
 
-## Interesting links
-
-### CRON reference
-
-* [Unix man crontab][7]
-
-### Other CRON-orientated Java tools
-
-* [cron4j][8]
-* [Quartz][10] (but CRONs are only a little part of it)
-* [cron-utils][9]
-
-## TODO
-
-### V0.1 - The basic needs
-
-  * [x] Cron expression
-  * [x] Validator/Parser (parses CRON into POJO; v1.0: Regex and Unix-like CRONs only)
-  * [x] Predictor (computes next occurrence)
-  * [x] Scheduler
-  * [ ] Finalizing
-    * [ ] Missing tests
-      * [x] Test ``allows`` for day with all types of DayConstraint
-      * [ ] Test predictor with MultipleRules
-    * [ ] Documentation
-      * [x] Javadoc
-      * [ ] README.md: quick use guide/code samples
-    * [x] Cleaning and formatting
-    * [x] Generate MANIFEST.MF
+## Roadmap
 
 ### V0.2 - Changing the parsing engine and adding syntaxes
 

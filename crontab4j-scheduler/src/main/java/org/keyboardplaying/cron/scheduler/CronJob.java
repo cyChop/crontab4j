@@ -14,6 +14,14 @@ public class CronJob {
 
     /**
      * Creates a new job.
+     * <p/>
+     * Made as a utility for Spring usage.
+     */
+    public CronJob() {
+    }
+
+    /**
+     * Creates a new job.
      *
      * @param job
      *            the job to be run
@@ -37,11 +45,29 @@ public class CronJob {
     }
 
     /**
+     * Sets the job to be run.
+     *
+     * @param job
+     *            the job to be run
+     */
+    public void setJob(Runnable job) {
+        this.job = job;
+    }
+
+    /**
      * Returns the CRON expression to trigger this job.
      *
      * @return the CRON expression
      */
     public String getCron() {
         return cron;
+    }
+
+    /**
+     *
+     * @param cron
+     */
+    public void setCron(String cron) {
+        this.cron = cron;
     }
 }

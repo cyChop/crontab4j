@@ -1,11 +1,10 @@
 package org.keyboardplaying.cron.scheduler;
 
 import java.util.Calendar;
-import java.util.List;
+import java.util.Collection;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.keyboardplaying.cron.exception.UnsupportedCronException;
 import org.keyboardplaying.cron.expression.CronExpression;
 import org.keyboardplaying.cron.parser.CronSyntacticParser;
 import org.keyboardplaying.cron.parser.UnixCronParser;
@@ -75,7 +74,7 @@ public class CronScheduler {
     /**
      * Sets the parser to use for the jobs' CRON expressions.
      * <p/>
-     * If not explicitely set, a {@link UnixCronParser} will be used.
+     * If not explicitly set, a {@link UnixCronParser} will be used.
      *
      * @param parser
      *            a syntactic CRON parser
@@ -121,10 +120,24 @@ public class CronScheduler {
      *
      * @param job
      *            the job to schedule
+     * @param cron
+     *            the CRON trigger
      */
-    public void scheduleJob(CronJob job) throws UnsupportedCronException {
-        CronExpression cron = getParser().parse(job.getCron());
-        scheduleNext(timer, new TimerTaskWrapper(job.getJob(), timer, cron), cron);
+    public void scheduleJob(Runnable job, String cron) {
+        CronExpression parsed = getParser().parse(cron);
+        scheduleNext(timer, new TimerTaskWrapper(job, timer, parsed), parsed);
+    }
+
+    /**
+     * Schedules the specified job for execution.
+     * <p/>
+     * The job will be triggered every time the current time matches its CRON.
+     *
+     * @param job
+     *            the job to schedule
+     */
+    public void scheduleJob(CronJob job) {
+        scheduleJob(job.getJob(), job.getCron());
     }
 
     /**
@@ -138,7 +151,7 @@ public class CronScheduler {
      * @see #scheduleJob(org.keyboardplaying.cron.scheduler.CronJob)
      */
     // Spring utility
-    public void setJobs(List<CronJob> jobs) throws UnsupportedCronException {
+    public void setJobs(Collection<CronJob> jobs) {
         for (CronJob job : jobs) {
             scheduleJob(job);
         }
@@ -189,7 +202,7 @@ public class CronScheduler {
 
         /*
          * (non-Javadoc)
-         *
+         * 
          * @see java.util.TimerTask.run()
          */
         @Override

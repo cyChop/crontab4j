@@ -22,6 +22,7 @@ import org.keyboardplaying.cron.utils.CalendarUtils;
  *
  * @author Cyrille Chopelet
  */
+// TODO test predictor with MultipleRule
 public class CronPredictorTest {
 
     private CronPredictor cpu = new CronPredictor();

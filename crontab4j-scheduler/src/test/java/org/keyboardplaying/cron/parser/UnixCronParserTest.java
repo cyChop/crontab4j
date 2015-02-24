@@ -41,7 +41,7 @@ public class UnixCronParserTest {
      * {@code null}.
      */
     @Test(expected = NullPointerException.class)
-    public void testParseNull() throws UnsupportedCronException {
+    public void testParseNull() {
         prsr.parse(null);
     }
 
@@ -50,7 +50,7 @@ public class UnixCronParserTest {
      * does not match the validation regex.
      */
     @Test
-    public void testParseInvalid() throws UnsupportedCronException {
+    public void testParseInvalid() {
         try {
             prsr.parse("* * * */mon *");
             fail();
@@ -65,7 +65,7 @@ public class UnixCronParserTest {
      * correct.
      */
     @Test
-    public void testParse() throws UnsupportedCronException {
+    public void testParse() {
         CronExpression cron = prsr.parse("0 * 1-15/2,*/3,31 1/2 1-5");
 
         CronRule second = cron.get(Field.SECOND);
@@ -121,7 +121,7 @@ public class UnixCronParserTest {
      * using names for months and days of week is correct.
      */
     @Test
-    public void testParseWithNames() throws UnsupportedCronException {
+    public void testParseWithNames() {
         // also test names are case insensitive
         assertTrue(prsr.isValid("* * * JaN mon-FRI"));
         CronExpression cron = prsr.parse("* * * JaN mon-FRI");
@@ -152,17 +152,17 @@ public class UnixCronParserTest {
 
     /** Tests the parsing of the special expression {@code @yearly}. */
     @Test
-    public void testAtYearly() throws UnsupportedCronException {
+    public void testAtYearly() {
         testAtYearly("@yearly");
     }
 
     /** Tests the parsing of the special expression {@code @annually}. */
     @Test
-    public void testAtAnnually() throws UnsupportedCronException {
+    public void testAtAnnually() {
         testAtYearly("@annually");
     }
 
-    private void testAtYearly(String special) throws UnsupportedCronException {
+    private void testAtYearly(String special) {
         assertTrue(prsr.isValid(special));
         CronExpression cron = prsr.parse(special);
 
@@ -189,7 +189,7 @@ public class UnixCronParserTest {
 
     /** Tests the parsing of the special expression {@code @monthly}. */
     @Test
-    public void testAtMonthly() throws UnsupportedCronException {
+    public void testAtMonthly() {
         assertTrue(prsr.isValid("@monthly"));
         CronExpression cron = prsr.parse("@monthly");
 
@@ -214,7 +214,7 @@ public class UnixCronParserTest {
 
     /** Tests the parsing of the special expression {@code @weekly}. */
     @Test
-    public void testAtWeekly() throws UnsupportedCronException {
+    public void testAtWeekly() {
         assertTrue(prsr.isValid("@weekly"));
         CronExpression cron = prsr.parse("@weekly");
 
@@ -239,17 +239,17 @@ public class UnixCronParserTest {
 
     /** Tests the parsing of the special expression {@code @daily}. */
     @Test
-    public void testAtDaily() throws UnsupportedCronException {
+    public void testAtDaily() {
         testAtDaily("@daily");
     }
 
     /** Tests the parsing of the special expression {@code @midnight}. */
     @Test
-    public void testAtMidnight() throws UnsupportedCronException {
+    public void testAtMidnight() {
         testAtDaily("@midnight");
     }
 
-    private void testAtDaily(String special) throws UnsupportedCronException {
+    private void testAtDaily(String special) {
         assertTrue(prsr.isValid(special));
         CronExpression cron = prsr.parse(special);
 
@@ -272,7 +272,7 @@ public class UnixCronParserTest {
 
     /** Tests the parsing of the special expression {@code @hourly}. */
     @Test
-    public void testAtHourly() throws UnsupportedCronException {
+    public void testAtHourly() {
         assertTrue(prsr.isValid("@hourly"));
         CronExpression cron = prsr.parse("@hourly");
 

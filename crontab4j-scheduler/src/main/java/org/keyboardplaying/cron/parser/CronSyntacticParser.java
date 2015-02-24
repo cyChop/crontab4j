@@ -42,7 +42,7 @@ public interface CronSyntacticParser {
      *
      * @see #isValid(String)
      */
-    CronExpression parse(String cron) throws UnsupportedCronException;
+    CronExpression parse(String cron);
 
     /**
      * Representation of the rule and parsing specifications of a group.
