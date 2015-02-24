@@ -42,7 +42,7 @@ possible, and therefore used ``java.util.Calendar`` instead.
   * [x] Scheduler
   * [ ] Finalizing
     * [ ] Missing tests
-      * [ ] Test ``allows`` for day with all types of DayConstraint
+      * [x] Test ``allows`` for day with all types of DayConstraint
       * [ ] Test predictor with MultipleRules
     * [ ] Documentation
       * [x] Javadoc
@@ -55,20 +55,19 @@ possible, and therefore used ``java.util.Calendar`` instead.
 scalibility and maintenance)
   * [ ] Compare performances/footprint and retain overall best version
   * [ ] Scheduler enhancement
+    * [ ] Use a custom implementation instead of Java's timer
     * [ ] Concurrence management (per job!)
+  * [ ] Minor enhancements (search for TODO and FIXME in code)
 
-### V1.0 - Available for release
-
-  * [ ] Scheduler ameliorations
-    * [ ] Spring instantiation
-    * [ ] Study how to skip the use of Java's timer and focus on the essentials
-  * [ ] Documentation
-
-### V1.1 - Additional syntaxes
+### V0.3 - Additional syntaxes
 
   * [ ] cron4j
   * [ ] Quartz
-  * [ ] Review documentation
+
+### V1.0 - Available for release
+
+  * [ ] Ensure functionality
+  * [ ] Documentation
 
 ### V2.0 - The utilities
 

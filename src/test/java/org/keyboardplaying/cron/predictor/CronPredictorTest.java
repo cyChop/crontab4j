@@ -2,9 +2,7 @@ package org.keyboardplaying.cron.predictor;
 
 import static org.junit.Assert.fail;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -18,6 +16,7 @@ import org.keyboardplaying.cron.expression.rule.CronRule;
 import org.keyboardplaying.cron.expression.rule.RangeRule;
 import org.keyboardplaying.cron.expression.rule.RepeatRule;
 import org.keyboardplaying.cron.expression.rule.SingleValueRule;
+import org.keyboardplaying.cron.utils.CalendarUtils;
 
 /**
  * Tests the {@link CronPredictor}.
@@ -27,7 +26,6 @@ import org.keyboardplaying.cron.expression.rule.SingleValueRule;
 public class CronPredictorTest {
 
     private CronPredictor cpu = new CronPredictor();
-    private DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     /** Ensures the computer throws an exception if the supplied {@link CronExpression} is null. */
     @Test(expected = NullPointerException.class)
@@ -214,26 +212,13 @@ public class CronPredictorTest {
         assertCalEquals("2016-02-29T00:00:00", cron, "2012-03-01T00:00:00");
     }
 
-    /* Testing utilities. */
     // Test equality by providing formatted Strings
     private void assertCalEquals(String expected, CronExpression cron, String argument)
             throws ParseException {
-        Calendar expectation = expected == null ? null : parse(expected);
-        Calendar actual = cpu.getNextOccurrence(cron, parse(argument));
+        Calendar expectation = expected == null ? null : CalendarUtils.parse(expected);
+        Calendar actual = cpu.getNextOccurrence(cron, CalendarUtils.parse(argument));
         if (!Objects.equals(expectation, actual)) {
-            fail("expected " + format(expectation) + " but was " + format(actual));
+            fail("expected " + expected + " but was " + CalendarUtils.format(actual));
         }
-    }
-
-    // Null-safe method to create a calendar from a formatted String
-    private Calendar parse(String source) throws ParseException {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(df.parse(source));
-        return cal;
-    }
-
-    // Useful when test fails: null-safe method to return a Calendar as a formatted String
-    private String format(Calendar cal) {
-        return cal == null ? "null" : "<" + df.format(cal.getTime()) + ">";
     }
 }

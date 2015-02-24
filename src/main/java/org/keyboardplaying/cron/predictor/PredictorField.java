@@ -57,8 +57,21 @@ enum PredictorField {
         // FIXME Test if correct with all types of day constraint
         @Override
         public boolean allows(Calendar cal, CronExpression cron) {
-            return domShifter.allowsField(cal, cron, Field.DAY_OF_MONTH)
-                    && dowShifter.allowsField(cal, cron, Field.DAY_OF_WEEK);
+            switch (cron.getDayConstraint()) {
+                case NONE:
+                    return true;
+                case MONTH:
+                    return domShifter.allowsField(cal, cron, Field.DAY_OF_MONTH);
+                case WEEK:
+                    return dowShifter.allowsField(cal, cron, Field.DAY_OF_WEEK);
+                case BOTH_OR:
+                    return domShifter.allowsField(cal, cron, Field.DAY_OF_MONTH)
+                            || dowShifter.allowsField(cal, cron, Field.DAY_OF_WEEK);
+                case BOTH_AND:
+                default:
+                    return domShifter.allowsField(cal, cron, Field.DAY_OF_MONTH)
+                            && dowShifter.allowsField(cal, cron, Field.DAY_OF_WEEK);
+            }
         }
 
         @Override
