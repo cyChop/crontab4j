@@ -40,4 +40,15 @@ public class CronJobTest {
         assertEquals(job, cj.getJob());
         assertEquals(CRON_EVRY_MIN, cj.getCron());
     }
+
+    /** Tests the setters. */
+    @Test
+    public void testSpring() {
+        CronJob cj = new CronJob();
+        cj.setJob(job);
+        cj.setCron(CRON_EVRY_MIN);
+
+        assertEquals(job, cj.getJob());
+        assertEquals(CRON_EVRY_MIN, cj.getCron());
+    }
 }
