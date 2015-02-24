@@ -26,11 +26,11 @@ possible, and therefore used ``java.util.Calendar`` instead.
 
 * [Unix man crontab][7]
 
-### Other CRON-orientated tools
+### Other CRON-orientated Java tools
 
 * [cron4j][8]
-* [cron-utils][9]
 * [Quartz][10] (but CRONs are only a little part of it)
+* [cron-utils][9]
 
 ## TODO
 
@@ -48,8 +48,9 @@ possible, and therefore used ``java.util.Calendar`` instead.
       * [x] Javadoc
       * [ ] README.md: quick use guide/code samples
     * [ ] Cleaning and formatting
+    * [ ] Generate MANIFEST.MF
 
-### V0.2 - Changing the parsing engine
+### V0.2 - Changing the parsing engine and adding syntaxes
 
   * [ ] Test rewriting engine in Antlr (using a grammar has advantages in terms of readibility,
 scalibility and maintenance)
@@ -58,18 +59,21 @@ scalibility and maintenance)
     * [ ] Use a custom implementation instead of Java's timer
     * [ ] Concurrence management (per job!)
   * [ ] Minor enhancements (search for TODO and FIXME in code)
-
-### V0.3 - Additional syntaxes
-
-  * [ ] cron4j
-  * [ ] Quartz
+  * [ ] Create a module ``crontab4j-scheduler``, containing one default syntax
+    * [ ] Keep the best of each world
+      * cron4j: possibility of multiple expressions
+      * Quartz: seconds and years, advanced day management
+  * [ ] Create a module ``crontab4j-syntaxes`` for additional syntaxes
+    * [x] Unix
+    * [ ] cron4j
+    * [ ] Quartz
 
 ### V1.0 - Available for release
 
   * [ ] Ensure functionality
   * [ ] Documentation
 
-### V2.0 - The utilities
+### V1.1 - The utilities
 
   * [ ] Enhancements
     * [ ] Ensure min < max in ranges when validating/parsing
