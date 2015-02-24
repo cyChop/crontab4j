@@ -48,7 +48,7 @@ possible, and therefore used ``java.util.Calendar`` instead.
       * [x] Javadoc
       * [ ] README.md: quick use guide/code samples
     * [x] Cleaning and formatting
-    * [ ] Generate MANIFEST.MF
+    * [x] Generate MANIFEST.MF
 
 ### V0.2 - Changing the parsing engine and adding syntaxes
 
@@ -71,6 +71,7 @@ scalibility and maintenance)
 ### V1.0 - Available for release
 
   * [ ] Ensure functionality
+  * [ ] Include license in jar (META-INF; avoid file duplication if possible)
   * [ ] Documentation
 
 ### V1.1 - The utilities

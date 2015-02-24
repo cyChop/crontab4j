@@ -9,6 +9,7 @@
 
   <name>crontab4j</name>
   <description>A Java utility to parse and schedule jobs using CRON expressions.</description>
+  <url>http://cychop.github.io/crontab4j</url>
 
   <licenses>
     <license>
@@ -62,6 +63,29 @@
 
   <build>
     <plugins>
+      <!--  __  __           _  __        _    -->
+      <!-- |  \/  |__ _ _ _ (_)/ _|___ __| |_  -->
+      <!-- | |\/| / _` | ' \| |  _/ -_|_-<  _| -->
+      <!-- |_|  |_\__,_|_||_|_|_| \___/__/\__| -->
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <!-- Include a manifest -->
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+            </manifest>
+            <manifestEntries>
+              <url>${project.url}</url>
+              <Build-Time>${maven.build.timestamp}</Build-Time>
+              <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
+              <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+        
       <!--    ___                      _ _     -->
       <!--   / __|_____ _____ _ _ __ _| | |___ -->
       <!--  | (__/ _ \ V / -_) '_/ _` | | (_-< -->
@@ -109,6 +133,10 @@
     <system>GitHub</system>
     <url>https://github.com/${github.user}/${github.repo}/issues</url>
   </issueManagement>
+  <organization>
+    <name>Keyboard Playing</name>
+    <url>http://keyboardplaying.org</url>
+  </organization>
   <developers>
     <developer>
       <id>cyChop</id>
