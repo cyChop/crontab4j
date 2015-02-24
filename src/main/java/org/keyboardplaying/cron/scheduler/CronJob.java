@@ -1,6 +1,6 @@
 package org.keyboardplaying.cron.scheduler;
 
-import java.util.Objects;
+import org.keyboardplaying.cron.Objects;
 
 /**
  * Object utility to represent a job that may be supplied to the scheduler.
@@ -23,10 +23,8 @@ public class CronJob {
      *            if {@code job} or {@code cron} are {@code null}
      */
     public CronJob(Runnable job, String cron) {
-        Objects.requireNonNull(job);
-        Objects.requireNonNull(cron);
-        this.job = job;
-        this.cron = cron;
+        this.job = Objects.requireNonNull(job);
+        this.cron = Objects.requireNonNull(cron);
     }
 
     /**

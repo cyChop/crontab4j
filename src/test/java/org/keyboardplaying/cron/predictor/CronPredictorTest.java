@@ -4,9 +4,9 @@ import static org.junit.Assert.fail;
 
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Objects;
 
 import org.junit.Test;
+import org.keyboardplaying.cron.Objects;
 import org.keyboardplaying.cron.predictor.CronPredictor;
 import org.keyboardplaying.cron.expression.CronExpression;
 import org.keyboardplaying.cron.expression.CronExpression.DayConstraint;

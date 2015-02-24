@@ -1,11 +1,9 @@
 package org.keyboardplaying.cron.parser;
 
-// import java.util.ArrayList;
-// import java.util.List;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.keyboardplaying.cron.Objects;
 import org.keyboardplaying.cron.exception.UnsupportedCronException;
 import org.keyboardplaying.cron.expression.CronExpression;
 import org.keyboardplaying.cron.expression.CronExpression.DayConstraint;
@@ -203,9 +201,7 @@ public class UnixCronParser implements CronSyntacticParser {
      */
     @Override
     public CronExpression parse(String cron) throws UnsupportedCronException {
-        Objects.requireNonNull(cron, "cron expression cannot be null.");
-
-        if (!cron.matches(PATTERN_CRON)) {
+        if (!Objects.requireNonNull(cron).matches(PATTERN_CRON)) {
             throw new UnsupportedCronException(cron, false);
         } else {
             String toParse = cron.startsWith(SPECIAL_EXP_KEY) ? SpecialExpression.valueOf(

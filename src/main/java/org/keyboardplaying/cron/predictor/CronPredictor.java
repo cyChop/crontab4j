@@ -1,8 +1,8 @@
 package org.keyboardplaying.cron.predictor;
 
 import java.util.Calendar;
-import java.util.Objects;
 
+import org.keyboardplaying.cron.Objects;
 import org.keyboardplaying.cron.expression.CronExpression;
 
 /**

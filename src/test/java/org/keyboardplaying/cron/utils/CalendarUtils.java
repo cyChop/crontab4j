@@ -15,6 +15,8 @@ public final class CalendarUtils {
     private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     private CalendarUtils() {
+        throw new AssertionError(
+                "org.keyboardplaying.cron.utils.CalendarUtils should not be instanciated");
     }
 
     /**
