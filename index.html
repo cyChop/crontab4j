@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>crontab4j by cyChop</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>crontab4j</h1>
+        <h2>A utility to be for using CRON expressions in Java</h2>
+        <a href="https://github.com/cyChop/crontab4j" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <p><a href="http://opensource.org/licenses/BSD-3-Clause"><img src="https://img.shields.io/badge/license-BSD_3--Clause-blue.svg" alt="License"></a></p>
+
+<h2>
+<a id="quick-start" class="anchor" href="#quick-start" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quick start</h2>
+
+<h3>
+<a id="goal" class="anchor" href="#goal" aria-hidden="true"><span class="octicon octicon-link"></span></a>Goal</h3>
+
+<p>This library allows for the triggering of a Java job based on a CRON expression.</p>
+
+<h3>
+<a id="supported-cron-syntaxes" class="anchor" href="#supported-cron-syntaxes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Supported CRON syntaxes</h3>
+
+<h4>
+<a id="at-the-moment" class="anchor" href="#at-the-moment" aria-hidden="true"><span class="octicon octicon-link"></span></a>At the moment</h4>
+
+<ul>
+<li>
+<a href="http://www.unix.com/man-page/linux/5/crontab/">Unix</a>
+
+<ul>
+<li>Classic integer ranges</li>
+<li>Day and month names (3 letters, case insensitive)</li>
+<li>Special expressions, with the exception of <code>@reboot</code>
+</li>
+</ul>
+</li>
+</ul>
+
+<h4>
+<a id="planned-for-later" class="anchor" href="#planned-for-later" aria-hidden="true"><span class="octicon octicon-link"></span></a>Planned for later</h4>
+
+<ul>
+<li><a href="http://www.sauronsoftware.it/projects/cron4j/">cron4j</a></li>
+<li>
+<a href="http://quartz-scheduler.org/">Quartz</a> (but CRONs are only a little part of it)</li>
+<li>crontab4j (take the best of each world and make it the most flexible as can be)</li>
+</ul>
+
+<h3>
+<a id="how-to-use-it" class="anchor" href="#how-to-use-it" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use it</h3>
+
+<div class="highlight highlight-java"><pre><span class="pl-k">import</span> <span class="pl-smi">org.keyboardplaying.cron.parser.UnixCronParser</span>;
+<span class="pl-k">import</span> <span class="pl-smi">org.keyboardplaying.cron.scheduler.CronScheduler</span>;
+
+<span class="pl-s">public</span> <span class="pl-s">class</span> <span class="pl-en">CronStarter</span> {
+
+    <span class="pl-s">public</span> <span class="pl-s">static</span> <span class="pl-st">void</span> <span class="pl-en">main</span>(<span class="pl-st">String</span>[] <span class="pl-v">args</span>) {
+        <span class="pl-stj">CronScheduler</span> schd <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">CronScheduler</span>();
+        <span class="pl-c">// Set parser: only Unix at the moment, but more to come</span>
+        schd<span class="pl-k">.</span>setParser(<span class="pl-k">new</span> <span class="pl-stj">UnixCronParser</span>());
+        schd<span class="pl-k">.</span>scheduleJob(<span class="pl-k">new</span> <span class="pl-stj">Runnable</span>() {
+            <span class="pl-s">public</span> <span class="pl-st">void</span> <span class="pl-en">run</span>() {
+                <span class="pl-stj">System</span><span class="pl-k">.</span>out<span class="pl-k">.</span>println(<span class="pl-s1"><span class="pl-pds">"</span>Another minute ticked.<span class="pl-pds">"</span></span>);
+            }
+        }, <span class="pl-s1"><span class="pl-pds">"</span>* * * * *<span class="pl-pds">"</span></span>);
+        <span class="pl-c">// schd is a daemon: it will not prevent the JVM from stopping</span>
+    }
+}</pre></div>
+
+<h3>
+<a id="daemon" class="anchor" href="#daemon" aria-hidden="true"><span class="octicon octicon-link"></span></a>Daemon</h3>
+
+<p>The JVM will stop automatically if all remaining threads are daemons. The <code>CronScheduler</code> is a daemon
+by default. To prevent this behaviour, you should instantiate it this way:</p>
+
+<div class="highlight highlight-java"><pre><span class="pl-stj">CronScheduler</span> schd <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-stj">CronScheduler</span>(<span class="pl-c1">false</span>);</pre></div>
+
+<p>A fair warning: you will have to stop it for the JVM to close:</p>
+
+<div class="highlight highlight-java"><pre>schd<span class="pl-k">.</span>terminate();</pre></div>
+
+<h3>
+<a id="using-with-spring" class="anchor" href="#using-with-spring" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using with Spring</h3>
+
+<div class="highlight highlight-xml"><pre>&lt;<span class="pl-ent">bean</span> <span class="pl-e">id</span>=<span class="pl-s1"><span class="pl-pds">"</span>schd<span class="pl-pds">"</span></span> <span class="pl-e">class</span>=<span class="pl-s1"><span class="pl-pds">"</span>org.keyboardplaying.cron.scheduler.CronScheduler<span class="pl-pds">"</span></span>&gt;
+    &lt;<span class="pl-ent">property</span> <span class="pl-e">name</span>=<span class="pl-s1"><span class="pl-pds">"</span>parser<span class="pl-pds">"</span></span>&gt;&lt;<span class="pl-ent">bean</span> <span class="pl-e">class</span>=<span class="pl-s1"><span class="pl-pds">"</span>org.keyboardplaying.cron.parser.UnixCronParser<span class="pl-pds">"</span></span>/&gt;&lt;/<span class="pl-ent">property</span>&gt;
+    &lt;<span class="pl-ent">property</span> <span class="pl-e">name</span>=<span class="pl-s1"><span class="pl-pds">"</span>jobs<span class="pl-pds">"</span></span>&gt;
+        &lt;<span class="pl-ent">list</span>&gt;
+            &lt;<span class="pl-ent">ref</span> <span class="pl-e">bean</span>=<span class="pl-s1"><span class="pl-pds">"</span>job1<span class="pl-pds">"</span></span>/&gt;
+            &lt;<span class="pl-ent">ref</span> <span class="pl-e">bean</span>=<span class="pl-s1"><span class="pl-pds">"</span>job2<span class="pl-pds">"</span></span>/&gt;
+            ...
+        &lt;/<span class="pl-ent">list</span>&gt;
+    &lt;/<span class="pl-ent">property</span>&gt;
+&lt;/<span class="pl-ent">bean</span>&gt;
+
+&lt;<span class="pl-ent">bean</span> <span class="pl-e">id</span>=<span class="pl-s1"><span class="pl-pds">"</span>job1<span class="pl-pds">"</span></span> <span class="pl-e">class</span>=<span class="pl-s1"><span class="pl-pds">"</span>org.keyboardplaying.cron.scheduler.CronJob<span class="pl-pds">"</span></span>&gt;
+    &lt;<span class="pl-ent">property</span> <span class="pl-e">name</span>=<span class="pl-s1"><span class="pl-pds">"</span>job<span class="pl-pds">"</span></span> <span class="pl-e">ref</span>=<span class="pl-s1"><span class="pl-pds">"</span>myRunnableBean<span class="pl-pds">"</span></span>/&gt;
+    &lt;<span class="pl-ent">property</span> <span class="pl-e">name</span>=<span class="pl-s1"><span class="pl-pds">"</span>cron<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s1"><span class="pl-pds">"</span>0 0 * * *<span class="pl-pds">"</span></span>/&gt;
+&lt;/<span class="pl-ent">bean</span>&gt;
+
+...</pre></div>
+
+<h2>
+<a id="interesting-links" class="anchor" href="#interesting-links" aria-hidden="true"><span class="octicon octicon-link"></span></a>Interesting links</h2>
+
+<ul>
+<li><a href="http://www.unix.com/man-page/linux/5/crontab/">Unix man crontab</a></li>
+<li>
+<a href="http://quartz-scheduler.org/">Quartz</a> (but CRONs are only a little part of it)</li>
+<li><a href="http://www.sauronsoftware.it/projects/cron4j/">cron4j</a></li>
+<li><a href="https://github.com/jmrozanec/cron-utils">cron-utils</a></li>
+</ul>
+
+<h2>
+<a id="history" class="anchor" href="#history" aria-hidden="true"><span class="octicon octicon-link"></span></a>History</h2>
+
+<p>It happened at work: we wanted to gain the flexibility of CRON expressions for job scheduling, but
+my boss feared Quartz was overkill for a single job.</p>
+
+<p>So I gathered my knowledge about the CRONs (which was few, so I had to look for some more) and
+created my own parser and scheduler. Not that hard, actually, but this was a kind of a draft.</p>
+
+<p>I had the wish to go from scratch and write something a bit more elaborate and clean. And when
+looking for the name, I discovered <a href="http://www.sauronsoftware.it/projects/cron4j/"><code>cron4j</code></a> was already taken by a similar project. Still,
+for the challenge...</p>
+
+<p>My first try had been using <a href="http://www.joda.org/joda-time/"><code>joda-time</code></a> for comfort and ease of use. However, this time, I
+chose to avoid external libraries as much as possible in order to keep the footprint as light as
+possible, and therefore used <code>java.util.Calendar</code> instead.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/cyChop/crontab4j/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/cyChop/crontab4j/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/cyChop/crontab4j"></a> is maintained by <a href="https://github.com/cyChop">cyChop</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
