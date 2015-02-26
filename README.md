@@ -152,7 +152,7 @@ scalibility and maintenance)
 [2]: https://travis-ci.org/cyChop/crontab4j
 [3]: http://img.shields.io/coveralls/cyChop/crontab4j/master.svg
 [4]: https://coveralls.io/r/cyChop/crontab4j?branch=master
-[5]: https://img.shields.io/badge/license-BSD-blue.svg
+[5]: https://img.shields.io/badge/license-BSD_3--Clause-blue.svg
 [6]: http://opensource.org/licenses/BSD-3-Clause
 [7]: http://www.unix.com/man-page/linux/5/crontab/
 [8]: http://www.sauronsoftware.it/projects/cron4j/
