@@ -38,6 +38,8 @@
     <sonar.java.source>${maven.compiler.source}</sonar.java.source>
     <sonar.java.target>${maven.compiler.target}</sonar.java.target>
 
+    <!-- Version management - Antlr -->
+    <antlr.version>4.5</antlr.version>
     <!-- Version management - test -->
     <junit.version>4.12</junit.version>
     <jdepend.version>2.9.1</jdepend.version>
@@ -48,6 +50,16 @@
 
   <dependencyManagement>
     <dependencies>
+      <!--    _   _  _ _____ _    ___  -->
+      <!--   /_\ | \| |_   _| |  | _ \ -->
+      <!--  / _ \| .` | | | | |__|   / -->
+      <!-- /_/ \_\_|\_| |_| |____|_|_\ -->
+      <dependency>
+        <groupId>org.antlr</groupId>
+        <artifactId>antlr4</artifactId>
+        <version>${antlr.version}</version>
+      </dependency>
+
       <!--  _____       _    -->
       <!-- |_   _|__ __| |_  -->
       <!--   | |/ -_|_-<  _| -->
@@ -106,6 +118,24 @@
               </manifestEntries>
             </archive>
           </configuration>
+        </plugin>
+
+        <!--    _   _  _ _____ _    ___  -->
+        <!--   /_\ | \| |_   _| |  | _ \ -->
+        <!--  / _ \| .` | | | | |__|   / -->
+        <!-- /_/ \_\_|\_| |_| |____|_|_\ -->
+        <plugin>
+          <groupId>org.antlr</groupId>
+          <artifactId>antlr4-maven-plugin</artifactId>
+          <version>${antlr.version}</version>
+          <executions>
+            <execution>
+              <id>antlr</id>
+              <goals>
+                <goal>antlr4</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
 
         <!--    ___                      _ _     -->
