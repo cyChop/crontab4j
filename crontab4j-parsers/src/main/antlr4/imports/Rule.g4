@@ -1,9 +1,16 @@
 grammar Rule;
+ruleSet:			atomicRule(','atomicRule)*;
 atomicRule:         anyValueRule|singleValueRule|rangeRule|repeatRule;
 anyValueRule:       ANY;
-singleValueRule:    nameableUnit;
-rangeRule:          nameableUnit'-'nameableUnit;
-repeatRule:         (ANY|rangeRule)'/'UNIT;
+singleValueRule:    value;
+rangeRule:          min'-'max;
+repeatRule:         (ANY|min'-'max)'/'step;
+
+value:				nameableUnit;
+min:				nameableUnit;
+max:				nameableUnit;
+step:				UNIT;
+
 ANY:                '*';
 
 /** This can be overridden in children grammar. */

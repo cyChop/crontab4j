@@ -13,6 +13,7 @@
 
   <modules>
     <module>crontab4j-scheduler</module>
+    <module>crontab4j-parsers</module>
   </modules>
 
   <licenses>

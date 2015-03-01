@@ -23,6 +23,12 @@
   </licenses>
 
   <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>crontab4j-scheduler</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  
     <!--    _   _  _ _____ _    ___  -->
     <!--   /_\ | \| |_   _| |  | _ \ -->
     <!--  / _ \| .` | | | | |__|   / -->
