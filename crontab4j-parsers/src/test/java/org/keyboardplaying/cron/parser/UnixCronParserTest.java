@@ -69,7 +69,7 @@ public class UnixCronParserTest {
      */
     @Test
     public void testParse() {
-        CronExpression cron = prsr.parse("0 * 1-15/2,*/3,31 1/2 1-5");
+        CronExpression cron = prsr.parse("0 * 1-15/2,*/3,31 1 1-5");
 
         CronRule second = cron.get(Field.SECOND);
         CronRule minute = cron.get(Field.MINUTE);

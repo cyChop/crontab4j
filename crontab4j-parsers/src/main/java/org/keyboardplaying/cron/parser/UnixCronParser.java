@@ -162,7 +162,6 @@ public class UnixCronParser implements CronSyntacticParser {
                         "CRON expression must not be null"))))).cron();
         SpecialExprContext specialExpr = parser.specialExpr();
         if (specialExpr == null) {
-            System.out.println("--");
             RegularContext reg = parser.regular();
             return CronExpression.Builder
                     .create()
