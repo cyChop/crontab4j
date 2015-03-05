@@ -111,7 +111,8 @@ possible, and therefore used ``java.util.Calendar`` instead.
 
   * [ ] Test rewriting engine in Antlr (using a grammar has advantages in terms of readibility,
 scalibility and maintenance)
-  * [ ] Compare performances/footprint and retain overall best version
+    * [x] Parsing
+    * [ ] Disable auto-recovery and throw an error when parsing fails
   * [ ] Scheduler enhancement
     * [ ] Use a custom implementation instead of Java's timer
     * [ ] Concurrence management (per job!)
@@ -124,6 +125,11 @@ scalibility and maintenance)
     * [x] Unix
     * [ ] cron4j
     * [ ] Quartz
+  * [ ] Bugfixes
+    * [ ] Unix:
+    > Names can also be used for the ``month`` and ``day of week`` fields. Use the first three
+letters of the  particular day or month (case doesn't matter). **Ranges or lists of names are not
+allowed.**
 
 ### V1.0 - Available for release
 

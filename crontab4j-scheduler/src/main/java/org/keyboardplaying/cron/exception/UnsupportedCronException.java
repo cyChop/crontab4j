@@ -28,6 +28,20 @@ public class UnsupportedCronException extends RuntimeException {
     }
 
     /**
+     * Creates a new instance.
+     *
+     * @param cron
+     *            the invalid CRON expression
+     * @param cause
+     *            the cause of invalidity for this cron
+     */
+    public UnsupportedCronException(String cron, Throwable cause) {
+        super(cause);
+        this.cron = cron;
+        this.valid = false;
+    }
+
+    /**
      * Returns the CRON expression which caused this exception to be raised.
      *
      * @return the invalid CRON expression

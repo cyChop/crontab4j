@@ -162,19 +162,24 @@ public class UnixCronParser implements CronSyntacticParser {
                         "CRON expression must not be null"))))).cron();
         SpecialExprContext specialExpr = parser.specialExpr();
         if (specialExpr == null) {
-            RegularContext reg = parser.regular();
-            return CronExpression.Builder
-                    .create()
-                    .set(DayConstraint.BOTH_OR)
-                    .set(Field.SECOND, new SingleValueRule(0))
-                    .set(Field.MINUTE, parseRules(reg.minuteField().rules(), UnixCronField.MINUTE))
-                    .set(Field.HOUR, parseRules(reg.hourField().rules(), UnixCronField.HOUR))
-                    .set(Field.DAY_OF_MONTH,
-                            parseRules(reg.dayOfMonthField().rules(), UnixCronField.DAY_OF_MONTH))
-                    .set(Field.MONTH, parseRules(reg.monthField().rules(), UnixCronField.MONTH))
-                    .set(Field.DAY_OF_WEEK,
-                            parseRules(reg.dayOfWeekField().rules(), UnixCronField.DAY_OF_WEEK))
-                    .set(Field.YEAR, new AnyValueRule()).build();
+            try {
+                RegularContext reg = parser.regular();
+                return CronExpression.Builder
+                        .create()
+                        .set(DayConstraint.BOTH_OR)
+                        .set(Field.SECOND, new SingleValueRule(0))
+                        .set(Field.MINUTE,
+                                parseRules(reg.minuteField().rules(), UnixCronField.MINUTE))
+                        .set(Field.HOUR, parseRules(reg.hourField().rules(), UnixCronField.HOUR))
+                        .set(Field.DAY_OF_MONTH,
+                                parseRules(reg.dayOfMonthField().rules(), UnixCronField.DAY_OF_MONTH))
+                        .set(Field.MONTH, parseRules(reg.monthField().rules(), UnixCronField.MONTH))
+                        .set(Field.DAY_OF_WEEK,
+                                parseRules(reg.dayOfWeekField().rules(), UnixCronField.DAY_OF_WEEK))
+                        .set(Field.YEAR, new AnyValueRule()).build();
+            } catch (IllegalArgumentException e) {
+                throw new UnsupportedCronException(cron, e);
+            }
         } else {
             return parse(SpecialExpression.valueOf(specialExpr.getText()).getEquivalent());
         }
