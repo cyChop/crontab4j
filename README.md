@@ -109,9 +109,7 @@ possible, and therefore used ``java.util.Calendar`` instead.
 
 ### V0.2 - Changing the parsing engine and adding syntaxes
 
-  * [ ] Test rewriting engine in Antlr (using a grammar has advantages in terms of readibility,
-scalibility and maintenance)
-  * [ ] Compare performances/footprint and retain overall best version
+  * [ ] Find a parsing method without use of regular expressions
   * [ ] Scheduler enhancement
     * [ ] Use a custom implementation instead of Java's timer
     * [ ] Concurrence management (per job!)
