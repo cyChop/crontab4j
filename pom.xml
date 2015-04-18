@@ -42,8 +42,8 @@
     <junit.version>4.12</junit.version>
     <jdepend.version>2.9.1</jdepend.version>
     <!-- Version management - coverage -->
-    <cobertura.plugin.version>2.6</cobertura.plugin.version>
-    <coveralls.plugin.version>3.0.1</coveralls.plugin.version>
+    <cobertura.plugin.version>2.7</cobertura.plugin.version>
+    <coveralls.plugin.version>3.1.0</coveralls.plugin.version>
   </properties>
 
   <dependencyManagement>
