@@ -47,17 +47,15 @@ public interface CronSyntacticParser {
     /**
      * Representation of the rule and parsing specifications of a group.
      * <p/>
-     * The "group" in the name of this interface refers to the regex notion of group, as each field
-     * of the CRON expression should be isolated as a group before being parsed using the
-     * information provided via this interface.
+     * The "group" in the name of this interface refers to the regex notion of group, as each field of the CRON
+     * expression should be isolated as a group before being parsed using the information provided via this interface.
      *
      * @author Cyrille Chopelet (http://keyboardplaying.org)
      */
     static interface CronGroup {
 
         /**
-         * Returns a regular expression to identify the allowed integer values for the rule
-         * corresponding to this group.
+         * Returns a regular expression to identify the allowed integer values for the rule corresponding to this group.
          *
          * @return the pattern for the range of authorized integer values
          */
@@ -88,8 +86,8 @@ public interface CronSyntacticParser {
     /**
      * An interface for substitution names (e.g. day or month names) in CRON expressions.
      * <p/>
-     * This interface is used when names are to be allowed on a segment of a CRON expression. They
-     * basically are represented as an alias-value pair.
+     * This interface is used when names are to be allowed on a segment of a CRON expression. They basically are
+     * represented as an alias-value pair.
      *
      * @author Cyrille Chopelet (http://keyboardplaying.org)
      */
@@ -115,8 +113,8 @@ public interface CronSyntacticParser {
      * <p/>
      * As the base for the most commonly used CRON formats, Unix CRON standard seemed a good basis.
      * <p/>
-     * This utility class provides methods for generating CRON patterns from allowed range and
-     * names, and from parsing them back to {@link CronRule}.
+     * This utility class provides methods for generating CRON patterns from allowed range and names, and from parsing
+     * them back to {@link CronRule}.
      *
      * @author Cyrille Chopelet (http://keyboardplaying)
      */
@@ -139,8 +137,7 @@ public interface CronSyntacticParser {
          * @param caseSensitive
          *            {@code true} if aliases are to be case-senstive, {@code false} otherwise
          */
-        public static String initGroupPattern(String rangePattern, CronAlias[] aliases,
-                boolean caseSensitive) {
+        public static String initGroupPattern(String rangePattern, CronAlias[] aliases, boolean caseSensitive) {
             String allowedNames;
             if (aliases == null || aliases.length == 0) {
                 allowedNames = "";
@@ -154,8 +151,8 @@ public interface CronSyntacticParser {
                 }
                 allowedNames = sb.toString();
             }
-            return "(?:\\*|(" + rangePattern + allowedNames + ")(?:-(" + rangePattern
-                    + allowedNames + "))?)(?:/(" + rangePattern + "))?";
+            return "(?:\\*|(" + rangePattern + allowedNames + ")(?:-(" + rangePattern + allowedNames + "))?)(?:/("
+                    + rangePattern + "))?";
         }
 
         /**
@@ -164,8 +161,8 @@ public interface CronSyntacticParser {
          * @param sep
          *            the parameter to be used when allowing multiple rules for a group
          * @param groups
-         *            the rule and parsing specifications for each group in the regex; the array
-         *            must be ordered the same way the CRON expressions will be
+         *            the rule and parsing specifications for each group in the regex; the array must be ordered the
+         *            same way the CRON expressions will be
          */
         public static String initCronPattern(String sep, CronGroup[] groups) {
             StringBuilder sb = new StringBuilder();
@@ -187,9 +184,9 @@ public interface CronSyntacticParser {
         }
 
         /**
-         * Parses a group to a {@link CronRule}. Only integers and {@code *} are allowed; if names
-         * were used in the original expression, they must have been replaced with their integer
-         * equivalent before the group is passed to this method.
+         * Parses a group to a {@link CronRule}. Only integers and {@code *} are allowed; if names were used in the
+         * original expression, they must have been replaced with their integer equivalent before the group is passed to
+         * this method.
          *
          * @param grp
          *            the group extracted from the CronExpression
@@ -203,7 +200,7 @@ public interface CronSyntacticParser {
         public static CronRule parseGroup(String grp, String sep, CronGroup group) {
             CronRule result;
             if (sep != null && grp.contains(sep)) {
-                List<CronRule> rules = new ArrayList<CronRule>();
+                List<CronRule> rules = new ArrayList<>();
                 for (String atomic : grp.split(sep)) {
                     rules.add(parseGroup(atomic, null, group));
                 }
@@ -219,21 +216,18 @@ public interface CronSyntacticParser {
                     if (min == null) {
                         result = new AnyValueRule();
                     } else if (max == null) {
-                        result = group.getAdapter().adapt(
-                                new SingleValueRule(Integer.parseInt(min)));
+                        result = group.getAdapter().adapt(new SingleValueRule(Integer.parseInt(min)));
                     } else {
-                        result = group.getAdapter().adapt(
-                                new RangeRule(Integer.parseInt(min), Integer.parseInt(max)));
+                        result = group.getAdapter().adapt(new RangeRule(Integer.parseInt(min), Integer.parseInt(max)));
                     }
                 } else if (min == null) {
-                    result = group.getAdapter().adapt(
-                            new RepeatRule(group.getMin(), group.getMax(), Integer.parseInt(step)));
+                    result = group.getAdapter()
+                            .adapt(new RepeatRule(group.getMin(), group.getMax(), Integer.parseInt(step)));
                 } else if (max == null) {
                     result = group.getAdapter().adapt(new SingleValueRule(Integer.parseInt(min)));
                 } else {
                     result = group.getAdapter().adapt(
-                            new RepeatRule(Integer.parseInt(min), Integer.parseInt(max), Integer
-                                    .parseInt(step)));
+                            new RepeatRule(Integer.parseInt(min), Integer.parseInt(max), Integer.parseInt(step)));
                 }
             }
             return result;

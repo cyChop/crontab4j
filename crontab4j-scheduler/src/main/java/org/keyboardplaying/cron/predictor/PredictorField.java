@@ -29,10 +29,8 @@ enum PredictorField {
                 } while (!rule.allows(next.get(Calendar.DAY_OF_WEEK)));
 
                 // The month may have shifted, ensure the constraints are still OK
-                if (next.get(Calendar.MONTH) != cal.get(Calendar.MONTH)
-                        && !MONTH.allows(next, cron)
-                        || next.get(Calendar.YEAR) != cal.get(Calendar.YEAR)
-                        && !YEAR.allows(next, cron)) {
+                if (next.get(Calendar.MONTH) != cal.get(Calendar.MONTH) && !MONTH.allows(next, cron)
+                        || next.get(Calendar.YEAR) != cal.get(Calendar.YEAR) && !YEAR.allows(next, cron)) {
                     next = shiftUpper(cal, cron);
                     if (next != null && !allowsField(next, cron, Field.DAY_OF_WEEK)) {
                         next = shift(next, cron, exprField);
@@ -49,9 +47,8 @@ enum PredictorField {
                     int ruleMax = rule.getMax();
                     int caldMax = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
                     return ruleMax < caldMax ? ruleMax : caldMax;
-                } else {
-                    return cal.getActualMaximum(Calendar.DAY_OF_MONTH);
                 }
+                return cal.getActualMaximum(Calendar.DAY_OF_MONTH);
             }
         };
 

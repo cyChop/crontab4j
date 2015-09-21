@@ -46,9 +46,8 @@ public class CronSchedulerTest {
             @Override
             public CronExpression parse(String cron) {
                 final CronRule any = new AnyValueRule();
-                return CronExpression.Builder.create().set(DayConstraint.NONE)
-                        .set(Field.SECOND, any).set(Field.MINUTE, any).set(Field.HOUR, any)
-                        .set(Field.DAY_OF_MONTH, any).set(Field.MONTH, any)
+                return CronExpression.Builder.create().set(DayConstraint.NONE).set(Field.SECOND, any)
+                        .set(Field.MINUTE, any).set(Field.HOUR, any).set(Field.DAY_OF_MONTH, any).set(Field.MONTH, any)
                         .set(Field.DAY_OF_WEEK, any).set(Field.YEAR, any).build();
             }
         });
@@ -66,7 +65,7 @@ public class CronSchedulerTest {
     /** Tests the execution and recurrence of a job with a CronScheduler (2 executions). */
     @Test(timeout = 3500)
     public void testExecutionList() throws InterruptedException {
-        List<CronJob> jobs = new ArrayList<CronJob>();
+        List<CronJob> jobs = new ArrayList<>();
         jobs.add(new CronJob(job, "* * * * *"));
 
         latch = new CountDownLatch(2);

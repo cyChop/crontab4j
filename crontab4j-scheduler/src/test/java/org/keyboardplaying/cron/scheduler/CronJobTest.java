@@ -16,10 +16,12 @@ public class CronJobTest {
     private Runnable job = new Runnable() {
         @Override
         public void run() {
+            // just do nothing
         }
     };
 
     /** Ensures the constructor throws a {@link NullPointerException} if the job is {@code null}. */
+    @SuppressWarnings("unused")
     @Test(expected = NullPointerException.class)
     public void testNullJob() {
         new CronJob(null, CRON_EVRY_MIN);
@@ -28,6 +30,7 @@ public class CronJobTest {
     /**
      * Ensures the constructor throws a {@link NullPointerException} if the cron is {@code null}.
      */
+    @SuppressWarnings("unused")
     @Test(expected = NullPointerException.class)
     public void testNullCron() {
         new CronJob(job, null);

@@ -58,6 +58,7 @@ public class RangeRuleTest {
     }
 
     /** Tests the behavior of the constructor with incorrect arguments. */
+    @SuppressWarnings("unused")
     @Test(expected = IllegalArgumentException.class)
     public void testIllegalConstructorArguments() {
         new RangeRule(1, 0);

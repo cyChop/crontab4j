@@ -1,0 +1,181 @@
+= Project name
+Cyrille Chopelet <cyrille.chopelet@mines-nancy.org>
+
+// Set your repository informations here.
+:github-user: cyChop
+:github-repo: crontab4j
+:coverity-name: cychop-{github-repo}
+:coverity-scan: 6424
+:license-name: BSD 3-CLause
+:license-shield: BSD_3--Clause
+:license-url: http://opensource.org/licenses/BSD-3-Clause
+
+// The badges. Should not require any change.
+:url-shields: http://img.shields.io/
+image:{url-shields}travis/{github-user}/{github-repo}/master.svg[Build status, link="https://travis-ci.org/{github-user}/{github-repo}"]
+image:{url-shields}coveralls/{github-user}/{github-repo}/master.svg[Test coverage, link="https://coveralls.io/r/{github-user}/{github-repo}?branch=master"]
+image:{url-shields}coverity/scan/{coverity-scan}.svg[Coverity status, link="https://scan.coverity.com/projects/{coverity-name}"]
+image:{url-shields}badge/license-{license-shield}-blue.svg[License: {license-name}, link="{license-url}"]
+
+// Now, the main documentation.
+:url-cron-unix: http://www.unix.com/man-page/linux/5/crontab/
+:url-cron-cron4j: http://www.sauronsoftware.it/projects/cron4j/
+:url-cron-utils: https://github.com/jmrozanec/cron-utils
+:url-cron-quartz: http://quartz-scheduler.org/
+:url-joda-time: http://www.joda.org/joda-time/
+
+
+== Quick start
+
+=== Goal
+
+This library allows for the triggering of a Java job based on a CRON expression.
+
+=== Supported CRON syntaxes
+
+===== At the moment
+
+{url-cron-unix}[Unix]::
+* Classic integer ranges
+* Day and month names (3 letters, case insensitive)
+* Special expressions, with the exception of `@reboot`
+
+==== Planned for later
+
+* {url-cron-cron4j}[cron4j]
+* {url-cron-quartz}[Quartz][10] (but CRONs are only a little part of it)
+* crontab4j (take the best of each world and make it the most flexible as can be)
+
+=== How to use it
+
+[source,java]
+.CronStarter.java
+----
+import org.keyboardplaying.cron.parser.UnixCronParser;
+import org.keyboardplaying.cron.scheduler.CronScheduler;
+
+public class CronStarter {
+
+    public static void main(String[] args) {
+        CronScheduler schd = new CronScheduler();
+        // Set parser: only Unix at the moment, but more to come
+        schd.setParser(new UnixCronParser());
+        schd.scheduleJob(new Runnable() {
+            public void run() {
+                System.out.println("Another minute ticked.");
+            }
+        }, "* * * * *");
+        // schd is a daemon: it will not prevent the JVM from stopping
+    }
+}
+----
+
+=== Daemon
+
+The JVM will stop automatically if all remaining threads are daemons. The `CronScheduler` is a daemon
+by default. To prevent this behaviour, you should instantiate it this way:
+
+[source,java]
+----
+CronScheduler schd = new CronScheduler(false);
+----
+
+A fair warning: you will have to stop it for the JVM to close:
+
+[source,java]
+----
+schd.terminate();
+----
+
+=== Using with Spring
+
+[source,xml]
+----
+<bean id="schd" class="org.keyboardplaying.cron.scheduler.CronScheduler">
+    <property name="parser"><bean class="org.keyboardplaying.cron.parser.UnixCronParser"/></property>
+    <property name="jobs">
+        <list>
+            <ref bean="job1"/>
+            <ref bean="job2"/>
+            ...
+        </list>
+    </property>
+</bean>
+
+<bean id="job1" class="org.keyboardplaying.cron.scheduler.CronJob">
+    <property name="job" ref="myRunnableBean"/>
+    <property name="cron" value="0 0 * * *"/>
+</bean>
+----
+
+== Interesting links
+
+* {url-cron-unix}[Unix man crontab]
+* {url-cron-quartz}[Quartz] (but CRONs are only a little part of it)
+* {url-cron-cron4j}[cron4j]
+* {url-cron-utils}[cron-utils]
+
+== History
+
+It happened at work: we wanted to gain the flexibility of CRON expressions for job scheduling, but
+my boss feared Quartz was overkill for a single job.
+
+So I gathered my knowledge about the CRONs (which was few, so I had to look for some more) and
+created my own parser and scheduler. Not that hard, actually, but this was a kind of a draft.
+
+I had the wish to go from scratch and write something a bit more elaborate and clean. And when
+looking for the name, I discovered {url-cron-cron4j}[`cron4j`] was already taken by a similar project. Still,
+for the challenge...
+
+My first try had been using {url-joda-time}[`joda-time`] for comfort and ease of use. However, this time, I
+chose to avoid external libraries as much as possible in order to keep the footprint as light as
+possible, and therefore used `java.util.Calendar` instead.
+
+== Roadmap
+
+=== V0.2 - Changing the parsing engine and adding syntaxes
+
+* [ ] Test rewriting engine in Antlr (using a grammar has advantages in terms of readibility,
+scalibility and maintenance)
+** [x] Parsing
+** [ ] Disable auto-recovery and throw an error when parsing fails
+* [ ] Scheduler enhancement
+** [ ] Use a custom implementation instead of Java's timer
+** [ ] Concurrence management (per job!)
+* [ ] Minor enhancements (search for TODO and FIXME in code)
+* [ ] Create a module `crontab4j-scheduler`, containing one default syntax
+** [ ] Keep the best of each world
+*** cron4j: possibility of multiple expressions
+*** Quartz: seconds and years, advanced day management
+* [ ] Create a module `crontab4j-syntaxes` for additional syntaxes
+** [x] Unix
+** [ ] cron4j
+** [ ] Quartz
+* [ ] Bugfixes
+** [ ] Unix:
+    > Names can also be used for the `month` and `day of week` fields. Use the first three
+letters of the  particular day or month (case doesn't matter). **Ranges or lists of names are not
+allowed.**
+
+=== V1.0 - Available for release
+
+* [ ] Ensure functionality
+* [ ] Include license in jar (META-INF; avoid file duplication if possible)
+* [ ] Documentation
+
+=== V1.1 - The utilities
+
+* [ ] Enhancements
+** [ ] Ensure min < max in ranges when validating/parsing
+* [ ] Optimizer (parses the rules and rewrite them for optimization)
+** [ ] Single values with a step (`1/2` -> `1`)
+** [ ] Remove CRON expressions without a next occurrence
+** [ ] Repetition with step == `1` -> range
+** [ ] Multiple expressions with at least one `*` (e.g. `1-5,*,20-30/9`) -> `*`
+** [ ] Overlapping ranges (or repeats with same step) -> Single range (or repeat with same step)
+** [ ] Identical ranges with multiple steps (`*/4,*/2`) -> `*/2`~
+** [ ] Out of access ranges (`0 0 2-7/2 31 *` -> 31st of every even month until July)
+* [ ] Generator (related to previous; reverts a `CronExpression` to a `String`)
+* [ ] Descriptor (describes a CRON in natural language; low priority)
+* [ ] Split into `crontab4j-core` and `crontab4j-utils` to reduce footprint if need be
+* [ ] Review documentation
