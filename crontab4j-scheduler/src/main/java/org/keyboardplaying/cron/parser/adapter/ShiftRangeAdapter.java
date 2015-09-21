@@ -10,8 +10,8 @@ import org.keyboardplaying.cron.expression.rule.RepeatRule;
 import org.keyboardplaying.cron.expression.rule.SingleValueRule;
 
 /**
- * Common implementation of {@link RangeAdapter} to shift the range rules in order to match the
- * default values of crontab4j implementation.
+ * Common implementation of {@link RangeAdapter} to shift the range rules in order to match the default values of
+ * crontab4j implementation.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
@@ -29,8 +29,7 @@ public abstract class ShiftRangeAdapter implements RangeAdapter {
      * @param adaptedMax
      *            the maximal allowed value for the shifted range
      * @param ref
-     *            a reference value for the range to be shifted (e.g. integer representation of a
-     *            specific day)
+     *            a reference value for the range to be shifted (e.g. integer representation of a specific day)
      * @param adaptedRef
      *            the equivalent reference value in the shifted referential
      */
@@ -54,8 +53,7 @@ public abstract class ShiftRangeAdapter implements RangeAdapter {
     /*
      * (non-Javadoc)
      *
-     * @see org.keyboardplaying.cron.parser.RangeAdapter#adapt(org.keyboardplaying.cron.expression
-     * .rule.RangeRule)
+     * @see org.keyboardplaying.cron.parser.RangeAdapter#adapt(org.keyboardplaying.cron.expression .rule.RangeRule)
      */
     @Override
     public CronRule adapt(RangeRule rule) {
@@ -66,8 +64,7 @@ public abstract class ShiftRangeAdapter implements RangeAdapter {
         if (min <= max) {
             result = new RangeRule(min, max);
         } else {
-            result = new MultipleRule(new RangeRule(adaptedMin, max),
-                    new RangeRule(min, adaptedMax));
+            result = new MultipleRule(new RangeRule(adaptedMin, max), new RangeRule(min, adaptedMax));
         }
 
         return result;
@@ -76,8 +73,7 @@ public abstract class ShiftRangeAdapter implements RangeAdapter {
     /*
      * (non-Javadoc)
      *
-     * @see org.keyboardplaying.cron.parser.RangeAdapter#adapt(org.keyboardplaying.cron.expression
-     * .rule.RepeatRule)
+     * @see org.keyboardplaying.cron.parser.RangeAdapter#adapt(org.keyboardplaying.cron.expression .rule.RepeatRule)
      */
     @Override
     public CronRule adapt(RepeatRule rule) {
@@ -89,7 +85,7 @@ public abstract class ShiftRangeAdapter implements RangeAdapter {
             result = new RepeatRule(min, max, rule.getStep());
         } else {
             // XXX min/max calculation is tricky, but two repeats should work
-            List<CronRule> allowed = new ArrayList<CronRule>();
+            List<CronRule> allowed = new ArrayList<>();
             for (int i = rule.getMin(); i <= rule.getMax(); i++) {
                 if (rule.allows(i)) {
                     allowed.add(new SingleValueRule(shift(i)));

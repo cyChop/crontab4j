@@ -23,7 +23,7 @@ class FieldShifter {
     }
 
     protected int getMax(Calendar cal, CronRule rule) {
-        assert !rule.hasMax() || rule.getMax() <= max;
+        assert!rule.hasMax() || rule.getMax() <= max;
         return rule.hasMax() ? rule.getMax() : max;
     }
 
@@ -37,17 +37,16 @@ class FieldShifter {
     }
 
     private Calendar shift(Calendar cal, CronExpression cron, CronRule rule) {
-        final int max = getMax(cal, rule);
+        final int localMax = getMax(cal, rule);
         int value = cal.get(calendarField);
         do {
             value++;
-            if (value > max) {
+            if (value > localMax) {
                 Calendar next = shiftUpper(cal, cron);
                 if (next == null) {
                     return null;
-                } else {
-                    return rule.allows(next.get(calendarField)) ? next : shift(cal, cron, rule);
                 }
+                return rule.allows(next.get(calendarField)) ? next : shift(cal, cron, rule);
             }
         } while (!rule.allows(value));
 
@@ -61,9 +60,8 @@ class FieldShifter {
         if (ordinal == 0) {
             // no upper, no possible result
             return null;
-        } else {
-            return PredictorField.values()[ordinal - 1].shift(cal, cron);
         }
+        return PredictorField.values()[ordinal - 1].shift(cal, cron);
     }
 
     protected void reset(Calendar cal) {

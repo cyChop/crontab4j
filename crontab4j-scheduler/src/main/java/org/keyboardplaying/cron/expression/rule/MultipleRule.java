@@ -20,7 +20,7 @@ public class MultipleRule implements CronRule {
      *            the {@link CronRule} representation for each rule
      */
     public MultipleRule(CronRule... rules) {
-        this.rules = new HashSet<CronRule>();
+        this.rules = new HashSet<>();
         for (CronRule rule : rules) {
             this.rules.add(rule);
         }
@@ -33,12 +33,12 @@ public class MultipleRule implements CronRule {
      *            the {@link CronRule} representation for each rule
      */
     public MultipleRule(Collection<CronRule> rules) {
-        this.rules = new HashSet<CronRule>(rules);
+        this.rules = new HashSet<>(rules);
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.keyboardplaying.cron.expression.rule.CronRule.hasMax()
      */
     @Override
@@ -53,7 +53,7 @@ public class MultipleRule implements CronRule {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.keyboardplaying.cron.expression.rule.CronRule.getMax()
      */
     @Override

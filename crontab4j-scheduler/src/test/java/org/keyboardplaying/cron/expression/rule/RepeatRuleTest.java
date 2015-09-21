@@ -89,20 +89,20 @@ public class RepeatRuleTest {
      */
     @Test
     public void testBasicCase() {
-        RepeatRule rule = new RepeatRule(1, 31, 10);
+        RepeatRule r = new RepeatRule(1, 31, 10);
         // Repeat OK
-        assertTrue(rule.allows(1));
-        assertTrue(rule.allows(11));
-        assertTrue(rule.allows(21));
-        assertTrue(rule.allows(31));
+        assertTrue(r.allows(1));
+        assertTrue(r.allows(11));
+        assertTrue(r.allows(21));
+        assertTrue(r.allows(31));
         // Repeat KO
-        assertFalse(rule.allows(9));
+        assertFalse(r.allows(9));
     }
 
     /** Tests the behavior of the constructor with incorrect arguments. */
+    @SuppressWarnings("unused")
     @Test(expected = IllegalArgumentException.class)
     public void testIllegalConstructorArguments() {
         new RepeatRule(1, 0, 2);
     }
-
 }

@@ -23,7 +23,7 @@ import org.keyboardplaying.cron.parser.adapter.RangeAdapter;
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  *
- * @see http://www.unix.com/man-page/linux/5/crontab/
+ * @see <a href="http://www.unix.com/man-page/linux/5/crontab/">Unix manual</a>
  */
 // TODO optimization: adapt day constraint according to expression
 public class UnixCronParser implements CronSyntacticParser {
@@ -99,8 +99,7 @@ public class UnixCronParser implements CronSyntacticParser {
             this(rangePattern, min, max, null, NO_CHANGE_ADAPTER);
         }
 
-        private UnixCronGroup(String rangePattern, int min, int max, CronAlias[] aliases,
-                RangeAdapter adapter) {
+        private UnixCronGroup(String rangePattern, int min, int max, CronAlias[] aliases, RangeAdapter adapter) {
             this.pattern = CronRegexUtils.initGroupPattern(rangePattern, aliases, false);
             this.min = min;
             this.max = max;
@@ -128,14 +127,12 @@ public class UnixCronParser implements CronSyntacticParser {
         }
 
         public CronRule parse(Matcher matcher) {
-            return CronRegexUtils.parseGroup(
-                    matcher.group(NB_GROUPS_BASE + ordinal() * NB_GROUPS_REPEAT),
+            return CronRegexUtils.parseGroup(matcher.group(NB_GROUPS_BASE + ordinal() * NB_GROUPS_REPEAT),
                     PATTERN_REPEAT_SEP, this);
         }
 
         protected CronRule parse(Matcher matcher, CronAlias[] aliases) {
-            String group = matcher.group(NB_GROUPS_BASE + ordinal() * NB_GROUPS_REPEAT)
-                    .toUpperCase();
+            String group = matcher.group(NB_GROUPS_BASE + ordinal() * NB_GROUPS_REPEAT).toUpperCase();
             for (CronAlias alias : aliases) {
                 group = group.replaceAll(alias.getAlias(), String.valueOf(alias.getValue()));
             }
@@ -212,20 +209,18 @@ public class UnixCronParser implements CronSyntacticParser {
     public CronExpression parse(String cron) {
         if (!Objects.requireNonNull(cron).matches(PATTERN_CRON)) {
             throw new UnsupportedCronException(cron, false);
-        } else {
-            String toParse = cron.startsWith(SPECIAL_EXP_KEY) ? SpecialExpression.valueOf(
-                    cron.substring(1)).getEquivalent() : cron;
-            Matcher matcher = Pattern.compile(PATTERN_CRON).matcher(toParse);
-            matcher.find();
-
-            return CronExpression.Builder.create().set(DayConstraint.BOTH_OR)
-                    .set(Field.SECOND, SECOND)
-                    .set(Field.MINUTE, UnixCronGroup.MINUTE.parse(matcher))
-                    .set(Field.HOUR, UnixCronGroup.HOUR.parse(matcher))
-                    .set(Field.DAY_OF_MONTH, UnixCronGroup.DAY_OF_MONTH.parse(matcher))
-                    .set(Field.MONTH, UnixCronGroup.MONTH.parse(matcher))
-                    .set(Field.DAY_OF_WEEK, UnixCronGroup.DAY_OF_WEEK.parse(matcher))
-                    .set(Field.YEAR, YEAR).build();
         }
+
+        String toParse = cron.startsWith(SPECIAL_EXP_KEY) ? SpecialExpression.valueOf(cron.substring(1)).getEquivalent()
+                : cron;
+        Matcher matcher = Pattern.compile(PATTERN_CRON).matcher(toParse);
+        matcher.find();
+
+        return CronExpression.Builder.create().set(DayConstraint.BOTH_OR).set(Field.SECOND, SECOND)
+                .set(Field.MINUTE, UnixCronGroup.MINUTE.parse(matcher))
+                .set(Field.HOUR, UnixCronGroup.HOUR.parse(matcher))
+                .set(Field.DAY_OF_MONTH, UnixCronGroup.DAY_OF_MONTH.parse(matcher))
+                .set(Field.MONTH, UnixCronGroup.MONTH.parse(matcher))
+                .set(Field.DAY_OF_WEEK, UnixCronGroup.DAY_OF_WEEK.parse(matcher)).set(Field.YEAR, YEAR).build();
     }
 }
