@@ -38,7 +38,7 @@ This library allows for the triggering of a Java job based on a CRON expression.
 {url-cron-unix}[Unix]::
 * Classic integer ranges
 * Day and month names (3 letters, case insensitive)
-* Special expressions, with the exception of ``@reboot``
+* Special expressions, with the exception of `@reboot`
 
 ==== Planned for later
 
@@ -124,12 +124,12 @@ So I gathered my knowledge about the CRONs (which was few, so I had to look for 
 created my own parser and scheduler. Not that hard, actually, but this was a kind of a draft.
 
 I had the wish to go from scratch and write something a bit more elaborate and clean. And when
-looking for the name, I discovered [``cron4j``][8] was already taken by a similar project. Still,
+looking for the name, I discovered {url-cron-cron4j}[`cron4j`] was already taken by a similar project. Still,
 for the challenge...
 
-My first try had been using [``joda-time``][11] for comfort and ease of use. However, this time, I
+My first try had been using {url-joda-time}[`joda-time`] for comfort and ease of use. However, this time, I
 chose to avoid external libraries as much as possible in order to keep the footprint as light as
-possible, and therefore used ``java.util.Calendar`` instead.
+possible, and therefore used `java.util.Calendar` instead.
 
 == Roadmap
 
