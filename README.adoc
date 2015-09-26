@@ -7,7 +7,7 @@ Cyrille Chopelet <cyrille.chopelet@mines-nancy.org>
 :coverity-name: cychop-{github-repo}
 :coverity-scan: 6424
 :license-name: BSD 3-CLause
-:license-shield: BSD_3--Clause
+:license-shield: New_BSD
 :license-url: http://opensource.org/licenses/BSD-3-Clause
 
 // The badges. Should not require any change.
