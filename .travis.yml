@@ -1,23 +1,19 @@
 language: java
 
-jdk:
-  - oraclejdk7
-
-after_success:
-  - mvn cobertura:cobertura coveralls:report
+sudo: false
 
 env:
   global:
-   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
-   #   via the "travis encrypt" command using the project repo's public key
-   - secure: "MiaaCqCjKReUHDK5JmSG9IqTzSUd+ZwHCvoLwUMEueuLhiKdCOiZdUsAwa9r6CVTKRbkdKxsFcIA8bEeUkP2hecoXfXopIDAeoiL2pP1i/CZy0boRtmKTouyX1stJG4zqVIvZ6ZZnNYsznpTHy/5zBI3y6ioPS3jwEWFMHfa4uA="
+    - JACOCO_VERSION=0.7.4.201502262128
 
-addons:
-  coverity_scan:
-    project:
-      name: "cyChop/crontab4j"
-      description: "Build submitted via Travis CI"
-    notification_email: cyrille.chopelet@mines-nancy.org
-    build_command_prepend: "mvn clean"
-    build_command:   "mvn -DskipTests=true compile"
-    branch_pattern: coverity_scan
+jdk:
+  - oraclejdk7
+
+before_script:
+  - "mvn clean install -Dmaven.test.skip=true"
+
+script
+  - "mvn org.jacoco:jacoco-maven-plugin:$JACOCO_VERSION:prepare-agent install"
+
+after_success:
+  - "[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_BRANCH == quality ]] && mvn sonar:sonar"
