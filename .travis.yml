@@ -16,4 +16,5 @@ script:
   - "mvn org.jacoco:jacoco-maven-plugin:$JACOCO_VERSION:prepare-agent install"
 
 after_success:
-  - "[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_BRANCH == quality ]] && mvn sonar:sonar"
+  - wget https://raw.githubusercontent.com/cyChop/dev-resources/master/maven/sonar/settings.xml
+  - "[[ $TRAVIS_PULL_REQUEST == false ]] && [[ $TRAVIS_BRANCH == quality ]] && mvn -Psonar sonar:sonar --settings settings.xml"

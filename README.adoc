@@ -14,8 +14,8 @@ Cyrille Chopelet <cyrille.chopelet@mines-nancy.org>
 :url-shields: http://img.shields.io/
 :url-sonar: sonar.keyboardplaying.org
 image:{url-shields}travis/{github-user}/{github-repo}/master.svg[Build status, link="https://travis-ci.org/{github-user}/{github-repo}"]
-image:{url-shields}sonar/http/{url-sonar}/{pom-groupid}:{pom-artifactid}/coverage.svg[Test coverage, link="http://{url-sonar}"]
-image:{url-shields}sonar/http/{url-sonar}/{pom-groupid}:{pom-artifactid}/tech_debt.svg[Technical debt, link="http://{url-sonar}"]
+image:{url-shields}sonar/http/{url-sonar}/{pom-groupid}:{pom-artifactid}/coverage.svg[Test coverage, link="http://{url-sonar}/drilldown/measures/?id={pom-groupid}:{pom-artifactid}&metric=coverage"]
+image:{url-shields}sonar/http/{url-sonar}/{pom-groupid}:{pom-artifactid}/tech_debt.svg[Technical debt, link="http://{url-sonar}/dashboard/index?id={pom-groupid}:{pom-artifactid}"]
 image:{url-shields}badge/license-{license-shield}-blue.svg[License: {license-name}, link="{license-url}"]
 
 // Now, the main documentation.

@@ -37,14 +37,6 @@
         <!-- Version management - test -->
         <junit.version>4.12</junit.version>
         <jdepend.version>2.9.1</jdepend.version>
-
-        <!-- Sonar -->
-        <sonar.java.source>${maven.compiler.source}</sonar.java.source>
-        <sonar.java.target>${maven.compiler.target}</sonar.java.target>
-        <sonar.host.url>http://sonar.keyboardplaying.org</sonar.host.url>
-        <sonar.jdbc.url>jdbc:mysql://sonar.keyboardplaying.org:3306/sonar</sonar.jdbc.url>
-        <sonar.jdbc.username>sonar</sonar.jdbc.username>
-        <sonar.jdbc.password>sonar</sonar.jdbc.password>
     </properties>
 
     <dependencyManagement>
