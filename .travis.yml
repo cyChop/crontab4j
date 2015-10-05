@@ -12,7 +12,7 @@ jdk:
 before_script:
   - "mvn clean install -Dmaven.test.skip=true"
 
-script
+script:
   - "mvn org.jacoco:jacoco-maven-plugin:$JACOCO_VERSION:prepare-agent install"
 
 after_success:
