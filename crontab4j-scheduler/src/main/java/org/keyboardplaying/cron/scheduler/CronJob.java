@@ -1,6 +1,6 @@
 package org.keyboardplaying.cron.scheduler;
 
-import org.keyboardplaying.cron.Objects;
+import java.util.Objects;
 
 /**
  * Object utility to represent a job that may be supplied to the scheduler.

@@ -8,8 +8,8 @@ import org.keyboardplaying.cron.expression.rule.SingleValueRule;
 /**
  * A utility to adapt the rules to compensate for differences between the syntaxes.
  * <p/>
- * This interface is for instance especially useful for the day of week, which depends on both the
- * CRON syntax and the Java implementation.
+ * This interface is for instance especially useful for the day of week, which depends on both the CRON syntax and the
+ * Java implementation.
  * <p/>
  * Only atomic range rules should require adaptation:
  * <ul>

@@ -1,13 +1,12 @@
 package org.keyboardplaying.cron.predictor;
 
 import java.util.Calendar;
+import java.util.Objects;
 
-import org.keyboardplaying.cron.Objects;
 import org.keyboardplaying.cron.expression.CronExpression;
 
 /**
- * This class provides the capability to compute the next time a CRON expression should be
- * triggered.
+ * This class provides the capability to compute the next time a CRON expression should be triggered.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
@@ -20,13 +19,12 @@ public class CronPredictor {
      *
      * @param cron
      *            the CRON expression to use to evaluate
-     * @return a {@link Calendar} representing the next time the expression will be triggered, or
-     *         {@code null} if no next occurrence can be found
+     * @return a {@link Calendar} representing the next time the expression will be triggered, or {@code null} if no
+     *         next occurrence can be found
      * @throws NullPointerException
      *             if the supplied expression is {@code null}
      *
-     * @see #getNextOccurrence(org.keyboardplaying.cron.expression.CronExpression,
-     *      java.util.Calendar)
+     * @see #getNextOccurrence(org.keyboardplaying.cron.expression.CronExpression, java.util.Calendar)
      */
     public Calendar getNextOccurrence(CronExpression cron) {
         return getNextOccurrence(cron, null);
@@ -43,8 +41,8 @@ public class CronPredictor {
      *            the time base for searching next occurrence
      * @param cron
      *            the CRON expression to use to evaluate
-     * @return a {@link Calendar} representing the next time the expression will be triggered, or
-     *         {@code null} if no next occurrence can be found
+     * @return a {@link Calendar} representing the next time the expression will be triggered, or {@code null} if no
+     *         next occurrence can be found
      * @throws NullPointerException
      *             if the supplied expression is {@code null}
      */

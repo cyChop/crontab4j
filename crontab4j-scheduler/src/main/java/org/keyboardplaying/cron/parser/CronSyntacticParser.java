@@ -34,6 +34,8 @@ public interface CronSyntacticParser {
     /**
      * Parses a CRON expression into an object we can use.
      *
+     * @param cron
+     *            the CRON expression to parse
      * @return a parsed {@link CronExpression}
      * @throws NullPointerException
      *             if the expression is {@code null}
@@ -132,7 +134,7 @@ public interface CronSyntacticParser {
          *
          * @param rangePattern
          *            a pattern to match the allowed integer values
-         * @param names
+         * @param aliases
          *            a list of allowed substitution names for readibility of the CRON expression
          * @param caseSensitive
          *            {@code true} if aliases are to be case-senstive, {@code false} otherwise

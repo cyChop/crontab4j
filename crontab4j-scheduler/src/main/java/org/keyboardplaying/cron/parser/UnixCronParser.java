@@ -1,9 +1,9 @@
 package org.keyboardplaying.cron.parser;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.keyboardplaying.cron.Objects;
 import org.keyboardplaying.cron.exception.UnsupportedCronException;
 import org.keyboardplaying.cron.expression.CronExpression;
 import org.keyboardplaying.cron.expression.CronExpression.DayConstraint;

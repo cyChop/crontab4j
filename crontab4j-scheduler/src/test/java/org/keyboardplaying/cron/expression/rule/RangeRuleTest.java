@@ -36,7 +36,7 @@ public class RangeRuleTest {
         assertTrue(rule.allows(1337));
     }
 
-    /** Ensures elements inbetween the range limit are accepted */
+    /** Ensures elements in-between the range limit are accepted */
     @Test
     public void testRangeBody() {
         assertTrue(rule.allows(420));

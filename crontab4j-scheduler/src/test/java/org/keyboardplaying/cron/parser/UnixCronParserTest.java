@@ -36,18 +36,15 @@ public class UnixCronParserTest {
         assertFalse(prsr.isValid(null));
     }
 
-    /**
-     * Ensures the parser fails with a {@link NullPointerException} if the supplied expression is
-     * {@code null}.
-     */
+    /** Ensures the parser fails with a {@link NullPointerException} if the supplied expression is {@code null}. */
     @Test(expected = NullPointerException.class)
     public void testParseNull() {
         prsr.parse(null);
     }
 
     /**
-     * Ensures the parser fails with a {@link UnsupportedCronException} if the supplied expression
-     * does not match the validation regex.
+     * Ensures the parser fails with a {@link UnsupportedCronException} if the supplied expression does not match the
+     * validation regex.
      */
     @Test
     public void testParseInvalid() {
@@ -60,10 +57,7 @@ public class UnixCronParserTest {
         }
     }
 
-    /**
-     * Ensures the {@link CronExpression} obtained from the parsing of a complex expression is
-     * correct.
-     */
+    /** Ensures the {@link CronExpression} obtained from the parsing of a complex expression is correct. */
     @Test
     public void testParse() {
         CronExpression cron = prsr.parse("0 * 1-15/2,*/3,31 1/2 1-5");
@@ -117,8 +111,8 @@ public class UnixCronParserTest {
     }
 
     /**
-     * Ensures the parsing of {@link CronExpression} obtained from the parsing of an expression
-     * using names for months and days of week is correct.
+     * Ensures the parsing of {@link CronExpression} obtained from the parsing of an expression using names for months
+     * and days of week is correct.
      */
     @Test
     public void testParseWithNames() {

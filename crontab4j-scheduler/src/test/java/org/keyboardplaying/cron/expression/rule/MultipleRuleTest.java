@@ -14,8 +14,7 @@ import org.junit.Test;
 public class MultipleRuleTest {
 
     // 0-10/2,15,30-45
-    private CronRule rule = new MultipleRule(new RepeatRule(0, 10, 2), new SingleValueRule(15),
-            new RangeRule(30, 45));
+    private CronRule rule = new MultipleRule(new RepeatRule(0, 10, 2), new SingleValueRule(15), new RangeRule(30, 45));
 
     /** Tests {@link MultipleRule#hasMax()} and {@link MultipleRule#getMax()} methods. */
     @Test
@@ -23,8 +22,7 @@ public class MultipleRuleTest {
         assertTrue(rule.hasMax());
         assertEquals(45, rule.getMax());
 
-        CronRule withAnyRule = new MultipleRule(new RepeatRule(0, 10, 2), new SingleValueRule(15),
-                new AnyValueRule());
+        CronRule withAnyRule = new MultipleRule(new RepeatRule(0, 10, 2), new SingleValueRule(15), new AnyValueRule());
         assertFalse(withAnyRule.hasMax());
         assertEquals(Integer.MAX_VALUE, withAnyRule.getMax());
     }
@@ -39,6 +37,5 @@ public class MultipleRuleTest {
         assertTrue(rule.allows(15));
         assertTrue(rule.allows(42));
         assertFalse(rule.allows(1337));
-
     }
 }

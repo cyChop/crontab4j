@@ -4,11 +4,11 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
-import jdepend.framework.JDepend;
-import jdepend.framework.JavaPackage;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import jdepend.framework.JDepend;
+import jdepend.framework.JavaPackage;
 
 /**
  * Ensures that there is no package dependency cycle.
@@ -40,17 +40,16 @@ public class CyclicDependenciesTest {
     @Test
     public void testCycles() {
         if (jdepend.containsCycles()) {
-            StringBuilder sb = new StringBuilder(
-                    "The following packages contain cycles which should be removed.");
+            StringBuilder sb = new StringBuilder("The following packages contain cycles which should be removed.");
 
             for (Object element : jdepend.getPackages()) {
                 JavaPackage pack = (JavaPackage) element;
                 if (pack.containsCycle()) {
                     /*
                      * Append chars to avoid instantiating strings.
-                     * 
-                     * Micro-optimisation in a test class _is_ ridiculous, don't you think? You are
-                     * allowed to laugh at me on this one.
+                     *
+                     * Micro-optimisation in a test class _is_ ridiculous, don't you think? You are allowed to laugh at
+                     * me on this one.
                      */
                     sb.append('\n').append('\t').append(pack.getName());
                 }

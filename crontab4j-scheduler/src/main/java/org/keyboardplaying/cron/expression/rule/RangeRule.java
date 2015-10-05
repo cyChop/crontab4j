@@ -3,8 +3,7 @@ package org.keyboardplaying.cron.expression.rule;
 /**
  * A representation for fields allowing a range (e.g. {@code 42-1337}).
  * <p/>
- * The lower and upper limit and any integer inbetween will be allowed, while all other values will
- * be rejected.
+ * The lower and upper limit and any integer inbetween will be allowed, while all other values will be rejected.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
@@ -23,8 +22,7 @@ public class RangeRule implements CronRule {
      */
     public RangeRule(int min, int max) {
         if (min > max) {
-            throw new IllegalArgumentException("Supplied minimum " + min
-                    + " is higher than maximum " + max);
+            throw new IllegalArgumentException("Supplied minimum " + min + " is higher than maximum " + max);
         }
         this.min = min;
         this.max = max;

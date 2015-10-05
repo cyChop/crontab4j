@@ -91,11 +91,10 @@ public class DayFieldTest {
     // Generate expression with supplied constraint
     private CronExpression createCron(DayConstraint constraint) {
         CronRule any = new AnyValueRule();
-        return CronExpression.Builder.create().set(Field.SECOND, any).set(Field.MINUTE, any)
-                .set(Field.HOUR, any).set(Field.DAY_OF_MONTH, new RepeatRule(1, 31, 10))
-                .set(Field.MONTH, any)
-                .set(Field.DAY_OF_WEEK, new RangeRule(Calendar.MONDAY, Calendar.FRIDAY))
-                .set(Field.YEAR, any).set(constraint).build();
+        return CronExpression.Builder.create().set(Field.SECOND, any).set(Field.MINUTE, any).set(Field.HOUR, any)
+                .set(Field.DAY_OF_MONTH, new RepeatRule(1, 31, 10)).set(Field.MONTH, any)
+                .set(Field.DAY_OF_WEEK, new RangeRule(Calendar.MONDAY, Calendar.FRIDAY)).set(Field.YEAR, any)
+                .set(constraint).build();
     }
 
     // Test value against CRON

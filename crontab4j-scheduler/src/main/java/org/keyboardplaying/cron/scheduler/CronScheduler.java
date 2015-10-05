@@ -13,9 +13,9 @@ import org.keyboardplaying.cron.predictor.CronPredictor;
 /**
  * The CRON scheduler.
  * <p/>
- * It is expected to be used as a singleton. When used inside a Spring context, you should specify a
- * parser ({@link #setParser(org.keyboardplaying.cron.parser.CronSyntacticParser}) and a list of
- * jobs ({@link #setJobs(java.util.List)}). All jobs set this way will be started automatically.
+ * It is expected to be used as a singleton. When used inside a Spring context, you should specify a parser (
+ * {@link #setParser(org.keyboardplaying.cron.parser.CronSyntacticParser)}) and a list of jobs (
+ * {@link #setJobs(java.util.Collection)}). All jobs set this way will be started automatically.
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */
@@ -36,8 +36,7 @@ public class CronScheduler {
      * Creates a new scheduler whose associated thread may be specified to run as a daemon.
      *
      * @param daemon
-     *            {@code true} if the associated thread should run as a daemon, {@code false}
-     *            otherwise
+     *            {@code true} if the associated thread should run as a daemon, {@code false} otherwise
      */
     public CronScheduler(boolean daemon) {
         this.timer = new Timer(daemon);
@@ -56,19 +55,17 @@ public class CronScheduler {
     }
 
     /**
-     * Creates a new scheduler whose associated thread has the specified name, may be specified to
-     * run as a daemon.
+     * Creates a new scheduler whose associated thread has the specified name, may be specified to run as a daemon.
      *
      * @param threadName
      *            the name of the associated thread
      * @param daemon
-     *            {@code true} if the associated thread should run as a daemon, {@code false}
-     *            otherwise
+     *            {@code true} if the associated thread should run as a daemon, {@code false} otherwise
      * @throws NullPointerException
      *             if {@code name} is {@code null}
      */
     public CronScheduler(String threadName, boolean daemon) {
-        this.timer = new Timer(threadName);
+        this.timer = new Timer(threadName, daemon);
     }
 
     /**
@@ -158,13 +155,13 @@ public class CronScheduler {
     }
 
     /**
-     * Terminates this scheduler, discarding any currently scheduled tasks. Does not interfere with
-     * a currently executing task (if it exists). Once a scheduler has been terminated, its
-     * execution thread terminates gracefully, and no more tasks may be scheduled on it.
+     * Terminates this scheduler, discarding any currently scheduled tasks. Does not interfere with a currently
+     * executing task (if it exists). Once a scheduler has been terminated, its execution thread terminates gracefully,
+     * and no more tasks may be scheduled on it.
      * <p/>
-     * Note that calling this method from within the run method of a timer task that was invoked by
-     * this timer absolutely guarantees that the ongoing task execution is the last task execution
-     * that will ever be performed by this timer.
+     * Note that calling this method from within the run method of a timer task that was invoked by this timer
+     * absolutely guarantees that the ongoing task execution is the last task execution that will ever be performed by
+     * this timer.
      * <p/>
      * This method may be called repeatedly; the second and subsequent calls have no effect.
      */
@@ -202,7 +199,7 @@ public class CronScheduler {
 
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see java.util.TimerTask.run()
          */
         @Override
@@ -210,7 +207,7 @@ public class CronScheduler {
             // prepare the next trigger
             scheduleNext(timer, new TimerTaskWrapper(job, timer, cron), cron);
             // run the job
-            job.run();
+            new Thread(job).start();
         }
     }
 }

@@ -5,8 +5,8 @@ import java.util.Calendar;
 /**
  * A utility for adapting the day range for the computer.
  * <p/>
- * The number is not identical depending on the syntax (Unix uses 0 or 7 as Sunday, while Quartz
- * uses {@code 1}; Calendar uses {@value Calendar#SUNDAY}).
+ * The number is not identical depending on the syntax (Unix uses 0 or 7 as Sunday, while Quartz uses {@code 1};
+ * Calendar uses {@value Calendar#SUNDAY}).
  *
  * @author Cyrille Chopelet (http://keyboardplaying.org)
  */

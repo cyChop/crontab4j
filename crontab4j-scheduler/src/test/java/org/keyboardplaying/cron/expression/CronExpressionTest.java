@@ -29,12 +29,11 @@ public class CronExpressionTest {
         CronRule weekDaysOnly = new RangeRule(1, 5);
         CronRule onlyWorkHours = new MultipleRule(new RangeRule(8, 12), new RangeRule(14, 18));
 
-        CronExpression cron = Builder.create().set(Field.SECOND, roundMinutes)
-                .set(Field.MINUTE, everyQuarter).set(Field.HOUR, onlyWorkHours)
-                .set(Field.DAY_OF_MONTH, any).set(Field.MONTH, any)
+        CronExpression cron = Builder.create().set(Field.SECOND, roundMinutes).set(Field.MINUTE, everyQuarter)
+                .set(Field.HOUR, onlyWorkHours).set(Field.DAY_OF_MONTH, any).set(Field.MONTH, any)
                 // test overwriting with DAY_OF_WEEK
-                .set(Field.DAY_OF_WEEK, any).set(Field.DAY_OF_WEEK, weekDaysOnly)
-                .set(Field.YEAR, any).set(DayConstraint.NONE).build();
+                .set(Field.DAY_OF_WEEK, any).set(Field.DAY_OF_WEEK, weekDaysOnly).set(Field.YEAR, any)
+                .set(DayConstraint.NONE).build();
 
         assertEquals(roundMinutes, cron.get(Field.SECOND));
         assertEquals(everyQuarter, cron.get(Field.MINUTE));
@@ -53,8 +52,7 @@ public class CronExpressionTest {
 
         Builder.create().set(Field.SECOND, any).set(Field.MINUTE, any).set(Field.HOUR, any)
                 // .set(Field.DAY_OF_MONTH, any)
-                .set(Field.MONTH, any).set(Field.DAY_OF_WEEK, any).set(Field.YEAR, any)
-                .set(DayConstraint.NONE).build();
+                .set(Field.MONTH, any).set(Field.DAY_OF_WEEK, any).set(Field.YEAR, any).set(DayConstraint.NONE).build();
     }
 
     /** Tests the creation of a {@link CronExpression and the setting} without a day constraint. */
@@ -62,9 +60,8 @@ public class CronExpressionTest {
     public void testNoDayConstraint() {
         CronRule any = new AnyValueRule();
 
-        Builder.create().set(Field.SECOND, any).set(Field.MINUTE, any).set(Field.HOUR, any)
-                .set(Field.DAY_OF_MONTH, any).set(Field.MONTH, any).set(Field.DAY_OF_WEEK, any)
-                .set(Field.YEAR, any)
+        Builder.create().set(Field.SECOND, any).set(Field.MINUTE, any).set(Field.HOUR, any).set(Field.DAY_OF_MONTH, any)
+                .set(Field.MONTH, any).set(Field.DAY_OF_WEEK, any).set(Field.YEAR, any)
                 // .set(DayConstraint.NONE)
                 .build();
     }
