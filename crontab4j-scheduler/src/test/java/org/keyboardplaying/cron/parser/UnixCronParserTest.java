@@ -21,13 +21,15 @@ import org.keyboardplaying.cron.expression.rule.SingleValueRule;
 /**
  * Tests {@link UnixCronParser}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class UnixCronParserTest {
 
     CronSyntacticParser prsr = new UnixCronParser();
 
-    /** Tests {@link UnixCronParser#isValid(java.lang.String)}. */
+    /**
+     * Tests {@link UnixCronParser#isValid(java.lang.String)}.
+     */
     @Test
     public void testValidate() {
         assertTrue(prsr.isValid("* * * * *"));
@@ -36,7 +38,9 @@ public class UnixCronParserTest {
         assertFalse(prsr.isValid(null));
     }
 
-    /** Ensures the parser fails with a {@link NullPointerException} if the supplied expression is {@code null}. */
+    /**
+     * Ensures the parser fails with a {@link NullPointerException} if the supplied expression is {@code null}.
+     */
     @Test(expected = NullPointerException.class)
     public void testParseNull() {
         prsr.parse(null);
@@ -57,7 +61,9 @@ public class UnixCronParserTest {
         }
     }
 
-    /** Ensures the {@link CronExpression} obtained from the parsing of a complex expression is correct. */
+    /**
+     * Ensures the {@link CronExpression} obtained from the parsing of a complex expression is correct.
+     */
     @Test
     public void testParse() {
         CronExpression cron = prsr.parse("0 * 1-15/2,*/3,31 1/2 1-5");
@@ -105,7 +111,7 @@ public class UnixCronParserTest {
 
         assertTrue(dow instanceof RangeRule);
         assertEquals(Calendar.MONDAY, ((RangeRule) dow).getMin());
-        assertEquals(Calendar.FRIDAY, ((RangeRule) dow).getMax());
+        assertEquals(Calendar.FRIDAY, dow.getMax());
 
         assertTrue(year instanceof AnyValueRule);
     }
@@ -128,10 +134,12 @@ public class UnixCronParserTest {
 
         assertTrue(dow instanceof RangeRule);
         assertEquals(Calendar.MONDAY, ((RangeRule) dow).getMin());
-        assertEquals(Calendar.FRIDAY, ((RangeRule) dow).getMax());
+        assertEquals(Calendar.FRIDAY, dow.getMax());
     }
 
-    /** Tests the parsing of the special expression {@code @reboot}. */
+    /**
+     * Tests the parsing of the special expression {@code @reboot}.
+     */
     @Test
     public void testAtReboot() {
         assertTrue(prsr.isValid("@reboot"));
@@ -144,13 +152,17 @@ public class UnixCronParserTest {
         }
     }
 
-    /** Tests the parsing of the special expression {@code @yearly}. */
+    /**
+     * Tests the parsing of the special expression {@code @yearly}.
+     */
     @Test
     public void testAtYearly() {
         testAtYearly("@yearly");
     }
 
-    /** Tests the parsing of the special expression {@code @annually}. */
+    /**
+     * Tests the parsing of the special expression {@code @annually}.
+     */
     @Test
     public void testAtAnnually() {
         testAtYearly("@annually");
@@ -181,7 +193,9 @@ public class UnixCronParserTest {
         assertTrue(dow instanceof AnyValueRule);
     }
 
-    /** Tests the parsing of the special expression {@code @monthly}. */
+    /**
+     * Tests the parsing of the special expression {@code @monthly}.
+     */
     @Test
     public void testAtMonthly() {
         assertTrue(prsr.isValid("@monthly"));
@@ -206,7 +220,9 @@ public class UnixCronParserTest {
         assertTrue(dow instanceof AnyValueRule);
     }
 
-    /** Tests the parsing of the special expression {@code @weekly}. */
+    /**
+     * Tests the parsing of the special expression {@code @weekly}.
+     */
     @Test
     public void testAtWeekly() {
         assertTrue(prsr.isValid("@weekly"));
@@ -231,13 +247,17 @@ public class UnixCronParserTest {
         assertTrue(month instanceof AnyValueRule);
     }
 
-    /** Tests the parsing of the special expression {@code @daily}. */
+    /**
+     * Tests the parsing of the special expression {@code @daily}.
+     */
     @Test
     public void testAtDaily() {
         testAtDaily("@daily");
     }
 
-    /** Tests the parsing of the special expression {@code @midnight}. */
+    /**
+     * Tests the parsing of the special expression {@code @midnight}.
+     */
     @Test
     public void testAtMidnight() {
         testAtDaily("@midnight");
@@ -264,7 +284,9 @@ public class UnixCronParserTest {
         assertTrue(dow instanceof AnyValueRule);
     }
 
-    /** Tests the parsing of the special expression {@code @hourly}. */
+    /**
+     * Tests the parsing of the special expression {@code @hourly}.
+     */
     @Test
     public void testAtHourly() {
         assertTrue(prsr.isValid("@hourly"));

@@ -8,11 +8,13 @@ import org.junit.Test;
 /**
  * Tests {@link UnsupportedCronException}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class UnsupportedCronExceptionTest {
 
-    /** Tests the creation of an exception and the getting of its attributes. */
+    /**
+     * Tests the creation of an exception and the getting of its attributes.
+     */
     @Test
     public void testException() {
         UnsupportedCronException e = new UnsupportedCronException("somecron", true);

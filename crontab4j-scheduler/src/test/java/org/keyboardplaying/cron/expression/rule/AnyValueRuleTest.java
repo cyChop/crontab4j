@@ -9,20 +9,24 @@ import org.junit.Test;
 /**
  * Tests {@link AnyValueRule}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class AnyValueRuleTest {
 
     private CronRule rule = new AnyValueRule();
 
-    /** Tests {@link AnyValueRule#hasMax()} and {@link AnyValueRule#getMax()} methods. */
+    /**
+     * Tests {@link AnyValueRule#hasMax()} and {@link AnyValueRule#getMax()} methods.
+     */
     @Test
     public void testMax() {
         assertFalse(rule.hasMax());
         assertEquals(Integer.MAX_VALUE, rule.getMax());
     }
 
-    /** Tests that any passed value is accepted. */
+    /**
+     * Tests that any passed value is accepted.
+     */
     @Test
     public void testRule() {
         // negatives may be restricted in the future

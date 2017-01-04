@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * A representation for fields with multiple rules ({@code 0,5,15,30,50}).
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class MultipleRule implements CronRule {
 
@@ -16,8 +16,7 @@ public class MultipleRule implements CronRule {
     /**
      * Creates a new instance.
      *
-     * @param rules
-     *            the {@link CronRule} representation for each rule
+     * @param rules the {@link CronRule} representation for each rule
      */
     public MultipleRule(CronRule... rules) {
         this.rules = new HashSet<>();
@@ -29,8 +28,7 @@ public class MultipleRule implements CronRule {
     /**
      * Creates a new instance.
      *
-     * @param rules
-     *            the {@link CronRule} representation for each rule
+     * @param rules the {@link CronRule} representation for each rule
      */
     public MultipleRule(Collection<CronRule> rules) {
         this.rules = new HashSet<>(rules);
@@ -70,8 +68,7 @@ public class MultipleRule implements CronRule {
     /**
      * Returns {@code true} if at least one of the constituting rules allows the supplied value.
      *
-     * @param value
-     *            {@inheritDoc}
+     * @param value {@inheritDoc}
      * @return {@inheritDoc}
      */
     @Override

@@ -21,8 +21,7 @@ import org.keyboardplaying.cron.parser.adapter.RangeAdapter;
  * <p/>
  * The rules are implemented based on the crontab documentation.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
- *
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  * @see <a href="http://www.unix.com/man-page/linux/5/crontab/">Unix manual</a>
  */
 // TODO optimization: adapt day constraint according to expression
@@ -34,7 +33,7 @@ public class UnixCronParser implements CronSyntacticParser {
 
     private static final String SPECIAL_EXP_KEY = "@";
 
-    private static enum SpecialExpression {
+    private enum SpecialExpression {
         // reboot
         reboot(null) {
             @Override
@@ -55,7 +54,7 @@ public class UnixCronParser implements CronSyntacticParser {
 
         private String equivalent;
 
-        private SpecialExpression(String equivalent) {
+        SpecialExpression(String equivalent) {
             this.equivalent = equivalent;
         }
 
@@ -68,7 +67,7 @@ public class UnixCronParser implements CronSyntacticParser {
         }
     }
 
-    private static enum UnixCronGroup implements CronGroup {
+    private enum UnixCronGroup implements CronGroup {
         // minutes
         MINUTE("[1-5]?\\d", 0, 59),
         // hours
@@ -95,11 +94,11 @@ public class UnixCronParser implements CronSyntacticParser {
         private int max;
         private RangeAdapter adapter;
 
-        private UnixCronGroup(String rangePattern, int min, int max) {
+        UnixCronGroup(String rangePattern, int min, int max) {
             this(rangePattern, min, max, null, NO_CHANGE_ADAPTER);
         }
 
-        private UnixCronGroup(String rangePattern, int min, int max, CronAlias[] aliases, RangeAdapter adapter) {
+        UnixCronGroup(String rangePattern, int min, int max, CronAlias[] aliases, RangeAdapter adapter) {
             this.pattern = CronRegexUtils.initGroupPattern(rangePattern, aliases, false);
             this.min = min;
             this.max = max;
@@ -140,7 +139,7 @@ public class UnixCronParser implements CronSyntacticParser {
         }
     }
 
-    private static enum MonthAlias implements CronAlias {
+    private enum MonthAlias implements CronAlias {
         JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC;
 
         @Override
@@ -154,7 +153,7 @@ public class UnixCronParser implements CronSyntacticParser {
         }
     }
 
-    private static enum DayOfWeekAlias implements CronAlias {
+    private enum DayOfWeekAlias implements CronAlias {
         SUN, MON, TUE, WED, THU, FRI, SAT;
 
         @Override

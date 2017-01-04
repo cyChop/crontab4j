@@ -16,11 +16,13 @@ import org.keyboardplaying.cron.expression.rule.SingleValueRule;
 /**
  * Tests@link CronExpression.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class CronExpressionTest {
 
-    /** Tests the creation of a {@link CronExpression} and the setting of the fields. */
+    /**
+     * Tests the creation of a {@link CronExpression} and the setting of the fields.
+     */
     @Test
     public void test() {
         CronRule any = new AnyValueRule();
@@ -45,7 +47,9 @@ public class CronExpressionTest {
         assertEquals(DayConstraint.NONE, cron.getDayConstraint());
     }
 
-    /** Tests the creation of a {@link CronExpression and the setting} with a missing rule. */
+    /**
+     * Tests the creation of a {@link CronExpression and the setting} with a missing rule.
+     */
     @Test(expected = IllegalStateException.class)
     public void testIncompleteRules() {
         CronRule any = new AnyValueRule();
@@ -55,7 +59,9 @@ public class CronExpressionTest {
                 .set(Field.MONTH, any).set(Field.DAY_OF_WEEK, any).set(Field.YEAR, any).set(DayConstraint.NONE).build();
     }
 
-    /** Tests the creation of a {@link CronExpression and the setting} without a day constraint. */
+    /**
+     * Tests the creation of a {@link CronExpression and the setting} without a day constraint.
+     */
     @Test(expected = IllegalStateException.class)
     public void testNoDayConstraint() {
         CronRule any = new AnyValueRule();

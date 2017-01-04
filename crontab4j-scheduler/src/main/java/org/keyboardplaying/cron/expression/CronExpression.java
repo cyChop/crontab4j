@@ -7,24 +7,38 @@ import org.keyboardplaying.cron.expression.rule.CronRule;
  * <p/>
  * The {@link CronExpression} is an immutable object which must be built using the appropriate {@link Builder}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class CronExpression {
 
     /**
      * This enum lists all fields a CRON expression can have a rule upon.
      *
-     * @author Cyrille Chopelet (http://keyboardplaying.org)
+     * @author Cyrille Chopelet (https://keyboardplaying.org)
      */
-    public static enum Field {
-        /** The second in a minute. */
-        SECOND, /** The minute in an hour. */
-        MINUTE, /** The hour of day. */
-        HOUR, /** The date of day in month. */
-        DAY_OF_MONTH, /** The month of year. */
-        MONTH, /** The day of week. */
-        DAY_OF_WEEK, /** The year. */
-        YEAR;
+    public enum Field {
+        /**
+         * The second in a minute.
+         */
+        SECOND, /**
+         * The minute in an hour.
+         */
+        MINUTE, /**
+         * The hour of day.
+         */
+        HOUR, /**
+         * The date of day in month.
+         */
+        DAY_OF_MONTH, /**
+         * The month of year.
+         */
+        MONTH, /**
+         * The day of week.
+         */
+        DAY_OF_WEEK, /**
+         * The year.
+         */
+        YEAR
     }
 
     /**
@@ -33,17 +47,25 @@ public class CronExpression {
      * This can depend upon the CRON syntax being used (Quartz has restrictions on constraints on which constraints can
      * be set on both fields).
      *
-     * @author Cyrille Chopelet (http://keyboardplaying.org)
+     * @author Cyrille Chopelet (https://keyboardplaying.org)
      */
-    public static enum DayConstraint {
-        /** No constraint on day whatsoever. */
-        NONE, /** Only the day of month (date) is constrained. */
-        MONTH, /** Only the day of week is constrained. */
-        WEEK, /** Both the day of month and day of week must match their respective constraint. */
+    public enum DayConstraint {
+        /**
+         * No constraint on day whatsoever.
+         */
+        NONE, /**
+         * Only the day of month (date) is constrained.
+         */
+        MONTH, /**
+         * Only the day of week is constrained.
+         */
+        WEEK, /**
+         * Both the day of month and day of week must match their respective constraint.
+         */
         BOTH_AND, /**
-                   * At least one of the day of month and day of week must match their respective constraint.
-                   */
-        BOTH_OR;
+         * At least one of the day of month and day of week must match their respective constraint.
+         */
+        BOTH_OR
     }
 
     private CronRule[] rules;
@@ -57,8 +79,7 @@ public class CronExpression {
     /**
      * Returns the rule for the specified field.
      *
-     * @param field
-     *            the field
+     * @param field the field
      * @return the rule
      */
     public CronRule get(Field field) {
@@ -80,14 +101,16 @@ public class CronExpression {
      * The methods of this object can be chained to make construction more convenient (as when using
      * {@code StringBuilder.append(Object)}).
      *
-     * @author Cyrille Chopelet (http://keyboardplaying.org)
+     * @author Cyrille Chopelet (https://keyboardplaying.org)
      */
     public static final class Builder {
 
         private CronRule[] rules = new CronRule[Field.values().length];
         private DayConstraint dayConstraint;
 
-        /** Private constructor to control instantiation. */
+        /**
+         * Private constructor to control instantiation.
+         */
         private Builder() {
         }
 
@@ -126,8 +149,7 @@ public class CronExpression {
          * Builds the {@link CronExpression} from the arguments supplied earlier in definition.
          *
          * @return the built immutable {@link CronExpression}
-         * @throws IllegalStateException
-         *             if the rule is missing for a field or if the day constraint mode has not been set
+         * @throws IllegalStateException if the rule is missing for a field or if the day constraint mode has not been set
          */
         public CronExpression build() {
             for (CronRule rule : rules) {

@@ -13,7 +13,7 @@ import org.keyboardplaying.cron.expression.rule.SingleValueRule;
  * Common implementation of {@link RangeAdapter} to shift the range rules in order to match the default values of
  * crontab4j implementation.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public abstract class ShiftRangeAdapter implements RangeAdapter {
 
@@ -24,14 +24,10 @@ public abstract class ShiftRangeAdapter implements RangeAdapter {
     /**
      * Creates a new instance.
      *
-     * @param adaptedMin
-     *            the minimal allowed value for the shifted range
-     * @param adaptedMax
-     *            the maximal allowed value for the shifted range
-     * @param ref
-     *            a reference value for the range to be shifted (e.g. integer representation of a specific day)
-     * @param adaptedRef
-     *            the equivalent reference value in the shifted referential
+     * @param adaptedMin the minimal allowed value for the shifted range
+     * @param adaptedMax the maximal allowed value for the shifted range
+     * @param ref        a reference value for the range to be shifted (e.g. integer representation of a specific day)
+     * @param adaptedRef the equivalent reference value in the shifted referential
      */
     protected ShiftRangeAdapter(int adaptedMin, int adaptedMax, int ref, int adaptedRef) {
         this.adaptedMin = adaptedMin;
@@ -100,8 +96,7 @@ public abstract class ShiftRangeAdapter implements RangeAdapter {
     /**
      * Shifts the value according to the adapter's settings.
      *
-     * @param value
-     *            the value to shift
+     * @param value the value to shift
      * @return the shifted value
      */
     private int shift(int value) {

@@ -1,2 +1,4 @@
-/** The possible kinds of rules. */
+/**
+ * The possible kinds of rules.
+ */
 package org.keyboardplaying.cron.expression.rule;

@@ -5,7 +5,7 @@ package org.keyboardplaying.cron.expression.rule;
  * <p/>
  * The lower and upper limit and any integer inbetween will be allowed, while all other values will be rejected.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class RangeRule implements CronRule {
 
@@ -15,10 +15,8 @@ public class RangeRule implements CronRule {
     /**
      * Creates a new instance.
      *
-     * @param min
-     *            the lower range limit
-     * @param max
-     *            the upper range limit
+     * @param min the lower range limit
+     * @param max the upper range limit
      */
     public RangeRule(int min, int max) {
         if (min > max) {

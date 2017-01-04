@@ -27,7 +27,9 @@ public class CronPredictorTest {
 
     private CronPredictor cpu = new CronPredictor();
 
-    /** Ensures the computer throws an exception if the supplied {@link CronExpression} is null. */
+    /**
+     * Ensures the computer throws an exception if the supplied {@link CronExpression} is null.
+     */
     @Test(expected = NullPointerException.class)
     public void testNullExpr() {
         cpu.getNextOccurrence(null);

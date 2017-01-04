@@ -5,15 +5,14 @@ package org.keyboardplaying.cron.expression.rule;
  * <p/>
  * Only the value provided at construction will be allowed.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class SingleValueRule extends RangeRule {
 
     /**
      * Creates a new instance.
      *
-     * @param value
-     *            the single authorized value for this field
+     * @param value the single authorized value for this field
      */
     public SingleValueRule(int value) {
         super(value, value);
@@ -30,7 +29,7 @@ public class SingleValueRule extends RangeRule {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.keyboardplaying.cron.expression.rule.CronRule.allows(int)
      */
     @Override

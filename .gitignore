@@ -6,6 +6,10 @@ pom.xml.versionsBackup
 pom.xml.next
 release.properties
 
+# IntelliJ
+.idea
+*.iml
+
 # Cloud9
 /.c9/
 
@@ -15,4 +19,3 @@ release.properties
 /*/.project
 /.settings/
 /.project
-/bin/

@@ -8,7 +8,7 @@ import org.keyboardplaying.cron.expression.rule.SingleValueRule;
 /**
  * An implementation for rules needing no adaptation.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class NoChangeAdapter implements RangeAdapter {
 
