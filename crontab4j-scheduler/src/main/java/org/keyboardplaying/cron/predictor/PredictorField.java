@@ -56,19 +56,19 @@ enum PredictorField {
         @Override
         public boolean allows(Calendar cal, CronExpression cron) {
             switch (cron.getDayConstraint()) {
-            case NONE:
-                return true;
-            case MONTH:
-                return domShifter.allowsField(cal, cron, Field.DAY_OF_MONTH);
-            case WEEK:
-                return dowShifter.allowsField(cal, cron, Field.DAY_OF_WEEK);
-            case BOTH_OR:
-                return domShifter.allowsField(cal, cron, Field.DAY_OF_MONTH)
-                        || dowShifter.allowsField(cal, cron, Field.DAY_OF_WEEK);
-            case BOTH_AND:
-            default:
-                return domShifter.allowsField(cal, cron, Field.DAY_OF_MONTH)
-                        && dowShifter.allowsField(cal, cron, Field.DAY_OF_WEEK);
+                case NONE:
+                    return true;
+                case MONTH:
+                    return domShifter.allowsField(cal, cron, Field.DAY_OF_MONTH);
+                case WEEK:
+                    return dowShifter.allowsField(cal, cron, Field.DAY_OF_WEEK);
+                case BOTH_OR:
+                    return domShifter.allowsField(cal, cron, Field.DAY_OF_MONTH)
+                            || dowShifter.allowsField(cal, cron, Field.DAY_OF_WEEK);
+                case BOTH_AND:
+                default:
+                    return domShifter.allowsField(cal, cron, Field.DAY_OF_MONTH)
+                            && dowShifter.allowsField(cal, cron, Field.DAY_OF_WEEK);
             }
         }
 
@@ -77,35 +77,35 @@ enum PredictorField {
             Calendar next = null;
             switch (cron.getDayConstraint()) {
 
-            case NONE:
-            case MONTH:
-                next = shiftDayOfMonth(cal, cron);
-                break;
+                case NONE:
+                case MONTH:
+                    next = shiftDayOfMonth(cal, cron);
+                    break;
 
-            case WEEK:
-                next = shiftDayOfWeek(cal, cron);
-                break;
+                case WEEK:
+                    next = shiftDayOfWeek(cal, cron);
+                    break;
 
-            case BOTH_OR:
-                Calendar domNext = shiftDayOfMonth((Calendar) cal.clone(), cron);
-                Calendar dowNext = shiftDayOfWeek((Calendar) cal.clone(), cron);
+                case BOTH_OR:
+                    Calendar domNext = shiftDayOfMonth((Calendar) cal.clone(), cron);
+                    Calendar dowNext = shiftDayOfWeek((Calendar) cal.clone(), cron);
 
-                if (domNext == null) {
-                    next = dowNext;
-                } else if (dowNext == null) {
-                    next = domNext;
-                } else {
-                    next = dowNext.before(domNext) ? dowNext : domNext;
-                }
+                    if (domNext == null) {
+                        next = dowNext;
+                    } else if (dowNext == null) {
+                        next = domNext;
+                    } else {
+                        next = dowNext.before(domNext) ? dowNext : domNext;
+                    }
 
-                break;
+                    break;
 
-            case BOTH_AND:
-                final CronRule dowRule = cron.get(Field.DAY_OF_WEEK);
-                next = cal;
-                do {
-                    next = shiftDayOfMonth(next, cron);
-                } while (next != null && !dowRule.allows(next.get(Calendar.DAY_OF_WEEK)));
+                case BOTH_AND:
+                    final CronRule dowRule = cron.get(Field.DAY_OF_WEEK);
+                    next = cal;
+                    do {
+                        next = shiftDayOfMonth(next, cron);
+                    } while (next != null && !dowRule.allows(next.get(Calendar.DAY_OF_WEEK)));
             }
             return next;
         }
@@ -133,10 +133,10 @@ enum PredictorField {
     private Field cronField;
     private FieldShifter shifter;
 
-    private PredictorField() {
+    PredictorField() {
     }
 
-    private PredictorField(Field cronField, int calendarField, int min, int max) {
+    PredictorField(Field cronField, int calendarField, int min, int max) {
         this.cronField = cronField;
         this.shifter = new FieldShifter(calendarField, min, max, ordinal());
     }

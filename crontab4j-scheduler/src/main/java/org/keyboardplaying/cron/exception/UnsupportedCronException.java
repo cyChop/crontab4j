@@ -3,11 +3,13 @@ package org.keyboardplaying.cron.exception;
 /**
  * An exception to be thrown when the CRON cannot be parsed.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class UnsupportedCronException extends RuntimeException {
 
-    /** Generated serial version UID. */
+    /**
+     * Generated serial version UID.
+     */
     private static final long serialVersionUID = -2797402955844036857L;
 
     private final String cron;
@@ -16,10 +18,8 @@ public class UnsupportedCronException extends RuntimeException {
     /**
      * Creates a new instance.
      *
-     * @param cron
-     *            the invalid CRON expression
-     * @param valid
-     *            {@code true} if the CRON expression is valid
+     * @param cron  the invalid CRON expression
+     * @param valid {@code true} if the CRON expression is valid
      */
     public UnsupportedCronException(String cron, boolean valid) {
         super();

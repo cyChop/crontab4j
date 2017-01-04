@@ -20,12 +20,9 @@ public class RepeatRule extends RangeRule {
     /**
      * Creates a new instance.
      *
-     * @param min
-     *            the lower range limit
-     * @param max
-     *            the upper range limit
-     * @param step
-     *            the repetition interval
+     * @param min  the lower range limit
+     * @param max  the upper range limit
+     * @param step the repetition interval
      */
     public RepeatRule(int min, int max, int step) {
         super(min, max);

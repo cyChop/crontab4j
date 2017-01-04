@@ -19,7 +19,7 @@ import org.keyboardplaying.cron.utils.CalendarUtils;
 /**
  * Tests some specific behaviour of {@link PredictorField#DAY}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class DayFieldTest {
 
@@ -28,7 +28,9 @@ public class DayFieldTest {
     private static final Calendar MATCHING_WEEK = parseConstant("2015-02-10T00:00:00");
     private static final Calendar MATCHING_BOTH = parseConstant("2015-02-11T00:00:00");
 
-    /** Tests the allowing of a day in case the constraint is {@link DayConstraint#NONE}. */
+    /**
+     * Tests the allowing of a day in case the constraint is {@link DayConstraint#NONE}.
+     */
     @Test
     public void testAllowsNone() throws ParseException {
         CronExpression cron = createCron(DayConstraint.NONE);
@@ -38,7 +40,9 @@ public class DayFieldTest {
         testAllows(MATCHING_BOTH, cron, true);
     }
 
-    /** Tests the allowing of a day in case the constraint is {@link DayConstraint#MONTH}. */
+    /**
+     * Tests the allowing of a day in case the constraint is {@link DayConstraint#MONTH}.
+     */
     @Test
     public void testAllowsMonthOnly() throws ParseException {
         CronExpression cron = createCron(DayConstraint.MONTH);
@@ -48,7 +52,9 @@ public class DayFieldTest {
         testAllows(MATCHING_BOTH, cron, true);
     }
 
-    /** Tests the allowing of a day in case the constraint is {@link DayConstraint#WEEK}. */
+    /**
+     * Tests the allowing of a day in case the constraint is {@link DayConstraint#WEEK}.
+     */
     @Test
     public void testAllowsWeekOnly() throws ParseException {
         CronExpression cron = createCron(DayConstraint.WEEK);
@@ -58,7 +64,9 @@ public class DayFieldTest {
         testAllows(MATCHING_BOTH, cron, true);
     }
 
-    /** Tests the allowing of a day in case the constraint is {@link DayConstraint#BOTH_OR}. */
+    /**
+     * Tests the allowing of a day in case the constraint is {@link DayConstraint#BOTH_OR}.
+     */
     @Test
     public void testAllowsBothOr() throws ParseException {
         CronExpression cron = createCron(DayConstraint.BOTH_OR);
@@ -68,7 +76,9 @@ public class DayFieldTest {
         testAllows(MATCHING_BOTH, cron, true);
     }
 
-    /** Tests the allowing of a day in case the constraint is {@link DayConstraint#BOTH_AND}. */
+    /**
+     * Tests the allowing of a day in case the constraint is {@link DayConstraint#BOTH_AND}.
+     */
     @Test
     public void testAllowsBothAnd() throws ParseException {
         CronExpression cron = createCron(DayConstraint.BOTH_AND);

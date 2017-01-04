@@ -18,7 +18,7 @@ import org.keyboardplaying.cron.parser.CronSyntacticParser;
 /**
  * Tests {@link CronScheduler}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class CronSchedulerTest {
 
@@ -32,8 +32,7 @@ public class CronSchedulerTest {
     private CronScheduler schd;
     private CountDownLatch latch;
 
-    /* Initializes the CronScheduler. */
-    {
+    /* Initializes the CronScheduler. */ {
         schd = new CronScheduler();
         // Use a mock CRON parser to trigger a CRON everyy second.
         schd.setParser(new CronSyntacticParser() {
@@ -53,7 +52,9 @@ public class CronSchedulerTest {
         });
     }
 
-    /** Tests the execution and recurrence of a job with a CronScheduler (2 executions). */
+    /**
+     * Tests the execution and recurrence of a job with a CronScheduler (2 executions).
+     */
     @Test(timeout = 3500)
     public void testExecution() throws InterruptedException {
         latch = new CountDownLatch(2);
@@ -62,7 +63,9 @@ public class CronSchedulerTest {
         assertEquals(0, latch.getCount());
     }
 
-    /** Tests the execution and recurrence of a job with a CronScheduler (2 executions). */
+    /**
+     * Tests the execution and recurrence of a job with a CronScheduler (2 executions).
+     */
     @Test(timeout = 3500)
     public void testExecutionList() throws InterruptedException {
         List<CronJob> jobs = new ArrayList<>();
@@ -74,7 +77,9 @@ public class CronSchedulerTest {
         assertEquals(0, latch.getCount());
     }
 
-    /** Ensures that {@link CronScheduler#stopAllJobs} immediately stops all awaiting executions. */
+    /**
+     * Ensures that {@link CronScheduler#stopAllJobs} immediately stops all awaiting executions.
+     */
     @Test(timeout = 500)
     public void testTerminate() throws InterruptedException {
         latch = new CountDownLatch(2);

@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Object utility to represent a job that may be supplied to the scheduler.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class CronJob {
 
@@ -23,12 +23,9 @@ public class CronJob {
     /**
      * Creates a new job.
      *
-     * @param job
-     *            the job to be run
-     * @param cron
-     *            the CRON expression to trigger this job
-     * @throws NullPointerException
-     *             if {@code job} or {@code cron} are {@code null}
+     * @param job  the job to be run
+     * @param cron the CRON expression to trigger this job
+     * @throws NullPointerException if {@code job} or {@code cron} are {@code null}
      */
     public CronJob(Runnable job, String cron) {
         this.job = Objects.requireNonNull(job);
@@ -47,8 +44,7 @@ public class CronJob {
     /**
      * Sets the job to be run.
      *
-     * @param job
-     *            the job to be run
+     * @param job the job to be run
      */
     public void setJob(Runnable job) {
         this.job = job;
@@ -64,8 +60,9 @@ public class CronJob {
     }
 
     /**
+     * Sets the CRON expression to trigger the job.
      *
-     * @param cron
+     * @param cron the CRON expression
      */
     public void setCron(String cron) {
         this.cron = cron;

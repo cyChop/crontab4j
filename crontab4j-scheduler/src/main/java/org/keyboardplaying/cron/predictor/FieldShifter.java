@@ -23,7 +23,7 @@ class FieldShifter {
     }
 
     protected int getMax(Calendar cal, CronRule rule) {
-        assert!rule.hasMax() || rule.getMax() <= max;
+        assert !rule.hasMax() || rule.getMax() <= max;
         return rule.hasMax() ? rule.getMax() : max;
     }
 

@@ -8,7 +8,7 @@ import org.keyboardplaying.cron.expression.CronExpression;
 /**
  * This class provides the capability to compute the next time a CRON expression should be triggered.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class CronPredictor {
 
@@ -17,13 +17,10 @@ public class CronPredictor {
      * <p/>
      * If the CRON will not be triggered again in the future, this method returns {@code null}.
      *
-     * @param cron
-     *            the CRON expression to use to evaluate
+     * @param cron the CRON expression to use to evaluate
      * @return a {@link Calendar} representing the next time the expression will be triggered, or {@code null} if no
-     *         next occurrence can be found
-     * @throws NullPointerException
-     *             if the supplied expression is {@code null}
-     *
+     * next occurrence can be found
+     * @throws NullPointerException if the supplied expression is {@code null}
      * @see #getNextOccurrence(org.keyboardplaying.cron.expression.CronExpression, java.util.Calendar)
      */
     public Calendar getNextOccurrence(CronExpression cron) {
@@ -37,14 +34,11 @@ public class CronPredictor {
      * <p/>
      * If the supplied time argument is {@code null}, current time will be used instead.
      *
-     * @param cal
-     *            the time base for searching next occurrence
-     * @param cron
-     *            the CRON expression to use to evaluate
+     * @param cal  the time base for searching next occurrence
+     * @param cron the CRON expression to use to evaluate
      * @return a {@link Calendar} representing the next time the expression will be triggered, or {@code null} if no
-     *         next occurrence can be found
-     * @throws NullPointerException
-     *             if the supplied expression is {@code null}
+     * next occurrence can be found
+     * @throws NullPointerException if the supplied expression is {@code null}
      */
     public Calendar getNextOccurrence(CronExpression cron, Calendar cal) {
         Objects.requireNonNull(cron, "A CRON must be supplied");

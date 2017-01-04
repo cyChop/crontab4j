@@ -18,15 +18,14 @@ import org.keyboardplaying.cron.parser.adapter.RangeAdapter;
 /**
  * Parent for syntax-dependent parsers.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public interface CronSyntacticParser {
 
     /**
      * Tests whether the supplied CRON expression is valid.
      *
-     * @param cron
-     *            the CRON expression to test
+     * @param cron the CRON expression to test
      * @return {@code true} if the expression is valid, {@code false} otherwise
      */
     boolean isValid(String cron);
@@ -34,14 +33,10 @@ public interface CronSyntacticParser {
     /**
      * Parses a CRON expression into an object we can use.
      *
-     * @param cron
-     *            the CRON expression to parse
+     * @param cron the CRON expression to parse
      * @return a parsed {@link CronExpression}
-     * @throws NullPointerException
-     *             if the expression is {@code null}
-     * @throws UnsupportedCronException
-     *             if the expression is invalid
-     *
+     * @throws NullPointerException     if the expression is {@code null}
+     * @throws UnsupportedCronException if the expression is invalid
      * @see #isValid(String)
      */
     CronExpression parse(String cron);
@@ -52,9 +47,9 @@ public interface CronSyntacticParser {
      * The "group" in the name of this interface refers to the regex notion of group, as each field of the CRON
      * expression should be isolated as a group before being parsed using the information provided via this interface.
      *
-     * @author Cyrille Chopelet (http://keyboardplaying.org)
+     * @author Cyrille Chopelet (https://keyboardplaying.org)
      */
-    static interface CronGroup {
+    interface CronGroup {
 
         /**
          * Returns a regular expression to identify the allowed integer values for the rule corresponding to this group.
@@ -91,9 +86,9 @@ public interface CronSyntacticParser {
      * This interface is used when names are to be allowed on a segment of a CRON expression. They basically are
      * represented as an alias-value pair.
      *
-     * @author Cyrille Chopelet (http://keyboardplaying.org)
+     * @author Cyrille Chopelet (https://keyboardplaying.org)
      */
-    static interface CronAlias {
+    interface CronAlias {
 
         /**
          * Returns the {@link String} representation of this alias.
@@ -118,11 +113,13 @@ public interface CronSyntacticParser {
      * This utility class provides methods for generating CRON patterns from allowed range and names, and from parsing
      * them back to {@link CronRule}.
      *
-     * @author Cyrille Chopelet (http://keyboardplaying)
+     * @author Cyrille Chopelet (https://keyboardplaying)
      */
-    static final class CronRegexUtils {
+    final class CronRegexUtils {
 
-        /** Private constructor to avoid instantiation. */
+        /**
+         * Private constructor to avoid instantiation.
+         */
         private CronRegexUtils() {
         }
 
@@ -132,12 +129,9 @@ public interface CronSyntacticParser {
          * The generated regex will represent the following idea:
          * {@code *|rangePattern|names(-(rangePattern|names))?(/(rangePattern|names))?}
          *
-         * @param rangePattern
-         *            a pattern to match the allowed integer values
-         * @param aliases
-         *            a list of allowed substitution names for readibility of the CRON expression
-         * @param caseSensitive
-         *            {@code true} if aliases are to be case-senstive, {@code false} otherwise
+         * @param rangePattern  a pattern to match the allowed integer values
+         * @param aliases       a list of allowed substitution names for readibility of the CRON expression
+         * @param caseSensitive {@code true} if aliases are to be case-senstive, {@code false} otherwise
          */
         public static String initGroupPattern(String rangePattern, CronAlias[] aliases, boolean caseSensitive) {
             String allowedNames;
@@ -160,11 +154,9 @@ public interface CronSyntacticParser {
         /**
          * Creates a regular expression to match the CRON expression.
          *
-         * @param sep
-         *            the parameter to be used when allowing multiple rules for a group
-         * @param groups
-         *            the rule and parsing specifications for each group in the regex; the array must be ordered the
-         *            same way the CRON expressions will be
+         * @param sep    the parameter to be used when allowing multiple rules for a group
+         * @param groups the rule and parsing specifications for each group in the regex; the array must be ordered the
+         *               same way the CRON expressions will be
          */
         public static String initCronPattern(String sep, CronGroup[] groups) {
             StringBuilder sb = new StringBuilder();
@@ -190,13 +182,9 @@ public interface CronSyntacticParser {
          * original expression, they must have been replaced with their integer equivalent before the group is passed to
          * this method.
          *
-         * @param grp
-         *            the group extracted from the CronExpression
-         * @param sep
-         *            the separator to be used when allowing multiple rules for a group
-         * @param group
-         *            the rule and parsing specifications for the group
-         *
+         * @param grp   the group extracted from the CronExpression
+         * @param sep   the separator to be used when allowing multiple rules for a group
+         * @param group the rule and parsing specifications for the group
          * @return the parsed rule
          */
         public static CronRule parseGroup(String grp, String sep, CronGroup group) {

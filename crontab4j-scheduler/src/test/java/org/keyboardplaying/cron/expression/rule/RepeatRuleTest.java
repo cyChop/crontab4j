@@ -9,20 +9,24 @@ import org.junit.Test;
 /**
  * Tests {@link RepeatRule}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class RepeatRuleTest {
 
     private RepeatRule rule = new RepeatRule(42, 1337, 3);
 
-    /** Tests {@link RepeatRule#hasMax()} and {@link RepeatRule#getMax()} methods. */
+    /**
+     * Tests {@link RepeatRule#hasMax()} and {@link RepeatRule#getMax()} methods.
+     */
     @Test
     public void testMax() {
         assertTrue(rule.hasMax());
         assertEquals(1337, rule.getMax());
     }
 
-    /** Tests the getters. */
+    /**
+     * Tests the getters.
+     */
     @Test
     public void testGetters() {
         assertEquals(42, rule.getMin());
@@ -99,7 +103,9 @@ public class RepeatRuleTest {
         assertFalse(r.allows(9));
     }
 
-    /** Tests the behavior of the constructor with incorrect arguments. */
+    /**
+     * Tests the behavior of the constructor with incorrect arguments.
+     */
     @SuppressWarnings("unused")
     @Test(expected = IllegalArgumentException.class)
     public void testIllegalConstructorArguments() {

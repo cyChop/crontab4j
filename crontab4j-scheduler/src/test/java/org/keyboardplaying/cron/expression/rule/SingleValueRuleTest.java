@@ -9,13 +9,15 @@ import org.junit.Test;
 /**
  * Tests {@link SingleValueRule}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class SingleValueRuleTest {
 
     private SingleValueRule rule = new SingleValueRule(42);
 
-    /** Tests {@link SingleValueRule#hasMax()} and {@link SingleValueRule#getMax()} methods. */
+    /**
+     * Tests {@link SingleValueRule#hasMax()} and {@link SingleValueRule#getMax()} methods.
+     */
     @Test
     public void testMax() {
         assertTrue(rule.hasMax());
@@ -23,13 +25,17 @@ public class SingleValueRuleTest {
         assertEquals(42, rule.getValue());
     }
 
-    /** Tests that the correct value is accepted. */
+    /**
+     * Tests that the correct value is accepted.
+     */
     @Test
     public void testAccept() {
         assertTrue(rule.allows(42));
     }
 
-    /** Tests that values other than the selected one are rejected. */
+    /**
+     * Tests that values other than the selected one are rejected.
+     */
     @Test
     public void testReject() {
         assertFalse(rule.allows(-1));

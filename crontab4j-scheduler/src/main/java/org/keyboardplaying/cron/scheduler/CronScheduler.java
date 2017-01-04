@@ -17,7 +17,7 @@ import org.keyboardplaying.cron.predictor.CronPredictor;
  * {@link #setParser(org.keyboardplaying.cron.parser.CronSyntacticParser)}) and a list of jobs (
  * {@link #setJobs(java.util.Collection)}). All jobs set this way will be started automatically.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 // TODO Remove Timer and TimerTask, use a custom mechanism based on Thread instead
 public class CronScheduler {
@@ -27,7 +27,9 @@ public class CronScheduler {
     private CronSyntacticParser parser;
     private Timer timer;
 
-    /** Creates a scheduler whose associated thread will run as a daemon. */
+    /**
+     * Creates a scheduler whose associated thread will run as a daemon.
+     */
     public CronScheduler() {
         this(true);
     }
@@ -35,8 +37,7 @@ public class CronScheduler {
     /**
      * Creates a new scheduler whose associated thread may be specified to run as a daemon.
      *
-     * @param daemon
-     *            {@code true} if the associated thread should run as a daemon, {@code false} otherwise
+     * @param daemon {@code true} if the associated thread should run as a daemon, {@code false} otherwise
      */
     public CronScheduler(boolean daemon) {
         this.timer = new Timer(daemon);
@@ -45,10 +46,8 @@ public class CronScheduler {
     /**
      * Creates a new scheduler whose associated thread has the specified name.
      *
-     * @param threadName
-     *            the name of the associated thread
-     * @throws NullPointerException
-     *             if {@code name} is {@code null}
+     * @param threadName the name of the associated thread
+     * @throws NullPointerException if {@code name} is {@code null}
      */
     public CronScheduler(String threadName) {
         this.timer = new Timer(threadName);
@@ -57,12 +56,9 @@ public class CronScheduler {
     /**
      * Creates a new scheduler whose associated thread has the specified name, may be specified to run as a daemon.
      *
-     * @param threadName
-     *            the name of the associated thread
-     * @param daemon
-     *            {@code true} if the associated thread should run as a daemon, {@code false} otherwise
-     * @throws NullPointerException
-     *             if {@code name} is {@code null}
+     * @param threadName the name of the associated thread
+     * @param daemon     {@code true} if the associated thread should run as a daemon, {@code false} otherwise
+     * @throws NullPointerException if {@code name} is {@code null}
      */
     public CronScheduler(String threadName, boolean daemon) {
         this.timer = new Timer(threadName, daemon);
@@ -73,8 +69,7 @@ public class CronScheduler {
      * <p/>
      * If not explicitly set, a {@link UnixCronParser} will be used.
      *
-     * @param parser
-     *            a syntactic CRON parser
+     * @param parser a syntactic CRON parser
      */
     public void setParser(CronSyntacticParser parser) {
         this.parser = parser;
@@ -95,12 +90,9 @@ public class CronScheduler {
     /**
      * Schedules the next occurrence of a task based on a CRON expression.
      *
-     * @param timer
-     *            the timer the task should be scheduled at
-     * @param task
-     *            the task to schedule
-     * @param cron
-     *            the CRON expression used for scheduling
+     * @param timer the timer the task should be scheduled at
+     * @param task  the task to schedule
+     * @param cron  the CRON expression used for scheduling
      */
     // static so it can be used inside a static inner class
     private static void scheduleNext(Timer timer, TimerTask task, CronExpression cron) {
@@ -115,10 +107,8 @@ public class CronScheduler {
      * <p/>
      * The job will be triggered every time the current time matches its CRON.
      *
-     * @param job
-     *            the job to schedule
-     * @param cron
-     *            the CRON trigger
+     * @param job  the job to schedule
+     * @param cron the CRON trigger
      */
     public void scheduleJob(Runnable job, String cron) {
         CronExpression parsed = getParser().parse(cron);
@@ -130,8 +120,7 @@ public class CronScheduler {
      * <p/>
      * The job will be triggered every time the current time matches its CRON.
      *
-     * @param job
-     *            the job to schedule
+     * @param job the job to schedule
      */
     public void scheduleJob(CronJob job) {
         scheduleJob(job.getJob(), job.getCron());
@@ -142,9 +131,7 @@ public class CronScheduler {
      * <p/>
      * This method is called {@code set} so that it can be used from a Spring context, for instance.
      *
-     * @param jobs
-     *            the jobs to schedule
-     *
+     * @param jobs the jobs to schedule
      * @see #scheduleJob(org.keyboardplaying.cron.scheduler.CronJob)
      */
     // Spring utility
@@ -174,7 +161,7 @@ public class CronScheduler {
     /**
      * A wrapper to execute {@link CronJob} instances in scheduler.
      *
-     * @author Cyrille Chopelet (http://keyboardplaying.org)
+     * @author Cyrille Chopelet (https://keyboardplaying.org)
      */
     // Keep this a nested class as it is expected to disappear in a future version.
     private static class TimerTaskWrapper extends TimerTask {
@@ -186,10 +173,8 @@ public class CronScheduler {
         /**
          * Creates a new wrapper.
          *
-         * @param job
-         *            the job wrapped in the new instance
-         * @param timer
-         *            the timer used to
+         * @param job   the job wrapped in the new instance
+         * @param timer the timer used to
          */
         public TimerTaskWrapper(Runnable job, Timer timer, CronExpression cron) {
             this.job = job;

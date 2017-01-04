@@ -17,15 +17,14 @@ import org.keyboardplaying.cron.expression.rule.SingleValueRule;
  * <li>Composed rules are adapted through adaptation of all its atomic components.</li>
  * </ul>
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public interface RangeAdapter {
 
     /**
      * Computes a change of base of the supplied rule from its original syntax to the system base.
      *
-     * @param rule
-     *            the rule to adapt
+     * @param rule the rule to adapt
      * @return the adapted rule
      */
     CronRule adapt(SingleValueRule rule);
@@ -33,8 +32,7 @@ public interface RangeAdapter {
     /**
      * Computes a change of base of the supplied rule from its original syntax to the system base.
      *
-     * @param rule
-     *            the rule to adapt
+     * @param rule the rule to adapt
      * @return the adapted rule
      */
     CronRule adapt(RangeRule rule);
@@ -42,8 +40,7 @@ public interface RangeAdapter {
     /**
      * Computes a change of base of the supplied rule from its original syntax to the system base.
      *
-     * @param rule
-     *            the rule to adapt
+     * @param rule the rule to adapt
      * @return the adapted rule
      */
     CronRule adapt(RepeatRule rule);

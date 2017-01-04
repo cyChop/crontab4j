@@ -8,15 +8,14 @@ package org.keyboardplaying.cron.expression.rule;
  * <p/>
  * It is recommended the implementations of this class would be immutables.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public interface CronRule {
 
     /**
      * Tests whether the supplied value is authorized for this segment.
      *
-     * @param value
-     *            the value to test
+     * @param value the value to test
      * @return {@code true} if the value is authorized for this segment, {@code false} otherwise
      */
     boolean allows(int value);

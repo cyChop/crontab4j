@@ -7,7 +7,7 @@ import org.junit.Test;
 /**
  * Tests {@link CronJob}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class CronJobTest {
 
@@ -20,7 +20,9 @@ public class CronJobTest {
         }
     };
 
-    /** Ensures the constructor throws a {@link NullPointerException} if the job is {@code null}. */
+    /**
+     * Ensures the constructor throws a {@link NullPointerException} if the job is {@code null}.
+     */
     @SuppressWarnings("unused")
     @Test(expected = NullPointerException.class)
     public void testNullJob() {
@@ -36,7 +38,9 @@ public class CronJobTest {
         new CronJob(job, null);
     }
 
-    /** Tests the getters. */
+    /**
+     * Tests the getters.
+     */
     @Test
     public void test() {
         CronJob cj = new CronJob(job, CRON_EVRY_MIN);
@@ -44,7 +48,9 @@ public class CronJobTest {
         assertEquals(CRON_EVRY_MIN, cj.getCron());
     }
 
-    /** Tests the setters. */
+    /**
+     * Tests the setters.
+     */
     @Test
     public void testSpring() {
         CronJob cj = new CronJob();

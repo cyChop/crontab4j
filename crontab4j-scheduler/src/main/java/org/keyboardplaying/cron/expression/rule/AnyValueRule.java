@@ -3,7 +3,7 @@ package org.keyboardplaying.cron.expression.rule;
 /**
  * A representation for fields allowing any value ({@code *}).
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public class AnyValueRule implements CronRule {
 

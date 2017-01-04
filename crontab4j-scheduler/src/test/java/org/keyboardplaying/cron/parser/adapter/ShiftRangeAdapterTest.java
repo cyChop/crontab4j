@@ -26,7 +26,9 @@ public class ShiftRangeAdapterTest {
     private static final int UNIX_SUNDAY = 0;
     private ShiftRangeAdapter adptr = new DayOfWeekRangeAdapter(UNIX_SUNDAY);
 
-    /** Tests the adaptation of a {@link SingleValueRule}. */
+    /**
+     * Tests the adaptation of a {@link SingleValueRule}.
+     */
     @Test
     public void testSingleValueAdaptation() {
         CronRule rule;
@@ -40,14 +42,16 @@ public class ShiftRangeAdapterTest {
         assertEquals(Calendar.SUNDAY, ((SingleValueRule) rule).getValue());
     }
 
-    /** Tests the adaptation of a {@link RangeRule} in case it requires only shifting the limits. */
+    /**
+     * Tests the adaptation of a {@link RangeRule} in case it requires only shifting the limits.
+     */
     @Test
     public void testRangeSimpleAdaptation() {
         CronRule rule = adptr.adapt(new RangeRule(1, 5));
 
         assertTrue(rule instanceof RangeRule);
         assertEquals(Calendar.MONDAY, ((RangeRule) rule).getMin());
-        assertEquals(Calendar.FRIDAY, ((RangeRule) rule).getMax());
+        assertEquals(Calendar.FRIDAY, rule.getMax());
     }
 
     /**
@@ -67,18 +71,22 @@ public class ShiftRangeAdapterTest {
         assertTrue(rule.allows(Calendar.SATURDAY));
     }
 
-    /** Tests the adaptation of a {@link RepeatRule} in case it requires only shifting the limits. */
+    /**
+     * Tests the adaptation of a {@link RepeatRule} in case it requires only shifting the limits.
+     */
     @Test
     public void testRepeatSimpleAdaptation() {
         CronRule rule = adptr.adapt(new RepeatRule(1, 5, 2));
 
         assertTrue(rule instanceof RepeatRule);
         assertEquals(Calendar.MONDAY, ((RepeatRule) rule).getMin());
-        assertEquals(Calendar.FRIDAY, ((RepeatRule) rule).getMax());
+        assertEquals(Calendar.FRIDAY, rule.getMax());
         assertEquals(2, ((RepeatRule) rule).getStep());
     }
 
-    /** Tests the adaptation of a {@link RangeRule} in case it requires more complex processing (limits overlapping). */
+    /**
+     * Tests the adaptation of a {@link RangeRule} in case it requires more complex processing (limits overlapping).
+     */
     @Test
     public void testRepeatComplexAdaptation() {
         CronRule rule = adptr.adapt(new RepeatRule(4, 7, 3));

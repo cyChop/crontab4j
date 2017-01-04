@@ -8,7 +8,7 @@ import java.util.Calendar;
 /**
  * Testing utilities for {@link Calendar}.
  *
- * @author Cyrille Chopelet (http://keyboardplaying.org)
+ * @author Cyrille Chopelet (https://keyboardplaying.org)
  */
 public final class CalendarUtils {
 
@@ -23,8 +23,7 @@ public final class CalendarUtils {
      * <p/>
      * Format template is {@code yyyy-MM-dd'T'HH:mm:ss}.
      *
-     * @param source
-     *            the formatted {@link String} to parse
+     * @param source the formatted {@link String} to parse
      * @return a {@link Calendar}
      */
     public static Calendar parse(String source) throws ParseException {
@@ -38,8 +37,7 @@ public final class CalendarUtils {
      * <p/>
      * Format template is {@code yyyy-MM-dd'T'HH:mm:ss}.
      *
-     * @param cal
-     *            the {@link Calendar}
+     * @param cal the {@link Calendar}
      * @return the formatted {@link String}
      */
     public static String format(Calendar cal) {
