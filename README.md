@@ -57,11 +57,7 @@ public class CronStarter {
         CronScheduler schd = new CronScheduler();
         // Set parser: only Unix at the moment, but more to come
         schd.setParser(new UnixCronParser());
-        schd.scheduleJob(new Runnable() {
-            public void run() {
-                System.out.println("Another minute ticked.");
-            }
-        }, "* * * * *");
+        schd.scheduleJob(() -> System.out.println("Another minute ticked."), "* * * * *");
         // schd is a daemon: it will not prevent the JVM from stopping
     }
 }

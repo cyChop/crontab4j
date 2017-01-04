@@ -18,6 +18,7 @@ public class CronJob {
      * Made as a utility for Spring usage.
      */
     public CronJob() {
+        // Just create an instance
     }
 
     /**

@@ -13,11 +13,8 @@ public class CronJobTest {
 
     private static final String CRON_EVRY_MIN = "* * * * *";
 
-    private Runnable job = new Runnable() {
-        @Override
-        public void run() {
-            // just do nothing
-        }
+    private Runnable job = () -> {
+        // just do nothing
     };
 
     /**

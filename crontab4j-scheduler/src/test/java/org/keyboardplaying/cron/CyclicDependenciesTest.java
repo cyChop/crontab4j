@@ -14,7 +14,7 @@ import jdepend.framework.JavaPackage;
  * Ensures that there is no package dependency cycle.
  *
  * @author Cyrille Chopelet (https://keyboardplaying.org)
- * @see http://blog.mafr.de/2010/10/02/java-finding-package-cycles/
+ * @see <a href="http://blog.mafr.de/2010/10/02/java-finding-package-cycles/">the inspirational blog post</a>
  */
 public class CyclicDependenciesTest {
 

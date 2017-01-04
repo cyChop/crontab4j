@@ -1,6 +1,7 @@
 package org.keyboardplaying.cron.expression.rule;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,9 +21,7 @@ public class MultipleRule implements CronRule {
      */
     public MultipleRule(CronRule... rules) {
         this.rules = new HashSet<>();
-        for (CronRule rule : rules) {
-            this.rules.add(rule);
-        }
+        Collections.addAll(this.rules, rules);
     }
 
     /**
