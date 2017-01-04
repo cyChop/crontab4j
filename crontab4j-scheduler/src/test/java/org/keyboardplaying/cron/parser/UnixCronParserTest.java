@@ -25,7 +25,7 @@ import org.keyboardplaying.cron.expression.rule.SingleValueRule;
  */
 public class UnixCronParserTest {
 
-    CronSyntacticParser prsr = new UnixCronParser();
+    private CronSyntacticParser prsr = new UnixCronParser();
 
     /**
      * Tests {@link UnixCronParser#isValid(java.lang.String)}.
