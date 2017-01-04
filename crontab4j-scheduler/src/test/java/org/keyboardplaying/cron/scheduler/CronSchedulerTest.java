@@ -1,12 +1,6 @@
 package org.keyboardplaying.cron.scheduler;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
+import org.junit.Before;
 import org.junit.Test;
 import org.keyboardplaying.cron.expression.CronExpression;
 import org.keyboardplaying.cron.expression.CronExpression.DayConstraint;
@@ -15,6 +9,13 @@ import org.keyboardplaying.cron.expression.rule.AnyValueRule;
 import org.keyboardplaying.cron.expression.rule.CronRule;
 import org.keyboardplaying.cron.parser.CronSyntacticParser;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.assertEquals;
+
 /**
  * Tests {@link CronScheduler}.
  *
@@ -22,17 +23,16 @@ import org.keyboardplaying.cron.parser.CronSyntacticParser;
  */
 public class CronSchedulerTest {
 
-    private Runnable job = new Runnable() {
-        @Override
-        public void run() {
-            latch.countDown();
-        }
-    };
-
     private CronScheduler schd;
     private CountDownLatch latch;
 
-    /* Initializes the CronScheduler. */ {
+    private Runnable job = () -> latch.countDown();
+
+    /**
+     * Initializes the CronScheduler.
+     */
+    @Before
+    public void initScheduler() {
         schd = new CronScheduler();
         // Use a mock CRON parser to trigger a CRON everyy second.
         schd.setParser(new CronSyntacticParser() {
@@ -78,7 +78,7 @@ public class CronSchedulerTest {
     }
 
     /**
-     * Ensures that {@link CronScheduler#stopAllJobs} immediately stops all awaiting executions.
+     * Ensures that {@link CronScheduler#terminate()} immediately stops all awaiting executions.
      */
     @Test(timeout = 500)
     public void testTerminate() throws InterruptedException {
