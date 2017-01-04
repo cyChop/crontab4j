@@ -1,4 +1,6 @@
 = Project name
+
+image:https://api.codacy.com/project/badge/Grade/727c69a110224dc9800cef0062d107de[link="https://www.codacy.com/app/cyrille-chopelet/crontab4j?utm_source=github.com&utm_medium=referral&utm_content=cyChop/crontab4j&utm_campaign=badger"]
 Cyrille Chopelet <cyrille.chopelet@mines-nancy.org>
 
 // Set your repository informations here.
