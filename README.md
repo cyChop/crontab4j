@@ -6,6 +6,8 @@
 [sonarc]: https://sonarqube.com/overview/coverage?id=org.keyboardplaying:crontab4j
 [sonarq-badge]: https://img.shields.io/sonar/https/sonarqube.com/org.keyboardplaying:crontab4j/tech_debt.svg
 [sonarq]: https://sonarqube.com/overview/debt?id=org.keyboardplaying:crontab4j
+[codacy-badge]: https://img.shields.io/codacy/grade/727c69a110224dc9800cef0062d107de.svg
+[codacy]: https://www.codacy.com/app/cyrille-chopelet/crontab4j
 [issues-badge]: https://img.shields.io/github/issues-raw/cyChop/crontab4j.svg
 [issues]: https://github.com/cyChop/crontab4j/issues
 [waffle]: https://waffle.io/cyChop/crontab4j
@@ -15,6 +17,7 @@
 [![Build status][travis-badge]][travis]
 [![Test coverage][sonarc-badge]][sonarc]
 [![Technical debt][sonarq-badge]][sonarq]
+[![Codacy grade][codacy-badge]][codacy]
 [![Issues][issues-badge]][waffle]
 [![License: MIT][licens-badge]][licens]
 
