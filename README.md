@@ -12,14 +12,14 @@
 [issues]: https://github.com/cyChop/crontab4j/issues
 [waffle]: https://waffle.io/cyChop/crontab4j
 [licens-badge]: https://img.shields.io/github/license/cyChop/crontab4j.svg
-[licens]: https://opensource.org/licenses/MIT
+[licens]: http://opensource.org/licenses/BSD-3-Clause
 
 [![Build status][travis-badge]][travis]
 [![Test coverage][sonarc-badge]][sonarc]
 [![Technical debt][sonarq-badge]][sonarq]
 [![Codacy grade][codacy-badge]][codacy]
 [![Issues][issues-badge]][waffle]
-[![License: MIT][licens-badge]][licens]
+[![License: BSD - 3 Clause][licens-badge]][licens]
 
 [url-cron-unix]: http://www.unix.com/man-page/linux/5/crontab/
 [url-cron-cron4j]: http://www.sauronsoftware.it/projects/cron4j/
